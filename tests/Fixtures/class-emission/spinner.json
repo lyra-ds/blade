@@ -1,0 +1,7 @@
+[
+    {"props": {"size": "sm"}, "expected_class": "lyra-spinner lyra-spinner--sm"},
+    {"props": {"size": "md"}, "expected_class": "lyra-spinner lyra-spinner--md"},
+    {"props": {"size": "lg"}, "expected_class": "lyra-spinner lyra-spinner--lg"},
+    {"props": {}, "expected_class": "lyra-spinner lyra-spinner--md"},
+    {"props": {"size": "lg", "class": "extra"}, "expected_class": "lyra-spinner lyra-spinner--lg extra"}
+]
