@@ -1,0 +1,8 @@
+[
+    {"props": {}, "expected_class": "lyra-separator"},
+    {"props": {"class": "extra"}, "expected_class": "lyra-separator extra"},
+    {"props": {"orientation": "vertical"}, "expected_class": "lyra-separator lyra-separator--vertical"},
+    {"props": {"orientation": "vertical", "class": "extra"}, "expected_class": "lyra-separator lyra-separator--vertical extra"},
+    {"props": {"label": "or"}, "expected_class": "lyra-separator--label"},
+    {"props": {"label": "or", "class": "extra"}, "expected_class": "lyra-separator--label extra"}
+]
