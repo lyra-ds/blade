@@ -1,0 +1,4 @@
+[
+    {"props": {}, "expected_class": "lyra-stack"},
+    {"props": {"class": "extra"}, "expected_class": "lyra-stack extra"}
+]
