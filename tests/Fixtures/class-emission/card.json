@@ -1,0 +1,8 @@
+[
+    {"props": {}, "expected_class": "lyra-card lyra-card--padded"},
+    {"props": {"padded": false}, "expected_class": "lyra-card"},
+    {"props": {"interactive": true}, "expected_class": "lyra-card lyra-card--interactive lyra-card--padded"},
+    {"props": {"interactive": true, "class": "extra"}, "expected_class": "lyra-card lyra-card--interactive lyra-card--padded extra"},
+    {"props": {"title": "Title"}, "expected_class": "lyra-card"},
+    {"props": {"footer": "Footer"}, "expected_class": "lyra-card"}
+]
