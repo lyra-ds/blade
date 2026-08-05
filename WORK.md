@@ -1,13 +1,14 @@
 # WORK — lyra-ds/blade
 
 ## In progress
-- [ ] Onda 4 (Layout, sequencial): Stack → Grid — lane medium (codex default) via Compozy, um ciclo/commit por item; scout no deepseek pago (bonsai rebaixado por confiabilidade — 1 acerto × 3 falhas de formato em 2026-08-05) (disparada 2026-08-05)
 
 ## Backlog
 - [ ] Alias curto `<lyra:button>` (estilo Flux) como açúcar sintático sobre `<x-lyra::button>` — exige precompiler Blade customizado; os dois conviveriam, sem breaking change. Avaliar depois da fase 1 (anotado 2026-08-05)
 - [ ] Orientações para LLMs usarem os componentes Blade em projetos Laravel: guidelines embarcadas via laravel/boost, derivadas dos mesmos contratos das fixtures (props.json/llms.txt do lyra-ds.dev) — planejar depois dos primeiros componentes (anotado 2026-08-05)
 
 ## Done
+- [x] Componente Grid (onda 4, item 3/3 — último) → codex (gpt-5.6-sol, reasoning medium) via Compozy, worktree `grid`. Maestro verificou no worktree (pest 169/169, pint ok) e integrou direto (`5143108`), sessão encerrada (trail: `.batuta/runs/2026-08-05-grid-brief.md`) (2026-08-05)
+- [x] Componente Stack (onda 4, item 2/3) → codex (gpt-5.6-sol, reasoning medium) via Compozy `sess-2f3f7646ee7eff2f`, worktree `stack`. Coordinator não correlacionou sessão↔task no modo 2 (observação do usuário confirmada — sem run, sem integração automática); maestro verificou no worktree (pest 158/158, pint ok) e integrou direto (`06a607e`), sessão encerrada (trail: `.batuta/runs/2026-08-05-stack-brief.md`) (2026-08-05)
 - [x] Componente Container (onda 4, item 1/3) → execução concluída pelo Claude Sonnet 5 (sessão de task do coordinator) após a sessão codex (gpt-5.6-sol) travar no meio — atribuição corrigida a pedido do usuário — via Compozy (delegação original ficou órfã em `sess-fc545a7fe6e3914a`/`sess-cc747d751844614b` após 2 recuperações do scheduler; a sessão codex `sess-cb1b1652f6f2a991` deixou o worktree pronto mas ficou parada em execução de teste sem concluir — o maestro reclamou o run em `sess-934d98a1313fc4da` e assumiu commit/integração diretamente), worktree `container`. Verificado pelo maestro (pest 148/148, incluindo o caso combinado max+class+style checado manualmente, pint ok), squash merge em `main` (`d071c78`) (trail: `.batuta/runs/2026-08-05-container.md`) (2026-08-05)
 - [x] Componente Avatar (onda 3, item 5/5 — último) → codex (gpt-5.6-sol, reasoning medium) via Compozy `sess-542563cebad108a4`, worktree `avatar`. Verificado pelo maestro (pest 140/140, pint ok), squash merge em `main` (`6512273`), sessão encerrada (trail: `.batuta/runs/2026-08-05-avatar.md`) (2026-08-05)
 - [x] Componente EmptyState (onda 3, item 4/5) → codex (gpt-5.6-sol, reasoning medium) via Compozy `sess-ba750e805b5fb901` (a sessão originalmente vinculada ao run, `sess-b28e24855c336fbe`, ficou travada em initial_bind sem progresso; o maestro delegou de novo diretamente), worktree `empty-state`. Verificado pelo maestro (pest 122/122, pint ok), squash merge em `main` (`ce7b572`), sessões encerradas (trail: `.batuta/runs/2026-08-05-empty-state.md`) (2026-08-05)
