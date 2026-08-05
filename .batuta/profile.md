@@ -37,9 +37,9 @@ Where things will come from, meanwhile:
 
 - `~/Documents/prd-lyra-blade.md` — the PRD driving phase 1 (~22 static
   components, structure, acceptance criteria).
-- `~/Projects/lyra-ds` — main repo: `packages/styles` (the real `.lyra-*`
-  classes), `packages/react/src/*` (API and class emissions to mirror),
-  lyra-ds.dev/llms.txt (contracts).
+- `~/Projects/lyra-ds/lyra` — main repo (corrected 2026-08-05):
+  `packages/styles` (the real `.lyra-*` classes), `packages/react/src/*`
+  (API and class emissions to mirror), lyra-ds.dev/llms.txt (contracts).
 - Planned layout (PRD §4): `composer.json` at root, service provider
   registering the `lyra` component namespace (`<x-lyra::button>`), Pest tests,
   Pint, GitHub Actions.
