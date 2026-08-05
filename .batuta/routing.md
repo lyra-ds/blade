@@ -16,7 +16,7 @@ managed sessions per `compozy.md`).
 
 | Role | Examples | Executor | Cost |
 |---|---|---|---|
-| Research | project map sweep, brief context, "where does X live?" | opencode + `opencode/deepseek-v4-flash-free` | free tier |
+| Research | project map sweep, brief context, "where does X live?" | opencode + `lmstudio/prism-ml/bonsai-27b` (local; confirmed 2026-08-05 after live test — full report in 144s) | free (local GPU) |
 
 ## Rules
 
@@ -27,6 +27,18 @@ executor unavailable → next row up (Research has no ladder — the maestro doe
 the research itself). Model IDs above were discovered via `opencode models` on
 this machine; if one disappears, re-run discovery and re-confirm before
 delegating.
+
+Research lane specifics (2026-08-05): requires the LM Studio server up
+(`lms server status`; start with `lms server start`). Server down or model
+unloaded → fall back to opencode + `opencode/deepseek-v4-flash` (paid API),
+loudly. Scout briefs MUST be passed inline as the `opencode run` argument —
+never via a temp file in /tmp: reading outside the project root triggers a
+permission request that hangs/auto-rejects in non-interactive mode (bug
+found 2026-08-05; cost two hung scouts). Bonsai needs an explicit
+relative-paths-only rule in the brief — its first attempt globbed an
+absolute path outside the repo and died on auto-reject.
+`lmstudio/qwen/qwen3-coder-30b` is also available locally, untested — a
+candidate if bonsai ever underdelivers.
 
 Commit attribution (user request, 2026-08-05): commits of delegated work must
 credit the real executor — `Co-Authored-By` trailer for the delegate (e.g.
