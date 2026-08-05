@@ -1,0 +1,7 @@
+[
+    {"props": {}, "expected_class": "lyra-stat"},
+    {"props": {"class": "x y"}, "expected_class": "lyra-stat x y"},
+    {"props": {"direction": "up", "delta": "+5%"}, "expected_class": "lyra-stat", "expected_delta_class": "lyra-stat__delta lyra-stat__delta--up", "expected_delta_content": "↑ +5%"},
+    {"props": {"direction": "down", "delta": "-3%"}, "expected_class": "lyra-stat", "expected_delta_class": "lyra-stat__delta lyra-stat__delta--down", "expected_delta_content": "↓ -3%"},
+    {"props": {"direction": "flat", "delta": "0%"}, "expected_class": "lyra-stat", "expected_delta_class": "lyra-stat__delta lyra-stat__delta--flat", "expected_delta_content": "→ 0%"}
+]
