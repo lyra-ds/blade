@@ -1,0 +1,7 @@
+[
+    {"props": {"value": 30}, "expected_class": "lyra-progress"},
+    {"props": {"value": 30, "tone": "success"}, "expected_class": "lyra-progress lyra-progress--success"},
+    {"props": {"value": 30, "tone": "danger"}, "expected_class": "lyra-progress lyra-progress--danger"},
+    {"props": {"value": 30, "class": "extra"}, "expected_class": "lyra-progress extra"},
+    {"props": {"value": 30, "tone": "danger", "class": "extra"}, "expected_class": "lyra-progress lyra-progress--danger extra"}
+]
