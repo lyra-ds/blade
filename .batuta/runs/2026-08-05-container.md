@@ -1,6 +1,6 @@
 # Run — Componente Container (React → Blade) — onda 4, item 1/3
 
-**Date:** 2026-08-05 · **Lane:** medium · **Executor:** codex (gpt-5.6-sol, reasoning medium)
+**Date:** 2026-08-05 · **Lane:** medium · **Executor:** Claude Sonnet 5 (coordinator task session sess-934d98a1313fc4da) — codex (gpt-5.6-sol) stalled mid-run; attribution corrected per user observation 2026-08-05
 **Commit:** 41f9594 · **Verdict:** ✅ approved · **Session:** sess-934d98a1313fc4da (claimed run after prior sessions stalled) · **Task:** task-b66d828138914191 (run-35f80a16f055df6b)
 
 ## Brief
