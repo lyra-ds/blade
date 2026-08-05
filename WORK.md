@@ -1,13 +1,14 @@
 # WORK — lyra-ds/blade
 
 ## In progress
-- [ ] Onda 3 (Display com slots, sequencial após IconButton): Alert → Stat → EmptyState → Avatar — lane medium (codex default) via Compozy, um ciclo/commit por item; scout único (bonsai) extraindo contrato dos 5; cards encadeados no board (disparada 2026-08-05)
+- [ ] Onda 3 (Display com slots, sequencial após IconButton): Stat → EmptyState → Avatar — lane medium (codex default) via Compozy, um ciclo/commit por item; scout único (bonsai) extraindo contrato dos 5; cards encadeados no board (disparada 2026-08-05)
 
 ## Backlog
 - [ ] Alias curto `<lyra:button>` (estilo Flux) como açúcar sintático sobre `<x-lyra::button>` — exige precompiler Blade customizado; os dois conviveriam, sem breaking change. Avaliar depois da fase 1 (anotado 2026-08-05)
 - [ ] Orientações para LLMs usarem os componentes Blade em projetos Laravel: guidelines embarcadas via laravel/boost, derivadas dos mesmos contratos das fixtures (props.json/llms.txt do lyra-ds.dev) — planejar depois dos primeiros componentes (anotado 2026-08-05)
 
 ## Done
+- [x] Componente Alert (onda 3, item 2/5) → codex (gpt-5.6-sol, reasoning medium) via Compozy `sess-e57894e83f043070`, worktree `alert`. Verificado pelo maestro (pest 10/10 focado, 109/109 suíte completa, pint ok), squash merge em `main` (`e33b29c`), sessão encerrada (trail: `.batuta/runs/2026-08-05-alert.md`) (2026-08-05)
 - [x] Componente Card (onda 3, item 1/5) → codex (gpt-5.6-sol, reasoning medium) via Compozy `sess-0dd471e9287f9abe` (run passou por 2 recuperações do scheduler antes da confirmação do maestro), worktree `card`. Verificado pelo maestro (pest 99/99, pint ok), squash merge em `main`, sessão encerrada (trail: `.batuta/runs/2026-08-05-card.md`) (2026-08-05)
 - [x] Componente IconButton (onda 2, item único) → codex (gpt-5.6-sol, reasoning medium) via Compozy `sess-31026db4e623b1fc` (run recuperado uma vez pelo scheduler antes da confirmação do maestro), worktree `iconbutton`. Verificado pelo maestro (pest 87/87, pint ok), squash merge em `main` (`0937e27`), sessão encerrada (trail: `.batuta/runs/2026-08-05-iconbutton.md`) (2026-08-05)
 - [x] Componente Progress (onda 1, item 6/6 — último) → codex (gpt-5.6-sol, reasoning medium) via Compozy `sess-c87cac5af20eb099`, worktree `progress`. Verificado pelo maestro (pest 75/75, pint ok), squash merge em `main` (`9515c9c`), sessão encerrada (trail: `.batuta/runs/2026-08-05-progress.md`) (2026-08-05)
