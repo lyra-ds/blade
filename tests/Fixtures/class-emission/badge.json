@@ -1,0 +1,10 @@
+[
+    {"props": {"tone": "neutral"}, "expected_class": "lyra-badge lyra-badge--neutral"},
+    {"props": {"tone": "accent"}, "expected_class": "lyra-badge lyra-badge--accent"},
+    {"props": {"tone": "success"}, "expected_class": "lyra-badge lyra-badge--success"},
+    {"props": {"tone": "warning"}, "expected_class": "lyra-badge lyra-badge--warning"},
+    {"props": {"tone": "danger"}, "expected_class": "lyra-badge lyra-badge--danger"},
+    {"props": {"tone": "info"}, "expected_class": "lyra-badge lyra-badge--info"},
+    {"props": {}, "expected_class": "lyra-badge lyra-badge--neutral"},
+    {"props": {"tone": "success", "class": "extra"}, "expected_class": "lyra-badge lyra-badge--success extra"}
+]
