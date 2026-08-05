@@ -1,0 +1,21 @@
+[
+    {"props": {"variant": "primary", "size": "sm"}, "expected_class": "lyra-btn lyra-btn--primary lyra-btn--sm"},
+    {"props": {"variant": "primary", "size": "md"}, "expected_class": "lyra-btn lyra-btn--primary lyra-btn--md"},
+    {"props": {"variant": "primary", "size": "lg"}, "expected_class": "lyra-btn lyra-btn--primary lyra-btn--lg"},
+    {"props": {"variant": "secondary", "size": "sm"}, "expected_class": "lyra-btn lyra-btn--secondary lyra-btn--sm"},
+    {"props": {"variant": "secondary", "size": "md"}, "expected_class": "lyra-btn lyra-btn--secondary lyra-btn--md"},
+    {"props": {"variant": "secondary", "size": "lg"}, "expected_class": "lyra-btn lyra-btn--secondary lyra-btn--lg"},
+    {"props": {"variant": "soft", "size": "sm"}, "expected_class": "lyra-btn lyra-btn--soft lyra-btn--sm"},
+    {"props": {"variant": "soft", "size": "md"}, "expected_class": "lyra-btn lyra-btn--soft lyra-btn--md"},
+    {"props": {"variant": "soft", "size": "lg"}, "expected_class": "lyra-btn lyra-btn--soft lyra-btn--lg"},
+    {"props": {"variant": "ghost", "size": "sm"}, "expected_class": "lyra-btn lyra-btn--ghost lyra-btn--sm"},
+    {"props": {"variant": "ghost", "size": "md"}, "expected_class": "lyra-btn lyra-btn--ghost lyra-btn--md"},
+    {"props": {"variant": "ghost", "size": "lg"}, "expected_class": "lyra-btn lyra-btn--ghost lyra-btn--lg"},
+    {"props": {"variant": "danger", "size": "sm"}, "expected_class": "lyra-btn lyra-btn--danger lyra-btn--sm"},
+    {"props": {"variant": "danger", "size": "md"}, "expected_class": "lyra-btn lyra-btn--danger lyra-btn--md"},
+    {"props": {"variant": "danger", "size": "lg"}, "expected_class": "lyra-btn lyra-btn--danger lyra-btn--lg"},
+    {"props": {"loading": true}, "expected_class": "lyra-btn lyra-btn--primary lyra-btn--md lyra-btn--loading"},
+    {"props": {"full": true}, "expected_class": "lyra-btn lyra-btn--primary lyra-btn--md lyra-btn--full"},
+    {"props": {"loading": true, "full": true}, "expected_class": "lyra-btn lyra-btn--primary lyra-btn--md lyra-btn--loading lyra-btn--full"},
+    {"props": {"variant": "danger", "size": "sm", "loading": true, "class": "extra"}, "expected_class": "lyra-btn lyra-btn--danger lyra-btn--sm lyra-btn--loading extra"}
+]

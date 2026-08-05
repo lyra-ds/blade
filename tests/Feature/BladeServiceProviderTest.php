@@ -9,13 +9,13 @@ it('boots the package service provider', function (): void {
 });
 
 it('renders a component through the lyra namespace', function (): void {
-    $componentPath = dirname(__DIR__, 2).'/resources/views/components/button.blade.php';
-    $fixturePath = dirname(__DIR__).'/Fixtures/views/components/button.blade.php';
+    $componentPath = dirname(__DIR__, 2).'/resources/views/components/smoke-probe.blade.php';
+    $fixturePath = dirname(__DIR__).'/Fixtures/views/components/smoke-probe.blade.php';
 
     copy($fixturePath, $componentPath);
 
     try {
-        expect(Blade::render('<x-lyra::button variant="primary">Save</x-lyra::button>'))
+        expect(Blade::render('<x-lyra::smoke-probe variant="primary">Save</x-lyra::smoke-probe>'))
             ->toContain('<button data-variant="primary">Save</button>');
     } finally {
         unlink($componentPath);
