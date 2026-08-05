@@ -17,7 +17,7 @@ Runtime: compozy
 
 ## Project constraints (from PRD, closed decisions — don't reopen without the user)
 
-- PRD source: `~/Documents/prd-lyra-blade.md`. Architecture decisions in §2 are
+- PRD source: `docs/prd.md` (moved into the repo 2026-08-05). Architecture decisions in §2 are
   closed: no CSS in the package (npm-only via `@lyra-ds/styles`), Alpine.js as
   suggested peer (never bundled; phase 1 is static-only), API parity with the
   React package (`props.json`/lyra-ds.dev is the source of truth — never invent
@@ -35,7 +35,7 @@ map yet — this section gets a real sweep once the package skeleton exists.
 
 Where things will come from, meanwhile:
 
-- `~/Documents/prd-lyra-blade.md` — the PRD driving phase 1 (~22 static
+- `docs/prd.md` — the PRD driving phase 1 (~22 static
   components, structure, acceptance criteria).
 - `~/Projects/lyra-ds/lyra` — main repo (corrected 2026-08-05):
   `packages/styles` (the real `.lyra-*` classes), `packages/react/src/*`
