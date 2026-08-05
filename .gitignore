@@ -1,0 +1,12 @@
+/vendor/
+composer.lock
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Editor files
+/.idea/
+/.vscode/
+*.swp
+*.swo

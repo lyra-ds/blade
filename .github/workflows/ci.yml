@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: '8.3'
+            laravel: '11'
+            illuminate: '^11.45.3'
+            testbench: '^9.15'
+          - php: '8.3'
+            laravel: '12'
+            illuminate: '^12.41.1'
+            testbench: '^10.6'
+          - php: '8.4'
+            laravel: '11'
+            illuminate: '^11.45.3'
+            testbench: '^9.15'
+          - php: '8.4'
+            laravel: '12'
+            illuminate: '^12.41.1'
+            testbench: '^10.6'
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer:v2
+
+      - name: Select Laravel and Testbench versions
+        run: |
+          composer require --no-update \
+            "illuminate/support:${{ matrix.illuminate }}" \
+            "illuminate/view:${{ matrix.illuminate }}"
+          composer require --dev --no-update \
+            "orchestra/testbench:${{ matrix.testbench }}"
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Check code style
+        run: vendor/bin/pint --test
+
+      - name: Run tests
+        run: vendor/bin/pest

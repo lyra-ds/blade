@@ -1,0 +1,42 @@
+{
+    "name": "lyra-ds/blade",
+    "description": "Blade components for the Lyra Design System.",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.3",
+        "illuminate/support": "^11.0|^12.0",
+        "illuminate/view": "^11.0|^12.0"
+    },
+    "require-dev": {
+        "laravel/boost": "^2.4",
+        "laravel/pint": "^1.27",
+        "orchestra/testbench": "^9.15|^10.6",
+        "pestphp/pest": "^3.8.4|^4.1.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "LyraDs\\Blade\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LyraDs\\Blade\\BladeServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
