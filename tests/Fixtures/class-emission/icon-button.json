@@ -1,0 +1,12 @@
+[
+    {"props": {}, "expected_class": "lyra-btn lyra-btn--icon lyra-btn--secondary lyra-btn--md"},
+    {"props": {"variant": "primary"}, "expected_class": "lyra-btn lyra-btn--icon lyra-btn--primary lyra-btn--md"},
+    {"props": {"variant": "secondary"}, "expected_class": "lyra-btn lyra-btn--icon lyra-btn--secondary lyra-btn--md"},
+    {"props": {"variant": "soft"}, "expected_class": "lyra-btn lyra-btn--icon lyra-btn--soft lyra-btn--md"},
+    {"props": {"variant": "ghost"}, "expected_class": "lyra-btn lyra-btn--icon lyra-btn--ghost lyra-btn--md"},
+    {"props": {"variant": "danger"}, "expected_class": "lyra-btn lyra-btn--icon lyra-btn--danger lyra-btn--md"},
+    {"props": {"size": "sm"}, "expected_class": "lyra-btn lyra-btn--icon lyra-btn--secondary lyra-btn--sm"},
+    {"props": {"size": "md"}, "expected_class": "lyra-btn lyra-btn--icon lyra-btn--secondary lyra-btn--md"},
+    {"props": {"size": "lg"}, "expected_class": "lyra-btn lyra-btn--icon lyra-btn--secondary lyra-btn--lg"},
+    {"props": {"variant": "danger", "size": "sm", "class": "x"}, "expected_class": "lyra-btn lyra-btn--icon lyra-btn--danger lyra-btn--sm x"}
+]
