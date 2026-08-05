@@ -1,0 +1,6 @@
+[
+    {"props": {}, "expected_class": "lyra-skeleton"},
+    {"props": {"circle": true}, "expected_class": "lyra-skeleton lyra-skeleton--circle"},
+    {"props": {"class": "extra"}, "expected_class": "lyra-skeleton extra"},
+    {"props": {"circle": true, "class": "extra"}, "expected_class": "lyra-skeleton lyra-skeleton--circle extra"}
+]
