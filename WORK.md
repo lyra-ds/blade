@@ -1,13 +1,14 @@
 # WORK — lyra-ds/blade
 
 ## In progress
-- [ ] Onda 1 (irmãos do Button, sequencial): Spinner ✅ → Badge ✅ → Tag ✅ → Separator ✅ → Skeleton ✅ → Progress — lane medium (codex default) via Compozy, um ciclo/commit por item; scout único (bonsai) extraindo contrato dos 6 (disparada 2026-08-05); próximo item: Progress (último da onda)
+(nenhum — onda 1 concluída; ver Done)
 
 ## Backlog
 - [ ] Alias curto `<lyra:button>` (estilo Flux) como açúcar sintático sobre `<x-lyra::button>` — exige precompiler Blade customizado; os dois conviveriam, sem breaking change. Avaliar depois da fase 1 (anotado 2026-08-05)
 - [ ] Orientações para LLMs usarem os componentes Blade em projetos Laravel: guidelines embarcadas via laravel/boost, derivadas dos mesmos contratos das fixtures (props.json/llms.txt do lyra-ds.dev) — planejar depois dos primeiros componentes (anotado 2026-08-05)
 
 ## Done
+- [x] Componente Progress (onda 1, item 6/6 — último) → codex (gpt-5.6-sol, reasoning medium) via Compozy `sess-c87cac5af20eb099`, worktree `progress`. Verificado pelo maestro (pest 75/75, pint ok), squash merge em `main` (`9515c9c`), sessão encerrada (trail: `.batuta/runs/2026-08-05-progress.md`) (2026-08-05)
 - [x] Componente Skeleton (onda 1, item 5/6) → codex (default model) via Compozy `sess-c31e36205c949eec` (run recuperado uma vez pelo scheduler antes da confirmação do maestro), worktree `skeleton`. Verificado pelo maestro (pest 66/66, pint ok), squash merge em `main` (`723ad24`), sessão encerrada (trail: `.batuta/runs/2026-08-05-skeleton.md`) (2026-08-05)
 - [x] Componente Separator (onda 1, item 4/6) → codex (gpt-5.6-sol, reasoning medium) via Compozy `sess-6a14e1ab9c6c3674`, worktree `separator`. Verificado pelo maestro (pest 57/57, pint ok), squash merge em `main` (`970fda1`), sessão encerrada (trail: `.batuta/runs/2026-08-05-separator.md`) (2026-08-05)
 - [x] Componente Tag (onda 1, item 3/6) → codex (default model) via Compozy `sess-78659027d929a624`, worktree `tag`. Verificado pelo maestro (pest 47/47, pint ok), squash merge em `main` (`85b10a7`), sessão encerrada (trail: `.batuta/runs/2026-08-05-tag.md`) (2026-08-05)
