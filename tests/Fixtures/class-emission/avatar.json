@@ -1,0 +1,9 @@
+[
+    {"props": {}, "expected_class": "lyra-avatar lyra-avatar--md"},
+    {"props": {"size": "sm"}, "expected_class": "lyra-avatar lyra-avatar--sm"},
+    {"props": {"size": "md"}, "expected_class": "lyra-avatar lyra-avatar--md"},
+    {"props": {"size": "lg"}, "expected_class": "lyra-avatar lyra-avatar--lg"},
+    {"props": {"size": "xl"}, "expected_class": "lyra-avatar lyra-avatar--xl"},
+    {"props": {"shape": "square"}, "expected_class": "lyra-avatar lyra-avatar--md lyra-avatar--square"},
+    {"props": {"shape": "square", "class": "extra"}, "expected_class": "lyra-avatar lyra-avatar--md lyra-avatar--square extra"}
+]
