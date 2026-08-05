@@ -1,13 +1,14 @@
 # WORK — lyra-ds/blade
 
 ## In progress
-- [ ] Onda 3 (Display com slots, sequencial após IconButton): Avatar — lane medium (codex default) via Compozy, um ciclo/commit por item; scout único (bonsai) extraindo contrato dos 5; cards encadeados no board (disparada 2026-08-05); próximo item: Avatar (último da onda)
+(nenhum — ondas 1, 2 e 3 concluídas; ver Done)
 
 ## Backlog
 - [ ] Alias curto `<lyra:button>` (estilo Flux) como açúcar sintático sobre `<x-lyra::button>` — exige precompiler Blade customizado; os dois conviveriam, sem breaking change. Avaliar depois da fase 1 (anotado 2026-08-05)
 - [ ] Orientações para LLMs usarem os componentes Blade em projetos Laravel: guidelines embarcadas via laravel/boost, derivadas dos mesmos contratos das fixtures (props.json/llms.txt do lyra-ds.dev) — planejar depois dos primeiros componentes (anotado 2026-08-05)
 
 ## Done
+- [x] Componente Avatar (onda 3, item 5/5 — último) → codex (gpt-5.6-sol, reasoning medium) via Compozy `sess-542563cebad108a4`, worktree `avatar`. Verificado pelo maestro (pest 140/140, pint ok), squash merge em `main` (`6512273`), sessão encerrada (trail: `.batuta/runs/2026-08-05-avatar.md`) (2026-08-05)
 - [x] Componente EmptyState (onda 3, item 4/5) → codex (gpt-5.6-sol, reasoning medium) via Compozy `sess-ba750e805b5fb901` (a sessão originalmente vinculada ao run, `sess-b28e24855c336fbe`, ficou travada em initial_bind sem progresso; o maestro delegou de novo diretamente), worktree `empty-state`. Verificado pelo maestro (pest 122/122, pint ok), squash merge em `main` (`ce7b572`), sessões encerradas (trail: `.batuta/runs/2026-08-05-empty-state.md`) (2026-08-05)
 - [x] Componente Stat (onda 3, item 3/5) → codex (gpt-5.6-sol, reasoning medium) via Compozy `sess-9aebf701d703dd6d`, worktree `stat`. Verificado pelo maestro (pest 117/117, pint ok), squash merge em `main` (`78236f9`), sessão encerrada (trail: `.batuta/runs/2026-08-05-stat.md`) (2026-08-05)
 - [x] Componente Alert (onda 3, item 2/5) → codex (gpt-5.6-sol, reasoning medium) via Compozy `sess-e57894e83f043070`, worktree `alert`. Verificado pelo maestro (pest 10/10 focado, 109/109 suíte completa, pint ok), squash merge em `main` (`e33b29c`), sessão encerrada (trail: `.batuta/runs/2026-08-05-alert.md`) (2026-08-05)
