@@ -1,0 +1,8 @@
+[
+    {"props": {"tone": "info"}, "expected_class": "lyra-alert lyra-alert--info"},
+    {"props": {"tone": "success"}, "expected_class": "lyra-alert lyra-alert--success"},
+    {"props": {"tone": "warning"}, "expected_class": "lyra-alert lyra-alert--warning"},
+    {"props": {"tone": "danger"}, "expected_class": "lyra-alert lyra-alert--danger"},
+    {"props": {}, "expected_class": "lyra-alert lyra-alert--info"},
+    {"props": {"tone": "danger", "class": "x y"}, "expected_class": "lyra-alert lyra-alert--danger x y"}
+]
