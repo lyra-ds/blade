@@ -9,7 +9,7 @@ managed sessions per `compozy.md`).
 |---|---|---|---|
 | Trivial | rename, config, copy change, simple unit test | opencode + `opencode/kimi-k2.7-code` | cents (API) |
 | Medium | isolated feature, bugfix with clear repro | codex (default model) | ChatGPT subscription |
-| Complex | multi-file feature/refactor that a precise brief can fully specify | codex `-m gpt-5.3-codex`, reasoning high | ChatGPT subscription |
+| Complex | multi-file feature/refactor that a precise brief can fully specify | codex `-m gpt-5.6-sol`, reasoning high (re-confirmed 2026-08-04 — daemon catalog) | ChatGPT subscription |
 | Critical | architecture decisions, security-sensitive work, tasks needing the conversation's full context or real judgment | claude (session) | Claude subscription |
 
 ## Support lanes
@@ -27,3 +27,8 @@ executor unavailable → next row up (Research has no ladder — the maestro doe
 the research itself). Model IDs above were discovered via `opencode models` on
 this machine; if one disappears, re-run discovery and re-confirm before
 delegating.
+
+Commit attribution (user request, 2026-08-05): commits of delegated work must
+credit the real executor — `Co-Authored-By` trailer for the delegate (e.g.
+Codex/opencode model) plus a body line naming who implemented and who
+reviewed/verified. Never commit delegate output with maestro-only attribution.
