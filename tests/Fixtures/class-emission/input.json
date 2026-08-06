@@ -1,0 +1,8 @@
+[
+    {"props": {}, "expected_class": "lyra-input"},
+    {"props": {"size": "sm"}, "expected_class": "lyra-input lyra-input--sm"},
+    {"props": {"size": "lg"}, "expected_class": "lyra-input lyra-input--lg"},
+    {"props": {"error": "Invalid"}, "expected_class": "lyra-input lyra-input--error"},
+    {"props": {"size": "sm", "error": "Invalid"}, "expected_class": "lyra-input lyra-input--sm lyra-input--error"},
+    {"props": {"class": "extra"}, "expected_class": "lyra-input extra"}
+]
