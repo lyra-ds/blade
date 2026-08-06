@@ -4,7 +4,7 @@
         ".": {
             "release-type": "php",
             "package-name": "lyra-ds/blade",
-            "release-as": "0.1.0"
+            "include-component-in-tag": false
         }
     }
 }
