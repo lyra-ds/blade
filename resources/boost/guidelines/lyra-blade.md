@@ -186,6 +186,18 @@ Props:
 - `variant` — default: `"secondary"`; class-selector values evidenced by defaults and fixtures: `"danger"`, `"ghost"`, `"primary"`, `"secondary"`, `"soft"`.
 - `size` — default: `"md"`; class-selector values evidenced by defaults and fixtures: `"lg"`, `"md"`, `"sm"`.
 
+### icon
+
+Tags: `<x-lyra::icon>...</x-lyra::icon>` or `<lyra:icon>...</lyra:icon>`.
+
+Root class combination observed in fixtures: `lyra-icon`.
+
+Props:
+- `name` — default: `null`; fixture examples (not constraints): `"check"`.
+- `size` — default: `20`; no fixture examples (fixtures do not constrain this prop).
+- `color` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `title` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+
 ### input
 
 Tags: `<x-lyra::input>...</x-lyra::input>` or `<lyra:input>...</lyra:input>`.

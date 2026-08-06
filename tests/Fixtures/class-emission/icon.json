@@ -1,0 +1,4 @@
+[
+    {"props": {"name": "check"}, "expected_class": "lyra-icon"},
+    {"props": {"name": "check", "class": "text-success"}, "expected_class": "lyra-icon text-success"}
+]
