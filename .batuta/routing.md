@@ -40,13 +40,15 @@ absolute path outside the repo and died on auto-reject.
 `lmstudio/qwen/qwen3-coder-30b` is also available locally, untested — a
 candidate if bonsai ever underdelivers.
 
-Bonsai reliability log (2026-08-05): 1 clean full report (wave 1, 6
-components, 144s) vs 3 format failures — 2× absolute-path glob outside the
-repo (auto-reject kills the run) even with the explicit rule in the brief,
+Bonsai reliability log (updated 2026-08-06): 1 clean full report (wave 1, 6
+components, 144s) vs 4 format failures — 3× absolute-path glob outside the
+repo (auto-reject kills the run) even with the explicit rule in the brief
+(latest: 2026-08-06 classification scout, hallucinated `~/Packages/...`),
 1× emitted pseudo-tool-call XML as text and returned no report (wave 3).
-Paid deepseek fallback used for wave 3. If deepseek stays clean, propose to
-the user swapping the lane: deepseek primary, bonsai/qwen local as the
-experiment.
+Deepseek fallback: 2 clean reports out of 2 (wave 3; 2026-08-06
+classification of 48 components, all 13 STATIC anchors verified true).
+Lane swap proposed to the user 2026-08-06: deepseek-v4-flash primary,
+bonsai/qwen local as experiment — pending confirmation.
 
 Commit attribution (user request, 2026-08-05): commits of delegated work must
 credit the real executor — `Co-Authored-By` trailer for the delegate (e.g.
