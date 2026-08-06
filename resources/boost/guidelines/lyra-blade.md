@@ -58,6 +58,15 @@ Props:
 - `tone` — default: `"neutral"`; class-selector values evidenced by defaults and fixtures: `"accent"`, `"danger"`, `"info"`, `"neutral"`, `"success"`, `"warning"`.
 - `dot` — default: `false`; no fixture examples (fixtures do not constrain this prop).
 
+### bottom-nav
+
+Tags: `<x-lyra::bottom-nav>...</x-lyra::bottom-nav>` or `<lyra:bottom-nav>...</lyra:bottom-nav>`.
+
+Root class combination observed in fixtures: `lyra-bottomnav`.
+
+Props:
+- `items` — required; no fixture examples (fixtures do not constrain this prop).
+
 ### brand
 
 Tags: `<x-lyra::brand>...</x-lyra::brand>` or `<lyra:brand>...</lyra:brand>`.
