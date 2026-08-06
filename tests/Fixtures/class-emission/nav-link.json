@@ -1,0 +1,6 @@
+[
+    {"props": {}, "expected_class": "lyra-navlink"},
+    {"props": {"active": true}, "expected_class": "lyra-navlink lyra-navlink--active"},
+    {"props": {"class": "extra"}, "expected_class": "lyra-navlink extra"},
+    {"props": {"active": true, "class": "extra"}, "expected_class": "lyra-navlink lyra-navlink--active extra"}
+]

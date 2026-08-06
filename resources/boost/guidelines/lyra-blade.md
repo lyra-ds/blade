@@ -178,6 +178,15 @@ Props:
 - `error` — default: `null`; fixture examples (not constraints): `"Invalid"`.
 - `size` — default: `"md"`; class-selector values evidenced by defaults and fixtures: `"lg"`, `"md"`, `"sm"`.
 
+### nav-link
+
+Tags: `<x-lyra::nav-link>...</x-lyra::nav-link>` or `<lyra:nav-link>...</lyra:nav-link>`.
+
+Root class alternatives observed in fixtures: `lyra-navlink` | `lyra-navlink lyra-navlink--active`.
+
+Props:
+- `active` — default: `false`; fixture examples (not constraints): `true`.
+
 ### pagination
 
 Tags: `<x-lyra::pagination>...</x-lyra::pagination>` or `<lyra:pagination>...</lyra:pagination>`.
