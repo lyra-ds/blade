@@ -1,0 +1,4 @@
+[
+    {"props": {}, "expected_class": "lyra-fieldset"},
+    {"props": {"class": "extra"}, "expected_class": "lyra-fieldset extra"}
+]
