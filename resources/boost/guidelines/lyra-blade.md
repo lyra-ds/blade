@@ -357,3 +357,20 @@ Props:
 - `label` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `hint` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `error` — default: `null`; fixture examples (not constraints): `"Invalid"`.
+
+### toast-stack
+
+Tags: `<x-lyra::toast-stack>...</x-lyra::toast-stack>` or `<lyra:toast-stack>...</lyra:toast-stack>`.
+
+Root class combination observed in fixtures: `lyra-toast-stack`.
+
+Props: none (slots and pass-through attributes only).
+
+### toast
+
+Tags: `<x-lyra::toast>...</x-lyra::toast>` or `<lyra:toast>...</lyra:toast>`.
+
+Root class combination observed in fixtures: `lyra-toast`.
+
+Props:
+- `tone` — default: `"info"`; no fixture examples (fixtures do not constrain this prop).
