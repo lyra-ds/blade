@@ -26,7 +26,7 @@ Runtime: compozy
 - Central quality gate: class-emission tests — each Blade component renders the
   EXACT class string the React component emits (fixtures extracted from the
   main repo).
-- CI matrix: Laravel 11/12 × PHP 8.3/8.4 (GitHub Actions).
+- CI matrix: Laravel 12/13 × PHP 8.3/8.4 (GitHub Actions). L11 dropped 2026-08-06 (security EOL; composer advisory policy blocks it in CI).
 
 ## Project map
 
