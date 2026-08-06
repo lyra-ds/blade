@@ -14,6 +14,17 @@ This section is generated from `resources/views/components/*.blade.php` and `tes
 
 <!-- Generated component entries: do not edit by hand. -->
 
+### action-bar
+
+Tags: `<x-lyra::action-bar>...</x-lyra::action-bar>` or `<lyra:action-bar>...</lyra:action-bar>`.
+
+Root class combination observed in fixtures: `lyra-actionbar`.
+
+Props:
+- `open` — default: `true`; no fixture examples (fixtures do not constrain this prop).
+- `count` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `label` — default: `"selected"`; no fixture examples (fixtures do not constrain this prop).
+
 ### alert
 
 Tags: `<x-lyra::alert>...</x-lyra::alert>` or `<lyra:alert>...</lyra:alert>`.
