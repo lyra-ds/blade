@@ -1,0 +1,5 @@
+[
+    {"props": {}, "expected_wrapper_class": "lyra-table-wrap", "expected_table_class": "lyra-table"},
+    {"props": {"hover": true}, "expected_wrapper_class": "lyra-table-wrap", "expected_table_class": "lyra-table lyra-table--hover"},
+    {"props": {"class": "extra"}, "expected_wrapper_class": "lyra-table-wrap extra", "expected_table_class": "lyra-table"}
+]
