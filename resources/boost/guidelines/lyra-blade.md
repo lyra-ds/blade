@@ -309,6 +309,16 @@ Root class combination observed in fixtures: `lyra-stat`.
 Props:
 - `direction` — default: `"flat"`; class-selector values evidenced by defaults and fixtures: `"down"`, `"flat"`, `"up"`.
 
+### stepper
+
+Tags: `<x-lyra::stepper>...</x-lyra::stepper>` or `<lyra:stepper>...</lyra:stepper>`.
+
+Root class combination observed in fixtures: `lyra-stepper`.
+
+Props:
+- `steps` — required; fixture examples (not constraints): `["Account"]`.
+- `active` — required; fixture examples (not constraints): `0`.
+
 ### switch
 
 Tags: `<x-lyra::switch>...</x-lyra::switch>` or `<lyra:switch>...</lyra:switch>`.

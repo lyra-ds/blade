@@ -1,0 +1,4 @@
+[
+    {"props": {"steps": ["Account"], "active": 0}, "expected_class": "lyra-stepper"},
+    {"props": {"steps": ["Account"], "active": 0, "class": "extra utility"}, "expected_class": "lyra-stepper extra utility"}
+]
