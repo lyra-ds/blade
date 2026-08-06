@@ -16,7 +16,7 @@ managed sessions per `compozy.md`).
 
 | Role | Examples | Executor | Cost |
 |---|---|---|---|
-| Research | project map sweep, brief context, "where does X live?" | opencode + `lmstudio/prism-ml/bonsai-27b` (local; confirmed 2026-08-05 after live test — full report in 144s) | free (local GPU) |
+| Research | project map sweep, brief context, "where does X live?" | opencode + `opencode/deepseek-v4-flash` (swapped to primary 2026-08-06, user-confirmed — 2/2 clean reports vs bonsai's 1/5) | cents (API) |
 
 ## Rules
 
@@ -28,27 +28,22 @@ the research itself). Model IDs above were discovered via `opencode models` on
 this machine; if one disappears, re-run discovery and re-confirm before
 delegating.
 
-Research lane specifics (2026-08-05): requires the LM Studio server up
-(`lms server status`; start with `lms server start`). Server down or model
-unloaded → fall back to opencode + `opencode/deepseek-v4-flash` (paid API),
-loudly. Scout briefs MUST be passed inline as the `opencode run` argument —
-never via a temp file in /tmp: reading outside the project root triggers a
-permission request that hangs/auto-rejects in non-interactive mode (bug
-found 2026-08-05; cost two hung scouts). Bonsai needs an explicit
-relative-paths-only rule in the brief — its first attempt globbed an
-absolute path outside the repo and died on auto-reject.
-`lmstudio/qwen/qwen3-coder-30b` is also available locally, untested — a
-candidate if bonsai ever underdelivers.
+Research lane specifics (updated 2026-08-06): primary is
+`opencode/deepseek-v4-flash` (paid API, cents per scout). Local models
+(`lmstudio/prism-ml/bonsai-27b`, `lmstudio/qwen/qwen3-coder-30b` untested)
+remain available as an experiment lane — only on explicit user request,
+with LM Studio up (`lms server status`). Scout briefs MUST be passed inline
+as the `opencode run` argument — never via a temp file in /tmp: reading
+outside the project root triggers a permission request that hangs/auto-rejects
+in non-interactive mode (bug found 2026-08-05; cost two hung scouts). The
+relative-paths-only rule stays in every scout brief regardless of model.
 
-Bonsai reliability log (updated 2026-08-06): 1 clean full report (wave 1, 6
-components, 144s) vs 4 format failures — 3× absolute-path glob outside the
-repo (auto-reject kills the run) even with the explicit rule in the brief
-(latest: 2026-08-06 classification scout, hallucinated `~/Packages/...`),
-1× emitted pseudo-tool-call XML as text and returned no report (wave 3).
-Deepseek fallback: 2 clean reports out of 2 (wave 3; 2026-08-06
-classification of 48 components, all 13 STATIC anchors verified true).
-Lane swap proposed to the user 2026-08-06: deepseek-v4-flash primary,
-bonsai/qwen local as experiment — pending confirmation.
+Lane history: bonsai was primary 2026-08-05→06, demoted after closing at
+1 clean report vs 4 format failures — 3× absolute-path glob outside the repo
+(auto-reject kills the run) even with the explicit rule in the brief, 1×
+pseudo-tool-call XML as text with no report. Deepseek: 2/2 clean (wave-3
+research; 48-component classification with all 13 STATIC anchors verified).
+Swap confirmed by the user 2026-08-06.
 
 Commit attribution (user request, 2026-08-05): commits of delegated work must
 credit the real executor — `Co-Authored-By` trailer for the delegate (e.g.
