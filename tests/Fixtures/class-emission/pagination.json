@@ -1,0 +1,4 @@
+[
+    {"props": {}, "expected_class": "lyra-pagination"},
+    {"props": {"class": "extra"}, "expected_class": "lyra-pagination extra"}
+]
