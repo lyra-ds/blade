@@ -74,9 +74,11 @@ Every component emits exactly the class strings emitted by the corresponding Lyr
 
 ## Compatibility
 
-| `lyra-ds/blade` | Laravel 11 | Laravel 12 | PHP 8.3 | PHP 8.4 |
+| `lyra-ds/blade` | Laravel 12 | Laravel 13 | PHP 8.3 | PHP 8.4 |
 | --- | --- | --- | --- | --- |
 | `0.x` (unreleased/dev) | Supported | Supported | Supported | Supported |
+
+Laravel 11 is not supported because it reached security end-of-life in March 2026.
 
 Package versions are independent from the React and `@lyra-ds/styles` package versions. This matrix will grow as versions are released.
 
@@ -87,7 +89,7 @@ The current package is static-only and does not require Alpine.js. Interactive c
 ## Requirements
 
 - PHP 8.3 or later
-- Laravel 11 or 12
+- Laravel 12 or 13
 
 ## Contributing
 
