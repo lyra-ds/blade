@@ -38,6 +38,15 @@ outside the project root triggers a permission request that hangs/auto-rejects
 in non-interactive mode (bug found 2026-08-05; cost two hung scouts). The
 relative-paths-only rule stays in every scout brief regardless of model.
 
+Reliability update 2026-08-06 (onda A da fase 2): deepseek scout A entregou
+1/1 limpo (7 contratos, âncoras 100% verificadas), mas o scout B (6
+contratos + pesquisa de icon) falhou 2× em silent hang — processo vivo,
+0 bytes de output por >1h, nas duas tentativas. Fallback da lane usado:
+o maestro leu os 6 fontes diretamente. Padrão observado: briefs de scout
+maiores/multi-pergunta parecem correlacionar com o hang; preferir scouts
+com escopo de ~6-7 arquivos no máximo e desconfiar de output vazio após
+~10min (matar e retry uma vez, depois fallback).
+
 Lane history: bonsai was primary 2026-08-05→06, demoted after closing at
 1 clean report vs 4 format failures — 3× absolute-path glob outside the repo
 (auto-reject kills the run) even with the explicit rule in the brief, 1×
