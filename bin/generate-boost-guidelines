@@ -1,0 +1,25 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use LyraDs\Blade\BoostGuidelinesGenerator;
+
+require dirname(__DIR__).'/vendor/autoload.php';
+
+$root = dirname(__DIR__);
+$target = $root.'/resources/boost/guidelines/lyra-blade.md';
+$guidelines = (new BoostGuidelinesGenerator)->generate(
+    $root.'/resources/views/components',
+    $root.'/tests/Fixtures/class-emission',
+);
+
+if (! is_dir(dirname($target)) && ! mkdir(dirname($target), 0755, true)) {
+    throw new RuntimeException('Unable to create the Boost guidelines directory.');
+}
+
+if (file_put_contents($target, $guidelines) === false) {
+    throw new RuntimeException("Unable to write {$target}.");
+}
+
+fwrite(STDOUT, "Generated resources/boost/guidelines/lyra-blade.md\n");

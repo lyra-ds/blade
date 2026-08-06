@@ -16,6 +16,7 @@ Do not run `php artisan boost:install`: Laravel Boost is included only as develo
 - Follow Laravel package conventions and keep changes focused.
 - Do not add CSS or JavaScript; visual styles belong in `@lyra-ds/styles`.
 - Add or update deterministic tests for behavior changes.
+- When adding or changing a component, run `php bin/generate-boost-guidelines` and commit the regenerated guidelines.
 
 Before submitting a pull request, run:
 
