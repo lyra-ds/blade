@@ -1,0 +1,4 @@
+[
+    {"props": {"name": "Ada Lovelace"}, "expected_class": "lyra-personcell"},
+    {"props": {"name": "Ada Lovelace", "class": "x y"}, "expected_class": "lyra-personcell x y"}
+]

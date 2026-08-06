@@ -200,6 +200,17 @@ Props:
 - `previousLabel` — default: `"Previous page"`; no fixture examples (fixtures do not constrain this prop).
 - `nextLabel` — default: `"Next page"`; no fixture examples (fixtures do not constrain this prop).
 
+### person-cell
+
+Tags: `<x-lyra::person-cell>...</x-lyra::person-cell>` or `<lyra:person-cell>...</lyra:person-cell>`.
+
+Root class combination observed in fixtures: `lyra-personcell`.
+
+Props:
+- `name` — required; fixture examples (not constraints): `"Ada Lovelace"`.
+- `detail` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `src` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+
 ### progress
 
 Tags: `<x-lyra::progress>...</x-lyra::progress>` or `<lyra:progress>...</lyra:progress>`.
