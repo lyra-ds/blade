@@ -2,7 +2,7 @@
 
 Thin Blade wrappers for the Lyra Design System in Laravel applications. Each component renders the same canonical `.lyra-*` classes as its React counterpart—all appearance lives in `@lyra-ds/styles`, never in this Composer package.
 
-The package ships 26 static anonymous Blade components under the `lyra` namespace. Laravel discovers its service provider automatically, so components are ready to use as `<x-lyra::button>`, `<x-lyra::input>`, and the other tags listed below.
+The package ships 27 static anonymous Blade components under the `lyra` namespace. Laravel discovers its service provider automatically, so components are ready to use with the short syntax (`<lyra:button>`) or the equivalent namespaced syntax (`<x-lyra::button>`).
 
 ## Quickstart
 
@@ -39,6 +39,9 @@ Alternatively, import the CSS export from your application's stylesheet:
 ### 4. Render your first components
 
 ```blade
+<lyra:button variant="primary">Save</lyra:button>
+
+{{-- Equivalent namespaced syntax: --}}
 <x-lyra::button variant="primary">Save</x-lyra::button>
 ```
 
@@ -66,7 +69,7 @@ Component props and ordinary HTML attributes can be combined. For example, this 
 | Forms | `fieldset`, `form-row`, `input`, `textarea`, `select`, `checkbox`, `radio`, `switch` |
 | Navigation | `breadcrumb`, `pagination` |
 
-Use each name with the package namespace—for example, `button` becomes `<x-lyra::button>`.
+Use each name with either equivalent form—for example, `button` becomes `<lyra:button>` or `<x-lyra::button>`.
 
 ## Class parity with React
 

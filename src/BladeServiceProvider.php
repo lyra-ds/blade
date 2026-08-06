@@ -9,9 +9,15 @@ final class BladeServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        $componentPath = __DIR__.'/../resources/views/components';
+
         Blade::anonymousComponentPath(
-            __DIR__.'/../resources/views/components',
+            $componentPath,
             'lyra',
         );
+
+        $shortComponentSyntax = new ShortComponentSyntax($componentPath);
+
+        Blade::prepareStringsForCompilationUsing($shortComponentSyntax->compile(...));
     }
 }
