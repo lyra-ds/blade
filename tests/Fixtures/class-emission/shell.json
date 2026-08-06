@@ -1,0 +1,5 @@
+[
+    {"props": {}, "expected_class": "lyra-shell lyra-shell--page"},
+    {"props": {"scroll": "content"}, "expected_class": "lyra-shell lyra-shell--content"},
+    {"props": {"class": "extra utility"}, "expected_class": "lyra-shell lyra-shell--page extra utility"}
+]

@@ -306,6 +306,23 @@ Root class alternatives observed in fixtures: `lyra-separator` | `lyra-separator
 Props:
 - `orientation` — default: `"horizontal"`; class-selector values evidenced by defaults and fixtures: `"horizontal"`, `"vertical"`.
 
+### shell
+
+Tags: `<x-lyra::shell>...</x-lyra::shell>` or `<lyra:shell>...</lyra:shell>`.
+
+Root class alternatives observed in fixtures: `lyra-shell lyra-shell--page` | `lyra-shell lyra-shell--content`.
+
+Props:
+- `sidebarAs` — default: `"aside"`; no fixture examples (fixtures do not constrain this prop).
+- `asideAs` — default: `"aside"`; no fixture examples (fixtures do not constrain this prop).
+- `sidebarLabel` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `asideLabel` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `mainAs` — default: `"main"`; no fixture examples (fixtures do not constrain this prop).
+- `scroll` — default: `"page"`; class-selector values evidenced by defaults and fixtures: `"content"`, `"page"`.
+- `sidebarWidth` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `asideWidth` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `top` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+
 ### skeleton
 
 Tags: `<x-lyra::skeleton>...</x-lyra::skeleton>` or `<lyra:skeleton>...</lyra:skeleton>`.
