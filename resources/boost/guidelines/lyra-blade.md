@@ -230,6 +230,21 @@ Root class combination observed in fixtures: `lyra-radio`.
 Props:
 - `label` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
+### segmented-ring
+
+Tags: `<x-lyra::segmented-ring>...</x-lyra::segmented-ring>` or `<lyra:segmented-ring>...</lyra:segmented-ring>`.
+
+Root class alternatives observed in fixtures: `lyra-ring lyra-ring--lg` | `lyra-ring lyra-ring--md` | `lyra-ring lyra-ring--lg lyra-ring--stacked`.
+
+Props:
+- `segments` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `total` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `centerValue` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `centerLabel` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `size` — default: `"lg"`; class-selector values evidenced by defaults and fixtures: `"lg"`, `"md"`.
+- `stacked` — default: `false`; fixture examples (not constraints): `true`.
+- `showLegend` — default: `true`; no fixture examples (fixtures do not constrain this prop).
+
 ### select
 
 Tags: `<x-lyra::select>...</x-lyra::select>` or `<lyra:select>...</lyra:select>`.

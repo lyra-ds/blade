@@ -1,0 +1,6 @@
+[
+    {"props": {}, "expected_class": "lyra-ring lyra-ring--lg"},
+    {"props": {"size": "md"}, "expected_class": "lyra-ring lyra-ring--md"},
+    {"props": {"stacked": true}, "expected_class": "lyra-ring lyra-ring--lg lyra-ring--stacked"},
+    {"props": {"class": "extra"}, "expected_class": "lyra-ring lyra-ring--lg extra"}
+]
