@@ -1,0 +1,71 @@
+# Changelog
+
+## 0.1.0 (2026-08-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* support Laravel 12/13, drop EOL Laravel 11
+
+### Features
+
+* Blade alert component with class-emission parity tests ([e33b29c](https://github.com/lyra-ds/blade/commit/e33b29ccac2a96c0016b5086e1c9af78a55af391))
+* Blade avatar component with class-emission parity tests ([6512273](https://github.com/lyra-ds/blade/commit/6512273f1f1626636c45929dee6a330be1c3c53e))
+* Blade badge component with class-emission parity tests ([aa0a328](https://github.com/lyra-ds/blade/commit/aa0a32891e87d130baf097f8b824a93c1358cf2b))
+* Blade breadcrumb component with class-emission parity tests ([ef84995](https://github.com/lyra-ds/blade/commit/ef8499569b2d87fec558aea13a461de5549bd2d9))
+* Blade button component with class-emission parity tests ([67920bb](https://github.com/lyra-ds/blade/commit/67920bb1e6abc6dc8facea101fc150b62d9ba99f))
+* Blade card component with class-emission parity tests ([e5a61a3](https://github.com/lyra-ds/blade/commit/e5a61a337089fe9f74e8a80f6a80f28a1d9de266))
+* Blade checkbox component with class-emission parity tests ([68c7c39](https://github.com/lyra-ds/blade/commit/68c7c39fc788764ec40314f85a0cd2a0aa4e12c5))
+* Blade container component with class-emission parity tests ([d071c78](https://github.com/lyra-ds/blade/commit/d071c782ef492c472ecbb971539a989c93de6055))
+* Blade empty-state component with class-emission parity tests ([ce7b572](https://github.com/lyra-ds/blade/commit/ce7b572b36ad452e8ad49a247065cbbc6b0f9c83))
+* Blade fieldset component with class-emission parity tests ([d0fce4a](https://github.com/lyra-ds/blade/commit/d0fce4a68f59cc0b12882f69f2baa2b3928e9192))
+* Blade form-row component with class-emission parity tests ([1f67265](https://github.com/lyra-ds/blade/commit/1f67265a4492861f8b1c116a1fc819756a19feaf))
+* Blade grid component with class-emission parity tests ([5143108](https://github.com/lyra-ds/blade/commit/5143108b428e274f2080b35e8ea369a7b93217e4))
+* Blade icon-button component with class-emission parity tests ([0937e27](https://github.com/lyra-ds/blade/commit/0937e271acf8d6260520b54b7aab8c4a851e89e4))
+* Blade input component with class-emission parity tests ([ff61ee2](https://github.com/lyra-ds/blade/commit/ff61ee2268526a600938cca3ab3fa67e81b7c4e7))
+* Blade pagination component with class-emission parity tests ([a082a51](https://github.com/lyra-ds/blade/commit/a082a5143df39e314e09499d684c3be08ac35b55))
+* Blade progress component with class-emission parity tests ([9515c9c](https://github.com/lyra-ds/blade/commit/9515c9c453808ce45b234524adf15151821aa039))
+* Blade radio component with class-emission parity tests ([005eb9d](https://github.com/lyra-ds/blade/commit/005eb9d7541ee147d7e65c3a4ba0a4a54f330655))
+* Blade select component with class-emission parity tests ([5bb9522](https://github.com/lyra-ds/blade/commit/5bb9522b62a24621a4f303a1cbf34762dcb4a17b))
+* Blade separator component with class-emission parity tests ([970fda1](https://github.com/lyra-ds/blade/commit/970fda11712b471f29c3143bf89b35d85a19a3d4))
+* Blade skeleton component with class-emission parity tests ([723ad24](https://github.com/lyra-ds/blade/commit/723ad24587ecc75feb959fcc40a4c39d5419d208))
+* Blade spinner component with class-emission parity tests ([a8e4624](https://github.com/lyra-ds/blade/commit/a8e46248429c63fcabf4d6d1309b914d6a9c6a3a))
+* Blade stack component with class-emission parity tests ([06a607e](https://github.com/lyra-ds/blade/commit/06a607e9d8552b959f7079e8797658f86e0876d1))
+* Blade stat component with class-emission parity tests ([78236f9](https://github.com/lyra-ds/blade/commit/78236f9dfa4b5fe05ba1c14eedcab3efb0d4daa9))
+* Blade switch component with class-emission parity tests ([5b5f14e](https://github.com/lyra-ds/blade/commit/5b5f14e88ad8a6a35f652df03548349587a5aeaa))
+* Blade table component with class-emission parity tests ([9eaa7c0](https://github.com/lyra-ds/blade/commit/9eaa7c0d2f9747d2c4b14d0c4cdf0dbad7e9c73f))
+* Blade tag component with class-emission parity tests ([85b10a7](https://github.com/lyra-ds/blade/commit/85b10a7f58157ce889a5d8662ea3654d2c9aa773))
+* Blade textarea component with class-emission parity tests ([120abd7](https://github.com/lyra-ds/blade/commit/120abd778eceb1b2b5ed375eb7da7c4a74f29e8b))
+* package skeleton (service provider, Pest, Pint, CI, docs) ([8dda105](https://github.com/lyra-ds/blade/commit/8dda1057d04dc97b2f8bf73119c14544a5da47e5))
+* support Laravel 12/13, drop EOL Laravel 11 ([dc6d971](https://github.com/lyra-ds/blade/commit/dc6d9718127581aecc5c71d4bbdbff720a6b7b96))
+
+
+### Miscellaneous Chores
+
+* batuta onboarding (profile, routing, work log) ([eb5ac25](https://github.com/lyra-ds/blade/commit/eb5ac250e4690b997a309ed72d0d69f685a473b1))
+* close out Alert delegation (work log, run trail) ([1bacce2](https://github.com/lyra-ds/blade/commit/1bacce24d0b158168e767c10c77371507ea9a69d))
+* close out Avatar delegation (work log, run trail) ([53a7c6e](https://github.com/lyra-ds/blade/commit/53a7c6e17b2646962b74374f18a4d81632a174a5))
+* close out Badge delegation (work log, run trail) ([d5b308c](https://github.com/lyra-ds/blade/commit/d5b308cac21dc8b996dd385ec73b171070e7cd28))
+* close out Button delegation (work log, routing confirmation) ([48b221d](https://github.com/lyra-ds/blade/commit/48b221dafc7d15cba4c90c46c6e243d4ad403c72))
+* close out Card delegation (work log, run trail) ([e075b8e](https://github.com/lyra-ds/blade/commit/e075b8e3dd61bc70b6710f41d97671da6bd3292f))
+* close out Container delegation (work log, run trail) ([01a5985](https://github.com/lyra-ds/blade/commit/01a5985001be927abb25929ec005ce001cef8ca5))
+* close out EmptyState delegation (work log, run trail) ([f37a1b1](https://github.com/lyra-ds/blade/commit/f37a1b1d5d87d571aac621a21d31039fc6cee1bb))
+* close out IconButton delegation (work log, run trail) ([627749e](https://github.com/lyra-ds/blade/commit/627749e0e03c6bf967b1de05e21d303a55a41a6b))
+* close out Progress delegation (work log, run trail) ([7e0a8f4](https://github.com/lyra-ds/blade/commit/7e0a8f42e51b4f94739a121a4bcfc5f89a2c2b0d))
+* close out Separator delegation (work log, run trail) ([8e78e22](https://github.com/lyra-ds/blade/commit/8e78e225163bf083a6daa143710ffbfee4a45901))
+* close out skeleton delegation (work log, routing re-confirmation, ignore .compozy) ([bb23666](https://github.com/lyra-ds/blade/commit/bb2366642cb581fa44a48c1f2cb130eddbda7e1c))
+* close out Skeleton delegation (work log, run trail) ([32ae81a](https://github.com/lyra-ds/blade/commit/32ae81aae2e68daed514b15e9940097e91421509))
+* close out Spinner delegation (work log, run trail) ([043e0f0](https://github.com/lyra-ds/blade/commit/043e0f0b349eb60f2923ccdc67b0a9ab08fdaf17))
+* close out Stat delegation (work log, run trail) ([74d6c4c](https://github.com/lyra-ds/blade/commit/74d6c4c08b088c1d81c9e3ea27122eb609cb4c17))
+* close out Tag delegation (work log, run trail) ([f180be6](https://github.com/lyra-ds/blade/commit/f180be616ffc5593497409f5993f9d4645ee2f2e))
+* close out wave 4 (Stack/Grid work log, run briefs) ([c65459e](https://github.com/lyra-ds/blade/commit/c65459ec4a984993d3ece4ce735f6f783ccb3668))
+* close out wave 5 (work log) ([778f243](https://github.com/lyra-ds/blade/commit/778f24330d74fdece2b18f26bb8523744aad5d62))
+* close out wave 6 — phase 1 complete (work log) ([911c33d](https://github.com/lyra-ds/blade/commit/911c33d05128c0e4589960e8baf7bebc4ed96bb5))
+* correct Container executor attribution (Sonnet 5, not codex) ([66b6b8c](https://github.com/lyra-ds/blade/commit/66b6b8c740158dda616bc4027c48cdb80fc7565f))
+* fix main-repo path in batuta profile (~/Projects/lyra-ds/lyra) ([f75ef59](https://github.com/lyra-ds/blade/commit/f75ef59ab3e6113d98949cbcdadec79ffa81af53))
+* record Button run trail and brief ([471aa63](https://github.com/lyra-ds/blade/commit/471aa63802b3c626b43c102fe210e22a2124e8ee))
+* record post-phase-1 milestones (repo, README, Laravel 12/13 CI green) ([c0b0e98](https://github.com/lyra-ds/blade/commit/c0b0e986ca308b0f48c48559b1314707f0dd4288))
+* record README run brief ([3dda753](https://github.com/lyra-ds/blade/commit/3dda75394a0ff2d75d82b4d06a7bb4636153b5ab))
+* update profile CI matrix (L12/13), record laravel13 brief ([143a5fd](https://github.com/lyra-ds/blade/commit/143a5fdeba6b28272075cffedda4818afaa8fde1))
+* wave-5 briefs (8 static form components) ([bb51115](https://github.com/lyra-ds/blade/commit/bb511152ffadffb0e37d79a4dd99a4fabff3aeac))
+* wave-6 briefs (Breadcrumb, Pagination links, Table) ([0f0571c](https://github.com/lyra-ds/blade/commit/0f0571c146b17d4900c42163b56f525269bbec8c))
