@@ -1,0 +1,4 @@
+[
+    {"props": {"title": "Reports"}, "expected_class": "lyra-pageheader"},
+    {"props": {"title": "Reports", "class": "extra"}, "expected_class": "lyra-pageheader extra"}
+]

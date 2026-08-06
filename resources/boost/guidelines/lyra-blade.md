@@ -187,6 +187,16 @@ Root class alternatives observed in fixtures: `lyra-navlink` | `lyra-navlink lyr
 Props:
 - `active` — default: `false`; fixture examples (not constraints): `true`.
 
+### page-header
+
+Tags: `<x-lyra::page-header>...</x-lyra::page-header>` or `<lyra:page-header>...</lyra:page-header>`.
+
+Root class combination observed in fixtures: `lyra-pageheader`.
+
+Props:
+- `title` — required; fixture examples (not constraints): `"Reports"`.
+- `titleAs` — default: `"h1"`; no fixture examples (fixtures do not constrain this prop).
+
 ### pagination
 
 Tags: `<x-lyra::pagination>...</x-lyra::pagination>` or `<lyra:pagination>...</lyra:pagination>`.
