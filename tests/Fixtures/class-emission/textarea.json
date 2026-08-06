@@ -1,0 +1,5 @@
+[
+    {"props": {}, "expected_class": "lyra-input lyra-textarea"},
+    {"props": {"error": "Invalid"}, "expected_class": "lyra-input lyra-textarea lyra-input--error"},
+    {"props": {"class": "extra"}, "expected_class": "lyra-input lyra-textarea extra"}
+]
