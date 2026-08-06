@@ -76,6 +76,84 @@ JSON,
     );
 });
 
+it('factors a complete cartesian product of root class combinations', function (): void {
+    withGuidelinesFixture(
+        "<div></div>\n",
+        <<<'JSON'
+[
+    {"props":{},"expected_class":"lyra-sample lyra-sample--primary lyra-sample--sm"},
+    {"props":{},"expected_class":"lyra-sample lyra-sample--primary lyra-sample--lg"},
+    {"props":{},"expected_class":"lyra-sample lyra-sample--secondary lyra-sample--sm"},
+    {"props":{},"expected_class":"lyra-sample lyra-sample--secondary lyra-sample--lg"}
+]
+JSON,
+        function (string $guidelines): void {
+            expect($guidelines)->toContain(
+                'All root class combinations in this product were observed: `lyra-sample` + one of (`lyra-sample--primary`, `lyra-sample--secondary`) + one of (`lyra-sample--sm`, `lyra-sample--lg`).',
+            )->not->toContain('Root class alternatives observed in fixtures:');
+        },
+    );
+});
+
+it('does not factor a cartesian product with an unobserved combination', function (): void {
+    withGuidelinesFixture(
+        "<div></div>\n",
+        <<<'JSON'
+[
+    {"props":{},"expected_class":"lyra-sample lyra-sample--primary lyra-sample--sm"},
+    {"props":{},"expected_class":"lyra-sample lyra-sample--primary lyra-sample--lg"},
+    {"props":{},"expected_class":"lyra-sample lyra-sample--secondary lyra-sample--sm"}
+]
+JSON,
+        function (string $guidelines): void {
+            expect($guidelines)->toContain(
+                'Root class alternatives observed in fixtures: `lyra-sample lyra-sample--primary lyra-sample--sm` | `lyra-sample lyra-sample--primary lyra-sample--lg` | `lyra-sample lyra-sample--secondary lyra-sample--sm`.',
+            )->not->toContain('All root class combinations in this product were observed:');
+        },
+    );
+});
+
+it('lists combinations outside an exact product as specific observations', function (): void {
+    withGuidelinesFixture(
+        "<div></div>\n",
+        <<<'JSON'
+[
+    {"props":{},"expected_class":"lyra-sample lyra-sample--primary lyra-sample--sm"},
+    {"props":{},"expected_class":"lyra-sample lyra-sample--primary lyra-sample--lg"},
+    {"props":{},"expected_class":"lyra-sample lyra-sample--secondary lyra-sample--sm"},
+    {"props":{},"expected_class":"lyra-sample lyra-sample--secondary lyra-sample--lg"},
+    {"props":{},"expected_class":"lyra-sample lyra-sample--primary lyra-sample--sm lyra-sample--loading"}
+]
+JSON,
+        function (string $guidelines): void {
+            expect($guidelines)->toContain(
+                'All root class combinations in this product were observed: `lyra-sample` + one of (`lyra-sample--primary`, `lyra-sample--secondary`) + one of (`lyra-sample--sm`, `lyra-sample--lg`).',
+            )->toContain(
+                'Additional specific root class combination observed: `lyra-sample lyra-sample--primary lyra-sample--sm lyra-sample--loading`.',
+            );
+        },
+    );
+});
+
+it('keeps alternatives when a factored root class block would be longer', function (): void {
+    withGuidelinesFixture(
+        "<div></div>\n",
+        <<<'JSON'
+[
+    {"props":{},"expected_class":"base variant-primary size-small"},
+    {"props":{},"expected_class":"base variant-primary size-large"},
+    {"props":{},"expected_class":"base variant-secondary size-small"},
+    {"props":{},"expected_class":"base variant-secondary size-large"},
+    {"props":{},"expected_class":"base extra"}
+]
+JSON,
+        function (string $guidelines): void {
+            expect($guidelines)->toContain('Root class alternatives observed in fixtures:')
+                ->not->toContain('All root class combinations in this product were observed:');
+        },
+    );
+});
+
 it('does not infer class selectors from coincidental free-form fixture values', function (): void {
     withGuidelinesFixture(
         <<<'BLADE'

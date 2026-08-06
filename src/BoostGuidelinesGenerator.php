@@ -67,16 +67,14 @@ MARKDOWN;
         $props = $this->parseProps($template, $componentPath);
         $classSelectorProps = $this->classSelectorProps($template, $fixture, $props);
         $classCombinations = $this->rootClassCombinations($fixture);
-        $lines = [
+        $lines = array_merge([
             "### {$name}",
             '',
             "Tags: `<x-lyra::{$name}>...</x-lyra::{$name}>` or `<lyra:{$name}>...</lyra:{$name}>`.",
             '',
-            count($classCombinations) === 1
-                ? 'Root class combination observed in fixtures: `'.$classCombinations[0].'`.'
-                : 'Root class alternatives observed in fixtures: `'.implode('` | `', $classCombinations).'`.',
+        ], $this->rootClassLines($classCombinations), [
             '',
-        ];
+        ]);
 
         if ($props === []) {
             $lines[] = 'Props: none (slots and pass-through attributes only).';
@@ -491,5 +489,121 @@ MARKDOWN;
         }
 
         return $combinations;
+    }
+
+    /**
+     * @param  array<int, string>  $combinations
+     * @return array<int, string>
+     */
+    private function rootClassLines(array $combinations): array
+    {
+        if (count($combinations) === 1) {
+            return ['Root class combination observed in fixtures: `'.$combinations[0].'`.'];
+        }
+
+        $fallback = 'Root class alternatives observed in fixtures: `'.implode('` | `', $combinations).'`.';
+        $groups = [];
+
+        foreach ($combinations as $combination) {
+            $tokens = preg_split('/\s+/', trim($combination), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+            $groups[count($tokens)][] = $combination;
+        }
+
+        $productLines = [];
+        $factored = [];
+
+        foreach ($groups as $group) {
+            $factors = $this->exactRootClassProduct($group);
+
+            if ($factors === null) {
+                continue;
+            }
+
+            $line = 'All root class combinations in this product were observed: '
+                .implode(' + ', array_map(
+                    fn (array $choices): string => count($choices) === 1
+                        ? '`'.$choices[0].'`'
+                        : 'one of (`'.implode('`, `', $choices).'`)',
+                    $factors,
+                )).'.';
+            $alternatives = 'Root class alternatives observed in fixtures: `'.implode('` | `', $group).'`.';
+
+            if (strlen($line) >= strlen($alternatives)) {
+                continue;
+            }
+
+            $productLines[] = $line;
+
+            foreach ($group as $combination) {
+                $factored[$combination] = true;
+            }
+        }
+
+        if ($productLines === []) {
+            return [$fallback];
+        }
+
+        $additional = array_values(array_filter(
+            $combinations,
+            fn (string $combination): bool => ! isset($factored[$combination]),
+        ));
+
+        if ($additional !== []) {
+            $productLines[] = count($additional) === 1
+                ? 'Additional specific root class combination observed: `'.$additional[0].'`.'
+                : 'Additional specific root class combinations observed: `'.implode('` | `', $additional).'`.';
+        }
+
+        return strlen(implode("\n", $productLines)) < strlen($fallback) ? $productLines : [$fallback];
+    }
+
+    /**
+     * @param  array<int, string>  $combinations
+     * @return array<int, array<int, string>>|null
+     */
+    private function exactRootClassProduct(array $combinations): ?array
+    {
+        $factors = [];
+
+        foreach ($combinations as $combination) {
+            $tokens = preg_split('/\s+/', trim($combination), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+
+            foreach ($tokens as $index => $token) {
+                if (! in_array($token, $factors[$index] ?? [], true)) {
+                    $factors[$index][] = $token;
+                }
+            }
+        }
+
+        if (count(array_filter($factors, fn (array $choices): bool => count($choices) > 1)) < 2) {
+            return null;
+        }
+
+        $productSize = array_product(array_map('count', $factors));
+
+        if ($productSize !== count($combinations)) {
+            return null;
+        }
+
+        $expanded = [[]];
+
+        foreach ($factors as $choices) {
+            $next = [];
+
+            foreach ($expanded as $prefix) {
+                foreach ($choices as $choice) {
+                    $next[] = [...$prefix, $choice];
+                }
+            }
+
+            $expanded = $next;
+        }
+
+        $observedSet = array_fill_keys($combinations, true);
+        $expandedSet = array_fill_keys(array_map(fn (array $tokens): string => implode(' ', $tokens), $expanded), true);
+        ksort($observedSet, SORT_STRING);
+        ksort($expandedSet, SORT_STRING);
+
+        return $expandedSet === $observedSet ? $factors : null;
     }
 }

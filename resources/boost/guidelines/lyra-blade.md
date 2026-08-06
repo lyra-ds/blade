@@ -60,7 +60,8 @@ Props:
 
 Tags: `<x-lyra::button>...</x-lyra::button>` or `<lyra:button>...</lyra:button>`.
 
-Root class alternatives observed in fixtures: `lyra-btn lyra-btn--primary lyra-btn--sm` | `lyra-btn lyra-btn--primary lyra-btn--md` | `lyra-btn lyra-btn--primary lyra-btn--lg` | `lyra-btn lyra-btn--secondary lyra-btn--sm` | `lyra-btn lyra-btn--secondary lyra-btn--md` | `lyra-btn lyra-btn--secondary lyra-btn--lg` | `lyra-btn lyra-btn--soft lyra-btn--sm` | `lyra-btn lyra-btn--soft lyra-btn--md` | `lyra-btn lyra-btn--soft lyra-btn--lg` | `lyra-btn lyra-btn--ghost lyra-btn--sm` | `lyra-btn lyra-btn--ghost lyra-btn--md` | `lyra-btn lyra-btn--ghost lyra-btn--lg` | `lyra-btn lyra-btn--danger lyra-btn--sm` | `lyra-btn lyra-btn--danger lyra-btn--md` | `lyra-btn lyra-btn--danger lyra-btn--lg` | `lyra-btn lyra-btn--primary lyra-btn--md lyra-btn--loading` | `lyra-btn lyra-btn--primary lyra-btn--md lyra-btn--full` | `lyra-btn lyra-btn--primary lyra-btn--md lyra-btn--loading lyra-btn--full` | `lyra-btn lyra-btn--danger lyra-btn--sm lyra-btn--loading`.
+All root class combinations in this product were observed: `lyra-btn` + one of (`lyra-btn--primary`, `lyra-btn--secondary`, `lyra-btn--soft`, `lyra-btn--ghost`, `lyra-btn--danger`) + one of (`lyra-btn--sm`, `lyra-btn--md`, `lyra-btn--lg`).
+Additional specific root class combinations observed: `lyra-btn lyra-btn--primary lyra-btn--md lyra-btn--loading` | `lyra-btn lyra-btn--primary lyra-btn--md lyra-btn--full` | `lyra-btn lyra-btn--primary lyra-btn--md lyra-btn--loading lyra-btn--full` | `lyra-btn lyra-btn--danger lyra-btn--sm lyra-btn--loading`.
 
 Props:
 - `variant` — default: `"primary"`; class-selector values evidenced by defaults and fixtures: `"danger"`, `"ghost"`, `"primary"`, `"secondary"`, `"soft"`.
