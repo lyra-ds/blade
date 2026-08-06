@@ -47,6 +47,18 @@ Props:
 - `tone` — default: `"neutral"`; class-selector values evidenced by defaults and fixtures: `"accent"`, `"danger"`, `"info"`, `"neutral"`, `"success"`, `"warning"`.
 - `dot` — default: `false`; no fixture examples (fixtures do not constrain this prop).
 
+### brand
+
+Tags: `<x-lyra::brand>...</x-lyra::brand>` or `<lyra:brand>...</lyra:brand>`.
+
+Root class combination observed in fixtures: `lyra-brand`.
+
+Props:
+- `mark` — required; no fixture examples (fixtures do not constrain this prop).
+- `markDark` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `size` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `href` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+
 ### breadcrumb
 
 Tags: `<x-lyra::breadcrumb>...</x-lyra::breadcrumb>` or `<lyra:breadcrumb>...</lyra:breadcrumb>`.
