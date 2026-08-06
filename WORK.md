@@ -1,12 +1,14 @@
 # WORK — lyra-ds/blade
 
 ## In progress
+- [ ] Onda 6 (final da fase 1, sequencial): Breadcrumb → Pagination (links) → Table — codex (gpt-5.6-sol, medium) executa, maestro verifica e integra; scout deepseek extraindo contratos; decisões de mapeamento: arrays como props Blade, Pagination sem onChange (links com href, PRD §3) (disparada 2026-08-05). Item 1/3 (Breadcrumb) concluído — ver Done; seguindo para Pagination (links).
 
 ## Backlog
 - [ ] Alias curto `<lyra:button>` (estilo Flux) como açúcar sintático sobre `<x-lyra::button>` — exige precompiler Blade customizado; os dois conviveriam, sem breaking change. Avaliar depois da fase 1 (anotado 2026-08-05)
 - [ ] Orientações para LLMs usarem os componentes Blade em projetos Laravel: guidelines embarcadas via laravel/boost, derivadas dos mesmos contratos das fixtures (props.json/llms.txt do lyra-ds.dev) — planejar depois dos primeiros componentes (anotado 2026-08-05)
 
 ## Done
+- [x] Componente Breadcrumb (onda 6, item 1/3) → codex (gpt-5.6-sol, reasoning medium) via Compozy `sess-ccd321b9d48a7c26`, worktree `breadcrumb`. Tentativa 1 falhou sem tocar arquivo algum (sessão tentou carregar a skill Compozy `cy-execute-task`, que não resolve a partir do worktree aninhado, e parou pela própria stop condition do brief); retry com instrução explícita para ignorar as skills Compozy e implementar direto. Maestro verificou de forma independente (pest 242/242, 839 assertions, pint ok), squash merge em `main`, sessão encerrada (trail: `.batuta/runs/2026-08-05-breadcrumb.md`) (2026-08-06)
 - [x] Onda 5 completa (Forms estáticos, 8/8): Fieldset `d0fce4a` → FormRow `1f67265` (1 retry) → Input `ff61ee2` → Textarea `120abd7` → Select `5bb9522` → Checkbox `68c7c39` → Radio (integrado com checkbox flow) → Switch `5b5f14e`. Todos: codex (gpt-5.6-sol, reasoning medium) executou nos worktrees; coordinator não integrou nenhum na janela (híbrido registrado no routing); maestro verificou (suíte final 235/235, 816 assertions, pint ok) e integrou direto; sessões encerradas, worktrees removidos (briefs: `.batuta/runs/2026-08-05-*-brief.md`) (2026-08-05)
 - [x] Componente Fieldset (onda 5, item 1/8) → codex (gpt-5.6-sol, reasoning medium) via Compozy `batuta/fieldset-exec`, worktree `fieldset`. Coordinator não integrou na janela de 10min; maestro verificou (pest 176/176, pint ok) e integrou direto (`d0fce4a`), sessão encerrada (brief: `.batuta/runs/2026-08-05-fieldset-brief.md`) (2026-08-05)
 - [x] Componente Grid (onda 4, item 3/3 — último) → codex (gpt-5.6-sol, reasoning medium) via Compozy, worktree `grid`. Maestro verificou no worktree (pest 169/169, pint ok) e integrou direto (`5143108`), sessão encerrada (trail: `.batuta/runs/2026-08-05-grid-brief.md`) (2026-08-05)
