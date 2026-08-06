@@ -126,6 +126,15 @@ Root class combination observed in fixtures: `lyra-fieldset`.
 
 Props: none (slots and pass-through attributes only).
 
+### footer
+
+Tags: `<x-lyra::footer>...</x-lyra::footer>` or `<lyra:footer>...</lyra:footer>`.
+
+Root class combination observed in fixtures: `lyra-footer`.
+
+Props:
+- `linksLabel` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+
 ### form-row
 
 Tags: `<x-lyra::form-row>...</x-lyra::form-row>` or `<lyra:form-row>...</lyra:form-row>`.

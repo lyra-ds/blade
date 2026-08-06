@@ -1,0 +1,4 @@
+[
+    {"props": {}, "expected_class": "lyra-footer"},
+    {"props": {"class": "x y"}, "expected_class": "lyra-footer x y"}
+]
