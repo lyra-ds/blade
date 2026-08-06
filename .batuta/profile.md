@@ -27,6 +27,7 @@ Runtime: compozy
   EXACT class string the React component emits (fixtures extracted from the
   main repo).
 - CI matrix: Laravel 12/13 × PHP 8.3/8.4 (GitHub Actions). L11 dropped 2026-08-06 (security EOL; composer advisory policy blocks it in CI).
+- Icon SVGs (closed 2026-08-06, user choice): blade-lucide-icons composer dependency (blade-icons ecosystem) — NOT a generated in-package registry. The 79-name curation from the React icon-registry is enforced on top; parity with lucide-react output asserted in tests.
 
 ## Project map
 
