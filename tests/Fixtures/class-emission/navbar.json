@@ -1,0 +1,6 @@
+[
+    {"props": {}, "expected_class": "lyra-navbar"},
+    {"props": {"sticky": false}, "expected_class": "lyra-navbar lyra-navbar--static"},
+    {"props": {"class": "x y"}, "expected_class": "lyra-navbar x y"},
+    {"props": {"sticky": false, "class": "x y"}, "expected_class": "lyra-navbar lyra-navbar--static x y"}
+]

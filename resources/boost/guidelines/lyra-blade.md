@@ -207,6 +207,16 @@ Root class alternatives observed in fixtures: `lyra-navlink` | `lyra-navlink lyr
 Props:
 - `active` — default: `false`; fixture examples (not constraints): `true`.
 
+### navbar
+
+Tags: `<x-lyra::navbar>...</x-lyra::navbar>` or `<lyra:navbar>...</lyra:navbar>`.
+
+Root class alternatives observed in fixtures: `lyra-navbar` | `lyra-navbar lyra-navbar--static`.
+
+Props:
+- `sticky` — default: `true`; fixture examples (not constraints): `false`.
+- `navLabel` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+
 ### page-header
 
 Tags: `<x-lyra::page-header>...</x-lyra::page-header>` or `<lyra:page-header>...</lyra:page-header>`.
