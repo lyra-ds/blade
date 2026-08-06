@@ -1,0 +1,37 @@
+# Release PRs created with GITHUB_TOKEN do not trigger workflows because of GitHub's
+# anti-recursion protection, so required CI checks would never run on the release PR.
+# Use a fine-grained RELEASE_PLEASE_PAT scoped only to this repository, owned by
+# franciscpd, with Contents and Pull requests permissions. If the PAT expires, the
+# symptom is release PRs appearing with no checks.
+#
+# There is no publish step: Packagist publishes from its GitHub webhook when the tag
+# is pushed.
+#
+# IMPORTANT: Remove `release-as` from release-please-config.json after the first
+# release PR merges, or every subsequent release will repeat version 0.1.0.
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.repository == 'lyra-ds/blade'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run release-please
+        uses: googleapis/release-please-action@v4
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+          token: ${{ secrets.RELEASE_PLEASE_PAT || secrets.GITHUB_TOKEN }}

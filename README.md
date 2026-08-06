@@ -82,6 +82,10 @@ Laravel 11 is not supported because it reached security end-of-life in March 202
 
 Package versions are independent from the React and `@lyra-ds/styles` package versions. This matrix will grow as versions are released.
 
+## Releasing
+
+Conventional commits drive the changelog in the bot-maintained release PR. Merge that PR to cut a release; the resulting tag triggers Packagist through its GitHub webhook. Review the compatibility matrix above for every release.
+
 ## Interactivity
 
 The current package is static-only and does not require Alpine.js. Interactive components such as Dropdown, Dialog, and Tabs are planned for a future phase; Alpine.js will be a suggested peer for those components and will never be bundled.
