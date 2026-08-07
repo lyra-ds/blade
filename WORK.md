@@ -4,7 +4,8 @@
 - [ ] Release 0.2.0 (PR #2): reescrito pelo release-please após correção da config (`23a73e3` removeu `bump-patch-for-minor-pre-major` que rebaixava os 16 feats para 0.1.1). CI verde na main; review do Copilot solicitado pelo usuário — merge aguarda o usuário (2026-08-06)
 
 ## Backlog
-- [ ] Fase 2 — interativos: 35 componentes INTERACTIVE (accordion, dialog, dropdown, tabs, tooltip, popover, data-table, date-picker…) bloqueados pela decisão Alpine.js (PRD §2: peer sugerido, nunca embarcado). Exige conversa de desenho + provavelmente PRD de fase 2 antes de qualquer brief (anotado 2026-08-06)
+- [ ] Fase 2 — interativos, onda core (Dropdown, Dialog, Drawer, Tabs, Accordion, Tooltip, Popover): desenho Alpine FECHADO com o usuário (`docs/prd-fase-2-alpine.md`, `01d6209`). Bloqueio restante: `@lyra-ds/alpine` nascer no monorepo lyra (PRD entregue em `~/Documents/prd-lyra-alpine.md` para a sessão Batuta de lá). Quando o plugin existir (publicado ou linkado), cada Blade entra no ciclo normal: markup inicial + bindings `x-*`, testes de emissão + Livewire/entangle (livewire/livewire dev-dep novo) (2026-08-06)
+- [ ] Fase 2 — demais interativos (28: data-table, date-picker, combobox, command-palette, calendar…): ondas seguintes, só depois do padrão provado na onda core (2026-08-06)
 
 ## Done
 - [x] FASE 2, ONDA A COMPLETA (13/13 estáticos em um dia): brand `9a1385f`, footer `a555b25`, nav-link `1e70ef5`, person-cell `26f5a45`, segmented-ring `079e105`, stepper `f5ea638`, toast+toast-stack `0bcd840`, page-header `dbf1732`, action-bar `fb78772`, bottom-nav `8200b7c`, navbar `a7b669b`, shell `237ac3f`, icon `91ef07b`. Suíte: 313 → 456 testes (1552 assertions). Restam os 35 interativos (bloqueados pela conversa Alpine.js) (2026-08-06)
