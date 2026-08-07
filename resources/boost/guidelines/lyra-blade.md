@@ -130,6 +130,21 @@ Root class combination observed in fixtures: `lyra-container`.
 Props:
 - `max` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
+### dialog
+
+Tags: `<x-lyra::dialog>...</x-lyra::dialog>` or `<lyra:dialog>...</lyra:dialog>`.
+
+Root class combination observed in fixtures: `lyra-dialog-overlay`.
+
+Props:
+- `title` — required; no fixture examples (fixtures do not constrain this prop).
+- `closable` — default: `true`; no fixture examples (fixtures do not constrain this prop).
+- `closeLabel` — default: `"Close"`; no fixture examples (fixtures do not constrain this prop).
+- `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `closeOnEsc` — default: `true`; no fixture examples (fixtures do not constrain this prop).
+- `closeOnOverlayClick` — default: `true`; no fixture examples (fixtures do not constrain this prop).
+- `labelId` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+
 ### dropdown
 
 Tags: `<x-lyra::dropdown>...</x-lyra::dropdown>` or `<lyra:dropdown>...</lyra:dropdown>`.
