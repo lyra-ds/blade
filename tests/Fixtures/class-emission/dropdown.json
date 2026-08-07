@@ -1,0 +1,4 @@
+[
+    {"props": {}, "expected_class": "lyra-dropdown"},
+    {"props": {"class": "extra"}, "expected_class": "lyra-dropdown extra"}
+]

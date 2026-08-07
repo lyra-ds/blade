@@ -130,6 +130,17 @@ Root class combination observed in fixtures: `lyra-container`.
 Props:
 - `max` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
+### dropdown
+
+Tags: `<x-lyra::dropdown>...</x-lyra::dropdown>` or `<lyra:dropdown>...</lyra:dropdown>`.
+
+Root class combination observed in fixtures: `lyra-dropdown`.
+
+Props:
+- `items` — required; no fixture examples (fixtures do not constrain this prop).
+- `align` — default: `"start"`; no fixture examples (fixtures do not constrain this prop).
+- `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+
 ### empty-state
 
 Tags: `<x-lyra::empty-state>...</x-lyra::empty-state>` or `<lyra:empty-state>...</lyra:empty-state>`.
