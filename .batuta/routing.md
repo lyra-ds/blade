@@ -58,3 +58,11 @@ Commit attribution (user request, 2026-08-05): commits of delegated work must
 credit the real executor — `Co-Authored-By` trailer for the delegate (e.g.
 Codex/opencode model) plus a body line naming who implemented and who
 reviewed/verified. Never commit delegate output with maestro-only attribution.
+
+Trivial lane reliability (2026-08-07): kimi-k2.7-code falhou 2/2 em silent
+hang (processo vivo, 0 bytes >10min, brief inline curto, tarefa de escrita
+trivial na galeria do demo) — mesmo padrão dos hangs do deepseek scout.
+O hang do opencode não é específico de modelo nem de brief longo. Até
+segunda ordem: tarefas triviais escalam direto para codex (exec direto ou
+Compozy); a lane opencode fica só para research com escopo mínimo, com
+kill após ~10min de output vazio.
