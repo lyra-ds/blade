@@ -1,6 +1,7 @@
 # WORK — lyra-ds/blade
 
 ## In progress
+- [ ] Release 0.2.0 (PR #2): reescrito pelo release-please após correção da config (`23a73e3` removeu `bump-patch-for-minor-pre-major` que rebaixava os 16 feats para 0.1.1). CI verde na main; review do Copilot solicitado pelo usuário — merge aguarda o usuário (2026-08-06)
 
 ## Backlog
 - [ ] Fase 2 — interativos: 35 componentes INTERACTIVE (accordion, dialog, dropdown, tabs, tooltip, popover, data-table, date-picker…) bloqueados pela decisão Alpine.js (PRD §2: peer sugerido, nunca embarcado). Exige conversa de desenho + provavelmente PRD de fase 2 antes de qualquer brief (anotado 2026-08-06)
