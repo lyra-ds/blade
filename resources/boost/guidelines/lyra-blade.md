@@ -145,6 +145,19 @@ Props:
 - `closeOnOverlayClick` — default: `true`; no fixture examples (fixtures do not constrain this prop).
 - `labelId` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
+### drawer
+
+Tags: `<x-lyra::drawer>...</x-lyra::drawer>` or `<lyra:drawer>...</lyra:drawer>`.
+
+Root class combination observed in fixtures: `lyra-drawer-overlay`.
+
+Props:
+- `title` — required; no fixture examples (fixtures do not constrain this prop).
+- `closable` — default: `true`; no fixture examples (fixtures do not constrain this prop).
+- `closeLabel` — default: `"Close"`; no fixture examples (fixtures do not constrain this prop).
+- `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `labelId` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+
 ### dropdown
 
 Tags: `<x-lyra::dropdown>...</x-lyra::dropdown>` or `<lyra:dropdown>...</lyra:dropdown>`.
