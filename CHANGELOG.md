@@ -1,5 +1,57 @@
 # Changelog
 
+## [0.2.0](https://github.com/lyra-ds/blade/compare/v0.1.0...v0.2.0) (2026-08-07)
+
+
+### Features
+
+* ActionBar component with class-emission parity tests ([fb78772](https://github.com/lyra-ds/blade/commit/fb78772a1d95ea5bf308ed3f5a41756c4541e16c))
+* BottomNav component with class-emission parity tests ([8200b7c](https://github.com/lyra-ds/blade/commit/8200b7c9fe63c26a2a8d2cde91bc3bf64a80cbc1))
+* Brand component with class-emission parity tests ([9a1385f](https://github.com/lyra-ds/blade/commit/9a1385f3013b3c2f135463dfae7b24cb5f31d61f))
+* factor exact class products in the Boost guidelines ([1151556](https://github.com/lyra-ds/blade/commit/115155668bc982723b0392eab5e2f1757bafbe7c))
+* Footer component with class-emission parity tests ([a555b25](https://github.com/lyra-ds/blade/commit/a555b251bb4f257b7b5810464720313de25d9904))
+* Icon component backed by blade-lucide-icons ([91ef07b](https://github.com/lyra-ds/blade/commit/91ef07ba36a47285e87378c412510f4147fd8abd))
+* Navbar component with class-emission parity tests ([a7b669b](https://github.com/lyra-ds/blade/commit/a7b669be0acfe11f6d85d0a561c61ca975b8d208))
+* NavLink component with class-emission parity tests ([1e70ef5](https://github.com/lyra-ds/blade/commit/1e70ef5a393efaf5d607f2cc849560fb91d651f1))
+* PageHeader component with class-emission parity tests ([dbf1732](https://github.com/lyra-ds/blade/commit/dbf17323bd695d0ac97aa03eff3ced9bd0c0689e))
+* PersonCell component with class-emission parity tests ([26f5a45](https://github.com/lyra-ds/blade/commit/26f5a4503a188bd1a1418969fd57444736b74e40))
+* SegmentedRing component with exact arc-algorithm port ([079e105](https://github.com/lyra-ds/blade/commit/079e105b755376a42bd309b80951b40186bb29c4))
+* Shell component with class-emission parity tests ([237ac3f](https://github.com/lyra-ds/blade/commit/237ac3f74253e0b8a4902af9eb35c1eeee3bf05b))
+* ship Boost AI guidelines generated from the package sources ([d9c5420](https://github.com/lyra-ds/blade/commit/d9c54203f126a67705a01eaa105d1dcf0514f4ab))
+* short &lt;lyra:*&gt; component syntax as an alias of &lt;x-lyra::*&gt; ([497809a](https://github.com/lyra-ds/blade/commit/497809ab6182a87aaedcad493df90e25d073c11b))
+* Stepper component with class-emission parity tests ([f5ea638](https://github.com/lyra-ds/blade/commit/f5ea63834502b05ae6578cd0418d1e681504f67f))
+* Toast and ToastStack components with class-emission parity tests ([0bcd840](https://github.com/lyra-ds/blade/commit/0bcd840a8460a416798c5c31d7f988132b3ea93f))
+
+
+### Bug Fixes
+
+* let feat commits bump minor pre-1.0 (drop bump-patch-for-minor-pre-major) ([23a73e3](https://github.com/lyra-ds/blade/commit/23a73e3c6dade87971fe9f44924d78ee10107761))
+
+
+### Miscellaneous Chores
+
+* consume handoff and record resume (release PR now 0.2.0) ([e83b60e](https://github.com/lyra-ds/blade/commit/e83b60e259eeab1f032984109b652729a2d69826))
+* keep pre-1.0 versioning (bump-minor-pre-major) ([0c365e1](https://github.com/lyra-ds/blade/commit/0c365e1840f458d3d5ff8ff96c96a3eaeb8d1212))
+* plain v-tags for Packagist, drop first-release pin ([3c919d0](https://github.com/lyra-ds/blade/commit/3c919d03f693158e041ed54d9e00c7a1c6ea36f4))
+* record action-bar cycle (WORK.md + run trail) ([6da7cd6](https://github.com/lyra-ds/blade/commit/6da7cd60312045554fce0c9160eb6ee8d7d0fc77))
+* record boost-guidelines cycle (WORK.md + run trail) ([1a5f56f](https://github.com/lyra-ds/blade/commit/1a5f56f2a910463ef8e84331890c5945b9213953))
+* record bottom-nav cycle (WORK.md + run trail) ([2fca67c](https://github.com/lyra-ds/blade/commit/2fca67c9608855e67cc31dac33cc3e4682b333a1))
+* record brand cycle (WORK.md + run trail) ([347ddfd](https://github.com/lyra-ds/blade/commit/347ddfdc12327fbfeb2db80df211672ff9d52638))
+* record compact-guidelines cycle; update research lane reliability log ([4551c40](https://github.com/lyra-ds/blade/commit/4551c40debff627775dfd3e2ee11927fd5b0bb1f))
+* record footer cycle (WORK.md + run trail) ([5dd67af](https://github.com/lyra-ds/blade/commit/5dd67afddb96bb4a5a16b76cbd2e3572b61a8816))
+* record icon cycle and wave-A completion; research lane reliability note ([e257221](https://github.com/lyra-ds/blade/commit/e257221a9afd3be82132ac4c780b08c728ce8aec))
+* record nav-link cycle (WORK.md + run trail) ([be40294](https://github.com/lyra-ds/blade/commit/be4029407d0c7c8bca2055b832e1f41c8034a2a8))
+* record navbar cycle (WORK.md + run trail) ([4846ec1](https://github.com/lyra-ds/blade/commit/4846ec1491595abaa9edb658b09528517f91954c))
+* record page-header cycle (WORK.md + run trail) ([86ebfdd](https://github.com/lyra-ds/blade/commit/86ebfdd28ab1e015312cc4672042fdb0b22ce4f4))
+* record person-cell cycle; close icon SVG decision (blade-lucide-icons) ([2957b90](https://github.com/lyra-ds/blade/commit/2957b90f7ba82070850eb2ffeef6cd35773a3f73))
+* record segmented-ring cycle (WORK.md + run trail) ([46c1615](https://github.com/lyra-ds/blade/commit/46c161521126fa604e101698a4a42ef78d6296f5))
+* record shell cycle (WORK.md + run trail) ([a4f941b](https://github.com/lyra-ds/blade/commit/a4f941b0cacbad2ca01b6adfea1d99d6f96db123))
+* record short-syntax cycle (WORK.md + run trail) ([c092678](https://github.com/lyra-ds/blade/commit/c092678b1a3b255305fa1036ee8ec513d00005bd))
+* record stepper cycle (WORK.md + run trail) ([d236ab7](https://github.com/lyra-ds/blade/commit/d236ab7ef6521c9d594674be6f920e36ae711000))
+* record toast cycle (WORK.md + run trail) ([c1e32da](https://github.com/lyra-ds/blade/commit/c1e32da868d02933a5451c7eb381e8c6a5883247))
+* session handoff (batuta:pause) ([e8d4bfb](https://github.com/lyra-ds/blade/commit/e8d4bfb0f6df96277027e8569b3c04fbcb214ae6))
+* swap research lane to deepseek-v4-flash (user-confirmed) ([1183bd1](https://github.com/lyra-ds/blade/commit/1183bd1694f41c0f333b78442bbabbde182cb950))
+
 ## 0.1.0 (2026-08-06)
 
 
