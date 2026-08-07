@@ -447,6 +447,17 @@ Props:
 - `rows` — required; no fixture examples (fixtures do not constrain this prop).
 - `hover` — default: `false`; fixture examples (not constraints): `true`.
 
+### tabs
+
+Tags: `<x-lyra::tabs>...</x-lyra::tabs>` or `<lyra:tabs>...</lyra:tabs>`.
+
+Root class alternatives observed in fixtures: `lyra-tabs` | `lyra-tabs lyra-tabs--pills`.
+
+Props:
+- `items` — required; no fixture examples (fixtures do not constrain this prop).
+- `active` — required; no fixture examples (fixtures do not constrain this prop).
+- `variant` — default: `"line"`; class-selector values evidenced by defaults and fixtures: `"line"`, `"pills"`.
+
 ### tag
 
 Tags: `<x-lyra::tag>...</x-lyra::tag>` or `<lyra:tag>...</lyra:tag>`.

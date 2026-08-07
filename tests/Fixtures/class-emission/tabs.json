@@ -1,0 +1,5 @@
+[
+    {"props": {}, "expected_class": "lyra-tabs"},
+    {"props": {"variant": "pills"}, "expected_class": "lyra-tabs lyra-tabs--pills"},
+    {"props": {"class": "x"}, "expected_class": "lyra-tabs x"}
+]
