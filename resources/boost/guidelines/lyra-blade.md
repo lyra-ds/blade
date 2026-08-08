@@ -123,6 +123,22 @@ Props:
 - `padded` — default: `true`; fixture examples (not constraints): `false`.
 - `interactive` — default: `false`; fixture examples (not constraints): `true`.
 
+### checkbox-group
+
+Tags: `<x-lyra::checkbox-group>...</x-lyra::checkbox-group>` or `<lyra:checkbox-group>...</lyra:checkbox-group>`.
+
+Root class alternatives observed in fixtures: `lyra-field` | `lyra-choicegroup` | `lyra-choicegroup lyra-choicegroup--row` | `lyra-hint` | `lyra-hint lyra-hint--error` | `lyra-choice` | `lyra-choice__hint`.
+
+Props:
+- `label` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `hint` — default: `null`; fixture examples (not constraints): `"Choose one"`.
+- `error` — default: `null`; fixture examples (not constraints): `"Required"`.
+- `options` — default: unknown; fixture examples (not constraints): `[{"value":"a","label":"A","hint":"More"}]`.
+- `value` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `defaultValue` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `direction` — default: `"column"`; class-selector values evidenced by defaults and fixtures: `"column"`, `"row"`.
+- `name` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+
 ### checkbox
 
 Tags: `<x-lyra::checkbox>...</x-lyra::checkbox>` or `<lyra:checkbox>...</lyra:checkbox>`.

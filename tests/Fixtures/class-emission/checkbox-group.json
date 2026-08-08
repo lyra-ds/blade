@@ -1,0 +1,10 @@
+[
+    {"target": "root", "props": {}, "expected_class": "lyra-field"},
+    {"target": "root", "props": {"class": "first second"}, "expected_class": "lyra-field first second"},
+    {"target": "choicegroup", "props": {}, "expected_class": "lyra-choicegroup"},
+    {"target": "choicegroup", "props": {"direction": "row"}, "expected_class": "lyra-choicegroup lyra-choicegroup--row"},
+    {"target": "hint", "props": {"hint": "Choose one"}, "expected_class": "lyra-hint"},
+    {"target": "hint", "props": {"hint": "Choose one", "error": "Required"}, "expected_class": "lyra-hint lyra-hint--error"},
+    {"target": "choice", "props": {"options": [{"value": "a", "label": "A", "hint": "More"}]}, "expected_class": "lyra-choice"},
+    {"target": "choice_hint", "props": {"options": [{"value": "a", "label": "A", "hint": "More"}]}, "expected_class": "lyra-choice__hint"}
+]
