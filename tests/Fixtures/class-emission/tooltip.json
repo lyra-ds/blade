@@ -1,0 +1,5 @@
+[
+    {"props": {}, "expected_class": "lyra-tooltip"},
+    {"props": {"placement": "bottom"}, "expected_class": "lyra-tooltip lyra-tooltip--bottom"},
+    {"props": {"class": "extra"}, "expected_class": "lyra-tooltip extra"}
+]

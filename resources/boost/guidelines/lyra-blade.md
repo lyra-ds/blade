@@ -504,3 +504,13 @@ Root class combination observed in fixtures: `lyra-toast`.
 
 Props:
 - `tone` — default: `"info"`; no fixture examples (fixtures do not constrain this prop).
+
+### tooltip
+
+Tags: `<x-lyra::tooltip>...</x-lyra::tooltip>` or `<lyra:tooltip>...</lyra:tooltip>`.
+
+Root class alternatives observed in fixtures: `lyra-tooltip` | `lyra-tooltip lyra-tooltip--bottom`.
+
+Props:
+- `tip` — required; no fixture examples (fixtures do not constrain this prop).
+- `placement` — default: `"top"`; fixture examples (not constraints): `"bottom"`.
