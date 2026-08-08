@@ -14,6 +14,17 @@ This section is generated from `resources/views/components/*.blade.php` and `tes
 
 <!-- Generated component entries: do not edit by hand. -->
 
+### accordion
+
+Tags: `<x-lyra::accordion>...</x-lyra::accordion>` or `<lyra:accordion>...</lyra:accordion>`.
+
+Root class combination observed in fixtures: `lyra-accordion`.
+
+Props:
+- `items` — required; no fixture examples (fixtures do not constrain this prop).
+- `defaultOpen` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `multiple` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+
 ### action-bar
 
 Tags: `<x-lyra::action-bar>...</x-lyra::action-bar>` or `<lyra:action-bar>...</lyra:action-bar>`.
