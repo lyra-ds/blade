@@ -1,11 +1,13 @@
 # WORK — lyra-ds/blade
 
 ## In progress
+- [ ] Componente RadioGroup (fase 2, onda B, item 2/2) → codex (gpt-5.6-sol, reasoning medium) via Compozy, worktree `radio-group` (delegado 2026-08-08)
 
 ## Backlog
 - [ ] Fase 2 — ondas B–F por `docs/spec-alpine-proximas-ondas.md` (2026-08-08): B = 3 estáticos + 5 bindings baratos (sem upstream pesado); C = médios + infra (bottom-sheet, theme store, scroll-spy); D = calendar → pickers (BottomSheet antes, decisão fechada); E = combobox → time-zone-picker, command-palette; F = data-table (sort dual-mode, default server-side) + promovidos. Adiados: recurrence-selector (promover pós-onda D), weekly-schedule-editor, slot-picker, calendar-view. Excluído: create-workspace-dialog (vira receita na doc). Bindings novos nascem no monorepo lyra (packages/alpine) antes de cada onda Blade
 
 ## Done
+- [x] Componente CheckboxGroup (fase 2, onda B, item 1/2 — estáticos; suíte 560 → 578) → codex (gpt-5.6-sol, reasoning medium) via Compozy `sess-f7ffb36a7ee6c3fd`, commit `572993a`. Sessão morreu pós-commit (peer disconnected, 7ª vez — padrão estável); report perdido, verificação integral do maestro no lugar (578/578, 2246 assertions, pint ok, gerador idempotente). Adaptação declarada: prop `name` → `name="x[]"` form-nativo. Achado do scout: app-sidebar NÃO é estático (renderiza SidebarGroup) — bloqueado até sidebar-group existir (alpine onda B + blade) (trail: .batuta/runs/2026-08-08-checkbox-group.md) (2026-08-08)
 - [x] Spec dos bindings Alpine para as próximas ondas (`docs/spec-alpine-proximas-ondas.md`): 24 interativos analisados fonte a fonte (4 agentes de análise em paralelo sobre packages/react), vereditos portar/adiar/excluir fechados com o usuário, 3 decisões de arquitetura fechadas (BottomSheet antes dos pickers; data-table sort dual-mode default server-side; theme vira Alpine.store + script inline no layout), grafo de dependências e 6 helpers de internal/ mapeados (2026-08-08)
 - [x] Release 0.3.0 (PR #3) mergeado e publicado (2026-08-08): 7 interativos da onda core + groundwork Livewire + README de interatividade. Checks 4×verde; merge por bypass de admin autorizado pelo usuário (política exige review aprovada e Copilot só comenta); tag v0.3.0 + Packagist via webhook (2026-08-08)
 - [x] README fase 2 (fechamento da onda): Interactivity real (setup Alpine + x-cloak + nota de inércia + Livewire/x-modelable) e matriz tripla (styles ^0.4, alpine ^0.1.1) → codex (gpt-5.6-sol) via Compozy `sess-d860c1ce8e135fac`, commit `8f50f3c` (desvio registrado: commit caiu na main em vez do worktree; aceito após revisão integral). Galeria do demo completa com os 7 interativos (2026-08-07)
