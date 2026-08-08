@@ -15,7 +15,7 @@
     }
 
     if ($gap !== null) {
-        $gapValue = is_int($gap) || is_float($gap)
+        $gapValue = is_numeric($gap)
             ? "var(--space-{$gap})"
             : $gap;
         $styles[] = "--lyra-stack-gap: {$gapValue}";

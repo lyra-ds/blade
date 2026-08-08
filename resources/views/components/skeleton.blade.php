@@ -5,7 +5,7 @@
 ])
 
 @php
-    $formatDimension = static fn (int|float|string $value): string => is_int($value) || is_float($value)
+    $formatDimension = static fn (int|float|string $value): string => is_numeric($value)
         ? "{$value}px"
         : $value;
 

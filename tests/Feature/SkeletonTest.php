@@ -73,6 +73,12 @@ it('adds px to numeric dimensions and uses height for a circle width', function 
         ->and($openingTag)->toContain('height: 40px');
 });
 
+it('adds px to numeric-string dimensions', function (): void {
+    $html = Blade::render('<x-lyra::skeleton height="20" width="120" />');
+
+    expect($html)->toContain('height: 20px')->and($html)->toContain('width: 120px');
+});
+
 it('preserves string dimensions verbatim', function (): void {
     $openingTag = skeletonOpeningTag(
         Blade::render('<x-lyra::skeleton width="2rem" height="1rem" />'),

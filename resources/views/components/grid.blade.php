@@ -10,14 +10,14 @@
     if ($minItem !== null) {
         $styles[] = "--lyra-grid-columns: repeat(auto-fit, minmax(min({$minItem}px, 100%), 1fr))";
     } elseif ($columns !== null) {
-        $columnsValue = is_int($columns) || is_float($columns)
+        $columnsValue = is_numeric($columns)
             ? "repeat({$columns}, minmax(0, 1fr))"
             : $columns;
         $styles[] = "--lyra-grid-columns: {$columnsValue}";
     }
 
     if ($gap !== null) {
-        $gapValue = is_int($gap) || is_float($gap)
+        $gapValue = is_numeric($gap)
             ? "var(--space-{$gap})"
             : $gap;
         $styles[] = "--lyra-grid-gap: {$gapValue}";

@@ -70,6 +70,15 @@ it('maps layout props to ordered custom properties', function (): void {
     );
 });
 
+it('maps a numeric-string gap to a spacing token like the bound numeric form', function (): void {
+    // Regression: `<x-lyra::stack gap="5">` (no :bind) passes the STRING "5"; the old
+    // is_int/is_float check emitted the unitless `--lyra-stack-gap: 5`, which the browser
+    // drops and the stack collapses to zero gap.
+    $openingTag = stackOpeningTag(Blade::render('<x-lyra::stack gap="5" />'));
+
+    expect($openingTag)->toContain('style="--lyra-stack-gap: var(--space-5)"');
+});
+
 it('uses a string gap verbatim', function (): void {
     $openingTag = stackOpeningTag(Blade::render('<x-lyra::stack gap="24px" />'));
 
