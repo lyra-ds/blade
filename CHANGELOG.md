@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.4.0](https://github.com/lyra-ds/blade/compare/v0.3.0...v0.4.0) (2026-08-08)
+
+
+### Features
+
+* CheckboxGroup component with native form name adaptation ([572993a](https://github.com/lyra-ds/blade/commit/572993a0f1ae88e4988f1c9724222bb32126b5a5))
+* RadioGroup component with shared native name ([228e2d3](https://github.com/lyra-ds/blade/commit/228e2d39ca42369f783bb30548520bab46c7ad79))
+
+
+### Bug Fixes
+
+* accept numeric-string spacing/dimension props (gap, columns, height, width) ([#5](https://github.com/lyra-ds/blade/issues/5)) ([716c344](https://github.com/lyra-ds/blade/commit/716c34479e78597ee6fa90e366c7facf52995b75))
+
+
+### Miscellaneous Chores
+
+* record 0.3.0 release (batuta) ([9955953](https://github.com/lyra-ds/blade/commit/9955953b499391895ccf08ed5f668db3e7ee1a93))
+* record CheckboxGroup cycle; RadioGroup delegated (batuta) ([4aa9042](https://github.com/lyra-ds/blade/commit/4aa90423c7933fafbcfe501087705c45294aed4f))
+* record demo gallery cycle (batuta) ([54fce81](https://github.com/lyra-ds/blade/commit/54fce81a830f6163f5097c7907756f34740d1b26))
+* record demo gallery sweep cycle (batuta) ([0990ced](https://github.com/lyra-ds/blade/commit/0990ceda9a97fe213d25ce40bf9bac61a0507f2c))
+* record RadioGroup cycle; onda B statics complete (batuta) ([2b4b4d2](https://github.com/lyra-ds/blade/commit/2b4b4d2cc74193b2206001a709568053152076e8))
+* record stack/grid numeric cycle (superseded by PR [#5](https://github.com/lyra-ds/blade/issues/5)) (batuta) ([861ce87](https://github.com/lyra-ds/blade/commit/861ce87d377251104a87f6bd96ab46899b7d9abc))
+
 ## [0.3.0](https://github.com/lyra-ds/blade/compare/v0.2.0...v0.3.0) (2026-08-08)
 
 
