@@ -352,6 +352,22 @@ Props:
 - `value` — required; fixture examples (not constraints): `30`.
 - `tone` — default: `null`; class-selector values evidenced by defaults and fixtures: `"danger"`, `"success"`, `null`.
 
+### radio-group
+
+Tags: `<x-lyra::radio-group>...</x-lyra::radio-group>` or `<lyra:radio-group>...</lyra:radio-group>`.
+
+Root class alternatives observed in fixtures: `lyra-field` | `lyra-choicegroup` | `lyra-choicegroup lyra-choicegroup--row` | `lyra-hint` | `lyra-hint lyra-hint--error` | `lyra-choice` | `lyra-choice__hint`.
+
+Props:
+- `label` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `hint` — default: `null`; fixture examples (not constraints): `"Choose one"`.
+- `error` — default: `null`; fixture examples (not constraints): `"Required"`.
+- `options` — default: unknown; fixture examples (not constraints): `[{"value":"a","label":"A","hint":"More"}]`.
+- `value` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `defaultValue` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `name` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `direction` — default: `"column"`; class-selector values evidenced by defaults and fixtures: `"column"`, `"row"`.
+
 ### radio
 
 Tags: `<x-lyra::radio>...</x-lyra::radio>` or `<lyra:radio>...</lyra:radio>`.
