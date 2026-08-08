@@ -68,6 +68,13 @@ it('maps a numeric columns value to a repeat template', function (): void {
     );
 });
 
+it('maps numeric-string columns and gap like their bound numeric forms', function (): void {
+    $openingTag = gridOpeningTag(Blade::render('<x-lyra::grid columns="3" gap="5" />'));
+
+    expect($openingTag)->toContain('--lyra-grid-columns: repeat(3, minmax(0, 1fr))')
+        ->and($openingTag)->toContain('--lyra-grid-gap: var(--space-5)');
+});
+
 it('uses a string columns value verbatim', function (): void {
     $openingTag = gridOpeningTag(Blade::render(
         '<x-lyra::grid columns="200px 1fr">G</x-lyra::grid>',
