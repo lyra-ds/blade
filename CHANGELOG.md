@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.3.0](https://github.com/lyra-ds/blade/compare/v0.2.0...v0.3.0) (2026-08-08)
+
+
+### Features
+
+* Accordion component with Alpine bindings ([d0aa40f](https://github.com/lyra-ds/blade/commit/d0aa40fa46d253a9c9deb5d1ec577d60cd1a940a))
+* Dialog component with Alpine bindings ([d3a0fa3](https://github.com/lyra-ds/blade/commit/d3a0fa3861f7d7dc3564e31543457f36b32d666b))
+* Drawer component with Alpine bindings ([9e94cb2](https://github.com/lyra-ds/blade/commit/9e94cb2dcb0f1e1cf55dcfb1f1c8d6a97b6f2354))
+* Dropdown component with Alpine bindings (first interactive) ([56f130d](https://github.com/lyra-ds/blade/commit/56f130da60e62729514813024098f9ac60f5cad2))
+* Popover component with Alpine bindings ([f3284a3](https://github.com/lyra-ds/blade/commit/f3284a34debfaa46994ee92ef8c42b4cbed47cf3))
+* Tabs component with Alpine bindings ([f0ebefd](https://github.com/lyra-ds/blade/commit/f0ebefdd09f7377f0ee8a2fe2734ab557a8239a2))
+* Tooltip component with Alpine bindings ([66d8f3a](https://github.com/lyra-ds/blade/commit/66d8f3a8e33dd5cc1d6bb28d6b6bb2d425de1dd2))
+
+
+### Miscellaneous Chores
+
+* record Accordion cycle (batuta) ([0992bda](https://github.com/lyra-ds/blade/commit/0992bda5e7adb1dacf33261dff8094953137f74a))
+* record Alpine design closure and cross-repo handoff in backlog ([5a7a592](https://github.com/lyra-ds/blade/commit/5a7a5927a695b5e44f8e3c5bfee4dea95ff45b3d))
+* record blade-demo cycle (batuta) ([ca96e5c](https://github.com/lyra-ds/blade/commit/ca96e5cd5d0007b3412b3b1d9c47b2ae6c7910f5))
+* record Dialog cycle (batuta) ([42fd70f](https://github.com/lyra-ds/blade/commit/42fd70f980a2cd08ccb220e2821de3bed4b5badb))
+* record Drawer cycle (batuta) ([6e8b4a0](https://github.com/lyra-ds/blade/commit/6e8b4a02190174f83259102943b8d4157fde0dc3))
+* record Livewire groundwork and Dropdown cycles (batuta) ([e879e95](https://github.com/lyra-ds/blade/commit/e879e9501fb02295f886701fc39e81c6f7d4ceb4))
+* record opencode trivial-lane hang pattern (batuta routing) ([7946ae3](https://github.com/lyra-ds/blade/commit/7946ae34d5b220db260c5af7f7f3fdf8982115db))
+* record Popover cycle; core wave complete (batuta) ([f77aa63](https://github.com/lyra-ds/blade/commit/f77aa63fdd72459426b47ea0fb82261c57a88a47))
+* record README closure; phase-2 core wave shipped end to end (batuta) ([953042b](https://github.com/lyra-ds/blade/commit/953042bc4d867d6e9f96f52129d2ba0955690d36))
+* record Tabs cycle (batuta) ([3c037f9](https://github.com/lyra-ds/blade/commit/3c037f9b510be5265562d7cb785411702ddde1cc))
+* record Tooltip cycle (batuta) ([a485b87](https://github.com/lyra-ds/blade/commit/a485b87a7202a6f1533c41ddce4761489a8e958e))
+
 ## [0.2.0](https://github.com/lyra-ds/blade/compare/v0.1.0...v0.2.0) (2026-08-07)
 
 
