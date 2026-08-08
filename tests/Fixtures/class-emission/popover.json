@@ -1,0 +1,4 @@
+[
+    {"props": {}, "expected_class": "lyra-popover-anchor"},
+    {"props": {"class": "extra"}, "expected_class": "lyra-popover-anchor extra"}
+]

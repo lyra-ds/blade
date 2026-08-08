@@ -313,6 +313,19 @@ Props:
 - `detail` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `src` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
+### popover
+
+Tags: `<x-lyra::popover>...</x-lyra::popover>` or `<lyra:popover>...</lyra:popover>`.
+
+Root class combination observed in fixtures: `lyra-popover-anchor`.
+
+Props:
+- `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `side` — default: `"auto"`; no fixture examples (fixtures do not constrain this prop).
+- `align` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `width` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `ariaLabel` — default: `"Popover"`; no fixture examples (fixtures do not constrain this prop).
+
 ### progress
 
 Tags: `<x-lyra::progress>...</x-lyra::progress>` or `<lyra:progress>...</lyra:progress>`.
