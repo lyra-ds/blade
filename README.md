@@ -2,7 +2,7 @@
 
 Thin Blade wrappers for the Lyra Design System in Laravel applications. Each component renders the same canonical `.lyra-*` classes as its React counterpart—all appearance lives in `@lyra-ds/styles`, never in this Composer package.
 
-The package ships 27 static anonymous Blade components under the `lyra` namespace. Laravel discovers its service provider automatically, so components are ready to use with the short syntax (`<lyra:button>`) or the equivalent namespaced syntax (`<x-lyra::button>`).
+The package ships 27 static and 7 interactive anonymous Blade components under the `lyra` namespace. Laravel discovers its service provider automatically, so components are ready to use with the short syntax (`<lyra:button>`) or the equivalent namespaced syntax (`<x-lyra::button>`).
 
 ## Quickstart
 
@@ -68,6 +68,7 @@ Component props and ordinary HTML attributes can be combined. For example, this 
 | Layout | `container`, `stack`, `grid`, `separator` |
 | Forms | `fieldset`, `form-row`, `input`, `textarea`, `select`, `checkbox`, `radio`, `switch` |
 | Navigation | `breadcrumb`, `pagination` |
+| Interactive | `dropdown`, `dialog`, `drawer`, `tabs`, `accordion`, `tooltip`, `popover` |
 
 Use each name with either equivalent form—for example, `button` becomes `<lyra:button>` or `<x-lyra::button>`.
 
@@ -77,13 +78,15 @@ Every component emits exactly the class strings emitted by the corresponding Lyr
 
 ## Compatibility
 
-| `lyra-ds/blade` | Laravel 12 | Laravel 13 | PHP 8.3 | PHP 8.4 |
-| --- | --- | --- | --- | --- |
-| `0.x` (unreleased/dev) | Supported | Supported | Supported | Supported |
+| `lyra-ds/blade` | Laravel 12 | Laravel 13 | PHP 8.3 | PHP 8.4 | `@lyra-ds/styles` | `@lyra-ds/alpine` |
+| --- | --- | --- | --- | --- | --- | --- |
+| `0.x` (unreleased/dev) | Supported | Supported | Supported | Supported | `^0.4` | `^0.1.1` |
+
+These are the versions the current `main` branch was tested against.
 
 Laravel 11 is not supported because it reached security end-of-life in March 2026.
 
-Package versions are independent from the React and `@lyra-ds/styles` package versions. This matrix will grow as versions are released.
+Package versions are independent from the React, `@lyra-ds/styles`, and `@lyra-ds/alpine` package versions. This matrix will grow as versions are released.
 
 ## Releasing
 
@@ -91,7 +94,35 @@ Conventional commits drive the changelog in the bot-maintained release PR. Merge
 
 ## Interactivity
 
-The current package is static-only and does not require Alpine.js. Interactive components such as Dropdown, Dialog, and Tabs are planned for a future phase; Alpine.js will be a suggested peer for those components and will never be bundled.
+Dropdown, Dialog, Drawer, Tabs, Accordion, Tooltip, and Popover get their behavior from the `@lyra-ds/alpine` plugin. Alpine.js `>=3.13 <4` is a consumer-installed peer and is never bundled. Static components continue to work without Alpine; if Alpine is not loaded, interactive components remain inert in their served initial state.
+
+After installing `@lyra-ds/styles` as described in the Quickstart, install Alpine.js and the Lyra plugin:
+
+```bash
+npm install alpinejs @lyra-ds/alpine
+```
+
+Then register the plugin before starting Alpine in `resources/js/app.js`:
+
+```js
+import Alpine from 'alpinejs';
+import lyra from '@lyra-ds/alpine';
+
+Alpine.plugin(lyra);
+Alpine.start();
+```
+
+Add this required rule to your application's CSS:
+
+```css
+[x-cloak] {
+    display: none !important;
+}
+```
+
+The styles package does not ship this rule. Without it, closed menus and dialogs can flash before Alpine boots.
+
+Livewire is a first-class integration. Controllable state is exposed through `x-modelable`: `open` for Dropdown, Dialog, Drawer, and Popover; `active` for Tabs; and `openItems` for Accordion. Use `wire:model` or `x-model` directly on the component tag.
 
 ## Requirements
 
