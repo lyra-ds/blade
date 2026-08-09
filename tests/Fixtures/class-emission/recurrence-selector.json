@@ -1,0 +1,21 @@
+[
+    {"target": "root", "props": {}, "expected_class": "lyra-recur"},
+    {"target": "root", "props": {"class": "consumer utility"}, "expected_class": "lyra-recur consumer utility"},
+    {"target": "preset-wrap", "props": {}, "expected_class": "lyra-select-wrap"},
+    {"target": "preset-select", "props": {}, "expected_class": "lyra-input"},
+    {"target": "custom", "props": {}, "expected_class": "lyra-recur__custom"},
+    {"target": "freq-row", "props": {}, "expected_class": "lyra-recur__freqrow"},
+    {"target": "interval", "props": {}, "expected_class": "lyra-input"},
+    {"target": "freq-wrap", "props": {}, "expected_class": "lyra-select-wrap"},
+    {"target": "freq-select", "props": {}, "expected_class": "lyra-input"},
+    {"target": "days", "props": {}, "expected_class": "lyra-recur__days"},
+    {"target": "day", "props": {}, "expected_class": "lyra-recur__day"},
+    {"target": "day", "props": {"value": {"freq": "weekly", "interval": 3, "byWeekday": [0], "end": {"type": "never"}}}, "expected_class": "lyra-recur__day lyra-recur__day--on"},
+    {"target": "end-row", "props": {}, "expected_class": "lyra-recur__endrow"},
+    {"target": "end-wrap", "props": {}, "expected_class": "lyra-select-wrap"},
+    {"target": "end-select", "props": {}, "expected_class": "lyra-input"},
+    {"target": "count-input", "props": {}, "expected_class": "lyra-input"},
+    {"target": "end-date", "props": {}, "expected_class": "lyra-recur__enddate"},
+    {"target": "summary", "props": {}, "expected_class": "lyra-recur__summary"},
+    {"target": "conflicts", "props": {"conflicts": [{"date": "2026-08-10"}]}, "expected_class": "lyra-recur__summary"}
+]

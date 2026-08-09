@@ -580,6 +580,19 @@ Root class combination observed in fixtures: `lyra-radio`.
 Props:
 - `label` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
+### recurrence-selector
+
+Tags: `<x-lyra::recurrence-selector>...</x-lyra::recurrence-selector>` or `<lyra:recurrence-selector>...</lyra:recurrence-selector>`.
+
+Root class alternatives observed in fixtures: `lyra-recur` | `lyra-select-wrap` | `lyra-input` | `lyra-recur__custom` | `lyra-recur__freqrow` | `lyra-recur__days` | `lyra-recur__day` | `lyra-recur__day lyra-recur__day--on` | `lyra-recur__endrow` | `lyra-recur__enddate` | `lyra-recur__summary`.
+
+Props:
+- `value` — default: `null`; fixture examples (not constraints): `{"freq":"weekly","interval":3,"byWeekday":[0],"end":{"type":"never"}}`.
+- `startDate` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `defaultEndCount` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `conflicts` — default: unknown; fixture examples (not constraints): `[{"date":"2026-08-10"}]`.
+- `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+
 ### segmented-control
 
 Tags: `<x-lyra::segmented-control>...</x-lyra::segmented-control>` or `<lyra:segmented-control>...</lyra:segmented-control>`.
