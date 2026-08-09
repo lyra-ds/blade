@@ -19,8 +19,8 @@ demo varrida ao fim de cada onda, guidelines do Boost regeneradas a cada item.
       Accept: markup servido com `x-bind` `copyButton`/`status`, `data-copy-text` opcional, live-region `role="status"`; class-emission contra o fixture do React; suíte verde; guidelines regeneradas idempotentes; pint limpo. **FEITO** — commit `34457c0`, suíte 601 → 617 (2401 assertions); 1 rodada corretiva (`type="button"` servido).
 - [x] 4. Componente `cookie-banner` (`lyraCookieBanner`, S) — codex (medium)
       Accept: `x-cloak` obrigatório documentado (inversão do React), botões accept/essentials emitindo `lyra:accept`/`lyra:essentials`, `--closing` NUNCA servido (é runtime do binding); class-emission; suíte verde; guidelines; pint. **FEITO** — commit `974b953`, suíte 617 → 628 (2454 assertions).
-- [ ] 5. Componente `sidebar-group` (`lyraSidebarGroup`, S) — codex (medium)
-      Accept: `collapsed` via `x-modelable`, `aria-expanded` no label-botão, itens desmontados quando colapsado, evento de seleção; class-emission; suíte verde; guidelines; pint. **Destrava a task 7.**
+- [x] 5. Componente `sidebar-group` (`lyraSidebarGroup`, S) — codex (medium)
+      Accept: `collapsed` via `x-modelable`, `aria-expanded` no label-botão, itens desmontados quando colapsado, evento de seleção; class-emission; suíte verde; guidelines; pint. **Destrava a task 7.** **FEITO** — commit `549b264`, suíte 628 → 644 (2546 assertions); itens ficam servidos com `x-show` em vez do `x-if` do React (decisão fechada, ver trail).
 - [ ] 6. Componente `segmented-control` (`lyraSegmentedControl`, S/M) — codex (medium)
       Accept: radiogroup DOM-driven com roving tabindex, `value` modelable, setas circulares pulando disabled, Home/End; não confundir com o `segmented-ring` já existente; class-emission; suíte verde; guidelines; pint.
 - [ ] 7. Componente `app-sidebar` (estático, consome `sidebar-group`) — codex (medium)
