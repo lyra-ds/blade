@@ -45,6 +45,21 @@ Root class alternatives observed in fixtures: `lyra-alert lyra-alert--info` | `l
 Props:
 - `tone` — default: `"info"`; class-selector values evidenced by defaults and fixtures: `"danger"`, `"info"`, `"success"`, `"warning"`.
 
+### app-sidebar
+
+Tags: `<x-lyra::app-sidebar>...</x-lyra::app-sidebar>` or `<lyra:app-sidebar>...</lyra:app-sidebar>`.
+
+Root class alternatives observed in fixtures: `lyra-appsidebar` | `lyra-appsidebar lyra-appsidebar--rail`.
+
+Props:
+- `brand` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `groups` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `footer` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `width` — default: `260`; no fixture examples (fixtures do not constrain this prop).
+- `collapsible` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `defaultCollapsed` — default: `false`; fixture examples (not constraints): `true`.
+- `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+
 ### avatar
 
 Tags: `<x-lyra::avatar>...</x-lyra::avatar>` or `<lyra:avatar>...</lyra:avatar>`.

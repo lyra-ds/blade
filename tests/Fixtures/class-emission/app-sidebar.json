@@ -1,0 +1,5 @@
+[
+    {"props": {}, "expected_class": "lyra-appsidebar"},
+    {"props": {"defaultCollapsed": true}, "expected_class": "lyra-appsidebar lyra-appsidebar--rail"},
+    {"props": {"defaultCollapsed": true, "class": "extra custom"}, "expected_class": "lyra-appsidebar lyra-appsidebar--rail extra custom"}
+]
