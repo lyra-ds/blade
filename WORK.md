@@ -1,7 +1,7 @@
 # WORK — lyra-ds/blade
 
 ## In progress
-- [ ] Ondas B–F sobre o `@lyra-ds/alpine` 0.2.0 — plano aprovado em `.batuta/plan-alpine-0-2-ondas-b-f.md` (34 tasks, 23 componentes, releases 0.4.0→0.8.0). Próxima: task 7, componente `app-sidebar` (estático, consome o `sidebar-group`)
+- [ ] Ondas B–F sobre o `@lyra-ds/alpine` 0.2.0 — plano aprovado em `.batuta/plan-alpine-0-2-ondas-b-f.md` (34 tasks, 23 componentes, releases 0.4.0→0.8.0). Próxima: task 8, componente `workspace-switcher` (último da onda B). Task 7 (`app-sidebar`) BLOQUEADA: não é estático e o alpine 0.2.0 não tem `lyraAppSidebar` — spec upstream em `docs/spec-alpine-app-sidebar.md`, decisão do usuário de adiar
 
 ## Backlog
 - [ ] Fase 2 — ondas B–F por `docs/spec-alpine-proximas-ondas.md` (2026-08-08): B = 3 estáticos + 5 bindings baratos (sem upstream pesado); C = médios + infra (bottom-sheet, theme store, scroll-spy); D = calendar → pickers (BottomSheet antes, decisão fechada); E = combobox → time-zone-picker, command-palette; F = data-table (sort dual-mode, default server-side) + promovidos. Adiados: recurrence-selector (promover pós-onda D), weekly-schedule-editor, slot-picker, calendar-view. Excluído: create-workspace-dialog (vira receita na doc). Bindings novos nascem no monorepo lyra (packages/alpine) antes de cada onda Blade

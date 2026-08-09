@@ -11,6 +11,8 @@ demo varrida ao fim de cada onda, guidelines do Boost regeneradas a cada item.
 
 ### Onda B — baratos, sem upstream pendente (release 0.4.0)
 
+> Correção 2026-08-08: a onda fecha com **5** componentes, não 6 — `app-sidebar` saiu para o upstream (task 7).
+
 - [x] 1. Matriz de compatibilidade do README: `@lyra-ds/alpine` `^0.1.1` → `^0.2` — maestro (claude)
       Accept: `README.md:83` atualizado; `npm view @lyra-ds/alpine version` = 0.2.0 confirmado. **FEITO** — commit `b57c0e3`.
 - [x] 2. Bump do `blade-demo` para `@lyra-ds/alpine` `^0.2.0` + `npm install` + `npm run build` — codex (medium)
@@ -23,8 +25,9 @@ demo varrida ao fim de cada onda, guidelines do Boost regeneradas a cada item.
       Accept: `collapsed` via `x-modelable`, `aria-expanded` no label-botão, itens desmontados quando colapsado, evento de seleção; class-emission; suíte verde; guidelines; pint. **Destrava a task 7.** **FEITO** — commit `549b264`, suíte 628 → 644 (2546 assertions); itens ficam servidos com `x-show` em vez do `x-if` do React (decisão fechada, ver trail).
 - [x] 6. Componente `segmented-control` (`lyraSegmentedControl`, S/M) — codex (medium)
       Accept: radiogroup DOM-driven com roving tabindex, `value` modelable, setas circulares pulando disabled, Home/End; não confundir com o `segmented-ring` já existente; class-emission; suíte verde; guidelines; pint. **FEITO** — commit `2541a2e`, suíte 644 → 657 (2615 assertions); roving tabindex servido igual ao React nos 4 casos de borda.
-- [ ] 7. Componente `app-sidebar` (estático, consome `sidebar-group`) — codex (medium)
-      Accept: composição estática pura (zero hooks no React), renderizando `<x-lyra::sidebar-group>`; class-emission; suíte verde; guidelines; pint.
+- [ ] 7. Componente `app-sidebar` — **BLOQUEADO (2026-08-08), sai da onda B**
+      A premissa da spec caiu: `app-sidebar` NÃO é estático — o React usa `useControllableState` para o modo rail (botão de colapsar, chevron que inverte, `--appsidebar-width` 64px↔width, headings ocultos, `title` nos itens). E o alpine 0.2.0 não tem `lyraAppSidebar` (28 `Alpine.data()` conferidos no `dist` publicado). Decisão do usuário: adiar o Blade e abrir o binding upstream — spec autocontida em `docs/spec-alpine-app-sidebar.md`. Volta ao plano quando `lyraAppSidebar` for publicado.
+      Accept (quando destravar): brand, grupos em modo dados compondo `<lyra:sidebar-group>`, slot de composição, footer, width, `collapsible`/`default-collapsed`/`labels`, estado inicial servido (classe `--rail` + largura), `x-modelable="collapsed"`; class-emission; suíte verde; guidelines; pint.
 - [ ] 8. Componente `workspace-switcher` (`lyraWorkspaceSwitcher`, M) — codex complex (gpt-5.6-sol, reasoning high)
       Accept: listbox-popover com `open` modelable, navegação por foco real, flip placement, evento de troca de workspace; class-emission; suíte verde; guidelines; pint.
 - [ ] 9. Varredura da galeria do `blade-demo` — seção da onda B (6 componentes) — codex (medium)
