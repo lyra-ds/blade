@@ -57,3 +57,11 @@ Report: files touched; pest and pint output; commit hash; uncertainties declared
 ## Stop conditions
 
 Stop and report when: the binding source contradicts this brief, the same command fails twice, or the fix needs edits beyond Scope.
+
+---
+
+# Run result (appended)
+
+- Executor: codex (gpt-5.6-sol, reasoning high) via Compozy `sess-33a1c42d63125d25`. Commit-antes-do-report cumprido (`673aec1` no worktree).
+- Verificação: scope exato; 714/714 (2976 assertions); pint ok; idempotente; spinbutton ARIA servido completo (valuemin/max de min/max em minutos, valuenow/valuetext só com valor, describedby merge); aria-valuetext default literal igual ao React.
+- Verdict: ✅ approved — squash `fd68ef2`, cleanup completo.
