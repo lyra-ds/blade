@@ -16,6 +16,10 @@ final class BladeServiceProvider extends ServiceProvider
             'lyra',
         );
 
+        $themeScript = new ThemeScript;
+
+        Blade::directive('lyraThemeScript', $themeScript->compile(...));
+
         $shortComponentSyntax = new ShortComponentSyntax($componentPath);
 
         Blade::prepareStringsForCompilationUsing($shortComponentSyntax->compile(...));

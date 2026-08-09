@@ -112,6 +112,31 @@ Alpine.plugin(lyra);
 Alpine.start();
 ```
 
+### Theme
+
+Place `@lyraThemeScript` in the document `<head>`, before stylesheets that use theme tokens. It emits a blocking inline script that applies the stored Lyra theme before the first paint; the Alpine theme store takes over after it starts.
+
+```blade
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @lyraThemeScript
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body>
+    {{ $slot }}
+</body>
+</html>
+```
+
+Toggle between the resolved light and dark themes through the Alpine store:
+
+```blade
+<button type="button" x-on:click="$store.theme.toggle()">
+    Toggle theme
+</button>
+```
+
 Add this required rule to your application's CSS:
 
 ```css
