@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.7.0](https://github.com/lyra-ds/blade/compare/v0.6.0...v0.7.0) (2026-08-09)
+
+
+### Features
+
+* add command palette component ([ddd59c6](https://github.com/lyra-ds/blade/commit/ddd59c610b46a1d920f977b770cfbf4db990a459))
+* **combobox:** add searchable select component ([5da51c8](https://github.com/lyra-ds/blade/commit/5da51c80e48d1dfc2108ee3db4037171f1b6d1fe))
+* **time-zone-picker:** add Blade component ([287d666](https://github.com/lyra-ds/blade/commit/287d6667849fb109b59666be02734ea711a54605))
+
+
+### Miscellaneous Chores
+
+* fix WORK.md — tasks 23 e 24 estavam acima do cabeçalho Done (batuta) ([a63e4c1](https://github.com/lyra-ds/blade/commit/a63e4c1fc4256eaa2caca5245de719a8c6506455))
+* ondas E e F verificadas destravadas no dist 0.3.0 publicado (batuta) ([2ce073b](https://github.com/lyra-ds/blade/commit/2ce073b5bc2fd0bfa42089922ceaa233fd15844f))
+* record demo gallery for wave E (batuta) ([a0abcf3](https://github.com/lyra-ds/blade/commit/a0abcf327564c9dc69a9117279fa5d666c383285))
+* record release 0.6.0; onda D shipped end to end (batuta) ([a5a0701](https://github.com/lyra-ds/blade/commit/a5a0701e4814902d139deb5a62c561c0cceee6b5))
+* record task 25 (combobox) cycle (batuta) ([8eeb338](https://github.com/lyra-ds/blade/commit/8eeb338a0b5b6035ff95c359a665030703afdd85))
+* record task 26 (time-zone-picker) cycle (batuta) ([773b38a](https://github.com/lyra-ds/blade/commit/773b38ab326608e62545410c2743912afb04dd4f))
+* record task 27 (command-palette) cycle (batuta) ([611f22e](https://github.com/lyra-ds/blade/commit/611f22e1ac6ee4f142cea08f8fb8462f19e1d102))
+
 ## [0.6.0](https://github.com/lyra-ds/blade/compare/v0.5.0...v0.6.0) (2026-08-09)
 
 
