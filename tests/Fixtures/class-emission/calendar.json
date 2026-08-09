@@ -1,0 +1,5 @@
+[
+    {"props": {}, "expected_class": "lyra-cal"},
+    {"props": {"size": "md"}, "expected_class": "lyra-cal lyra-cal--md"},
+    {"props": {"class": "extra custom"}, "expected_class": "lyra-cal extra custom"}
+]

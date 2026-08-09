@@ -141,6 +141,24 @@ Props:
 - `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
 - `full` — default: `false`; fixture examples (not constraints): `true`.
 
+### calendar
+
+Tags: `<x-lyra::calendar>...</x-lyra::calendar>` or `<lyra:calendar>...</lyra:calendar>`.
+
+Root class alternatives observed in fixtures: `lyra-cal` | `lyra-cal lyra-cal--md`.
+
+Props:
+- `range` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `defaultValue` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `min` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `max` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `disabledDates` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `weekStartsOn` — default: `0`; no fixture examples (fixtures do not constrain this prop).
+- `size` — default: `"sm"`; class-selector values evidenced by defaults and fixtures: `"md"`, `"sm"`.
+- `todayButton` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `locale` — default: `"en-US"`; no fixture examples (fixtures do not constrain this prop).
+- `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+
 ### card
 
 Tags: `<x-lyra::card>...</x-lyra::card>` or `<lyra:card>...</lyra:card>`.
