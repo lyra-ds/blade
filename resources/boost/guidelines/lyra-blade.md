@@ -252,6 +252,23 @@ Root class combination observed in fixtures: `lyra-fieldset`.
 
 Props: none (slots and pass-through attributes only).
 
+### file-upload
+
+Tags: `<x-lyra::file-upload>...</x-lyra::file-upload>` or `<lyra:file-upload>...</lyra:file-upload>`.
+
+Root class combination observed in fixtures: `lyra-upload`.
+
+Props:
+- `label` — default: `"Drag files here or click to select"`; no fixture examples (fixtures do not constrain this prop).
+- `hint` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `accept` — default: `null`; fixture examples (not constraints): `".pdf"`.
+- `maxSizeMB` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `multiple` — default: `true`; no fixture examples (fixtures do not constrain this prop).
+- `uploadDuration` — default: `1800`; no fixture examples (fixtures do not constrain this prop).
+- `defaultItems` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `doneLabel` — default: `"Upload complete"`; no fixture examples (fixtures do not constrain this prop).
+- `removeLabel` — default: `"Remove"`; no fixture examples (fixtures do not constrain this prop).
+
 ### footer
 
 Tags: `<x-lyra::footer>...</x-lyra::footer>` or `<lyra:footer>...</lyra:footer>`.

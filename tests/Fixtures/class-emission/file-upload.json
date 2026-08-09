@@ -1,0 +1,34 @@
+[
+    {
+        "props": {"accept": ".pdf"},
+        "expected_class": "lyra-upload",
+        "expected_classes": {
+            "zone": "lyra-upload__zone",
+            "zone_drag": "lyra-upload__zone lyra-upload__zone--drag",
+            "input": "",
+            "zone_icon": "lyra-upload__zone-icon",
+            "icon": "lyra-icon",
+            "zone_label": "lyra-upload__zone-label",
+            "zone_hint": "lyra-upload__zone-hint",
+            "list": "lyra-upload__list",
+            "item": "lyra-upload__item",
+            "item_error": "lyra-upload__item lyra-upload__item--error",
+            "item_icon": "lyra-upload__item-icon",
+            "item_body": "lyra-upload__item-body",
+            "item_row": "lyra-upload__item-row",
+            "item_name": "lyra-upload__item-name",
+            "item_meta_uploading": "lyra-upload__item-meta",
+            "item_meta_done": "lyra-upload__item-meta",
+            "item_meta_error": "lyra-upload__item-meta",
+            "bar": "lyra-upload__bar",
+            "bar_fill": "lyra-upload__bar-fill",
+            "check": "lyra-upload__check",
+            "remove": "lyra-upload__remove"
+        }
+    },
+    {
+        "props": {"class": "x y"},
+        "expected_class": "lyra-upload x y",
+        "expected_classes": {}
+    }
+]
