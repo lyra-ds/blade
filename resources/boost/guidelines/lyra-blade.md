@@ -457,6 +457,18 @@ Props:
 - `asideWidth` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `top` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
+### sidebar-group
+
+Tags: `<x-lyra::sidebar-group>...</x-lyra::sidebar-group>` or `<lyra:sidebar-group>...</lyra:sidebar-group>`.
+
+Root class alternatives observed in fixtures: `lyra-sbgroup` | `lyra-sbgroup lyra-sbgroup--collapsed`.
+
+Props:
+- `label` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `items` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `collapsible` — default: `false`; fixture examples (not constraints): `true`.
+- `defaultCollapsed` — default: `false`; fixture examples (not constraints): `true`.
+
 ### skeleton
 
 Tags: `<x-lyra::skeleton>...</x-lyra::skeleton>` or `<lyra:skeleton>...</lyra:skeleton>`.

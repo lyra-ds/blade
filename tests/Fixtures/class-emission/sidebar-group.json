@@ -1,0 +1,7 @@
+[
+    {"props": {}, "expected_class": "lyra-sbgroup"},
+    {"props": {"collapsible": true}, "expected_class": "lyra-sbgroup"},
+    {"props": {"collapsible": true, "defaultCollapsed": true}, "expected_class": "lyra-sbgroup lyra-sbgroup--collapsed"},
+    {"props": {"defaultCollapsed": true}, "expected_class": "lyra-sbgroup"},
+    {"props": {"collapsible": true, "defaultCollapsed": true, "class": "extra custom"}, "expected_class": "lyra-sbgroup lyra-sbgroup--collapsed extra custom"}
+]
