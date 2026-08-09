@@ -1,0 +1,22 @@
+[
+    {"target": "root", "props": {}, "expected_class": ""},
+    {"target": "root", "props": {"label": "Country"}, "expected_class": "lyra-field"},
+    {"target": "root", "props": {"class": "consumer utility"}, "expected_class": "consumer utility"},
+    {"target": "root", "props": {"label": "Country", "class": "consumer utility"}, "expected_class": "lyra-field consumer utility"},
+    {"target": "root", "props": {"label": "Country", "class": "lyra-field consumer"}, "expected_class": "lyra-field consumer"},
+    {"target": "combobox", "props": {}, "expected_class": "lyra-combobox"},
+    {"target": "trigger", "props": {}, "expected_class": "lyra-input lyra-combobox__trigger"},
+    {"target": "trigger", "props": {"error": "Required"}, "expected_class": "lyra-input lyra-combobox__trigger"},
+    {"target": "pop", "props": {}, "expected_class": "lyra-combobox__pop"},
+    {"target": "search", "props": {}, "expected_class": "lyra-combobox__search"},
+    {"target": "list", "props": {}, "expected_class": "lyra-combobox__list"},
+    {"target": "empty", "props": {}, "expected_class": "lyra-combobox__empty"},
+    {"target": "group", "props": {}, "expected_class": "lyra-combobox__group"},
+    {"target": "option", "props": {}, "expected_class": "lyra-combobox__option"},
+    {"target": "option-label", "props": {}, "expected_class": "lyra-combobox__option-label"},
+    {"target": "option-hint", "props": {}, "expected_class": "lyra-combobox__option-hint"},
+    {"target": "trailing", "props": {}, "expected_class": "lyra-combobox__trailing"},
+    {"target": "label", "props": {"label": "Country"}, "expected_class": "lyra-label"},
+    {"target": "message", "props": {"hint": "Choose one"}, "expected_class": "lyra-hint"},
+    {"target": "message", "props": {"error": "Required"}, "expected_class": "lyra-hint lyra-hint--error"}
+]

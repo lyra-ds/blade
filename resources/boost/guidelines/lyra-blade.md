@@ -208,6 +208,27 @@ Props:
 - `copiedLabel` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `copyText` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
+### combobox
+
+Tags: `<x-lyra::combobox>...</x-lyra::combobox>` or `<lyra:combobox>...</lyra:combobox>`.
+
+Root class alternatives observed in fixtures: `` | `lyra-field` | `lyra-combobox` | `lyra-input lyra-combobox__trigger` | `lyra-combobox__pop` | `lyra-combobox__search` | `lyra-combobox__list` | `lyra-combobox__empty` | `lyra-combobox__group` | `lyra-combobox__option` | `lyra-combobox__option-label` | `lyra-combobox__option-hint` | `lyra-combobox__trailing` | `lyra-label` | `lyra-hint` | `lyra-hint lyra-hint--error`.
+
+Props:
+- `options` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `value` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `label` — default: `null`; fixture examples (not constraints): `"Country"`.
+- `hint` — default: `null`; fixture examples (not constraints): `"Choose one"`.
+- `error` — default: `null`; fixture examples (not constraints): `"Required"`.
+- `placeholder` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `searchPlaceholder` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `emptyMessage` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `searchLabel` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `factory` — default: `"lyraCombobox"`; no fixture examples (fixtures do not constrain this prop).
+- `extraOptions` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+
 ### container
 
 Tags: `<x-lyra::container>...</x-lyra::container>` or `<lyra:container>...</lyra:container>`.
