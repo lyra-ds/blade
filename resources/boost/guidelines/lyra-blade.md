@@ -171,6 +171,19 @@ Root class combination observed in fixtures: `lyra-container`.
 Props:
 - `max` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
+### cookie-banner
+
+Tags: `<x-lyra::cookie-banner>...</x-lyra::cookie-banner>` or `<lyra:cookie-banner>...</lyra:cookie-banner>`.
+
+Root class combination observed in fixtures: `lyra-cookies`.
+
+Props:
+- `ariaLabel` — default: `"Cookie notice"`; no fixture examples (fixtures do not constrain this prop).
+- `storageKey` — default: `"lyra-cookie-consent"`; no fixture examples (fixtures do not constrain this prop).
+- `policyHref` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `essentialsLabel` — default: `"Only essentials"`; no fixture examples (fixtures do not constrain this prop).
+- `acceptLabel` — default: `"Accept all"`; no fixture examples (fixtures do not constrain this prop).
+
 ### dialog
 
 Tags: `<x-lyra::dialog>...</x-lyra::dialog>` or `<lyra:dialog>...</lyra:dialog>`.
