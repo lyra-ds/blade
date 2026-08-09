@@ -43,3 +43,12 @@ Report: sections added, theme wiring, grep counts, test/build output, commit has
 ## Stop conditions
 
 Stop and report when: a component or the store contradicts this brief, the same command fails twice, or the change needs edits beyond Scope.
+
+---
+
+# Run result (appended)
+
+- Executor: codex (gpt-5.6-sol, medium) via Compozy `sess-b53aaea379c8be4d`. Commit-antes-do-report cumprido (`dc91510` no demo).
+- Verificação: 5/5 vitrines; @lyraThemeScript no head; toggle com $store.theme (nome conferido no index.ts — o brief chutou lyraTheme, executor corrigiu pelo fonte); x-lyra:: segue 0; artisan test 3/3; view:cache ok; npm build ok.
+- Achado: store lyraToasts JÁ REGISTRADO no index do alpine — PRD dos toasts implementado upstream; lado Blade destravado.
+- Verdict: ✅ approved
