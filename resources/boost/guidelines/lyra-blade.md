@@ -78,6 +78,19 @@ Root class combination observed in fixtures: `lyra-bottomnav`.
 Props:
 - `items` — required; no fixture examples (fixtures do not constrain this prop).
 
+### bottom-sheet
+
+Tags: `<x-lyra::bottom-sheet>...</x-lyra::bottom-sheet>` or `<lyra:bottom-sheet>...</lyra:bottom-sheet>`.
+
+Root class combination observed in fixtures: `lyra-bottomsheet-overlay`.
+
+Props:
+- `title` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `ariaLabel` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `closable` — default: `true`; no fixture examples (fixtures do not constrain this prop).
+- `closeLabel` — default: `"Close"`; no fixture examples (fixtures do not constrain this prop).
+- `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+
 ### brand
 
 Tags: `<x-lyra::brand>...</x-lyra::brand>` or `<lyra:brand>...</lyra:brand>`.

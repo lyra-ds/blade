@@ -1,0 +1,14 @@
+[
+    {
+        "props": {},
+        "expected_class": "lyra-bottomsheet-overlay",
+        "expected_classes": {
+            "overlay": "lyra-bottomsheet-overlay",
+            "panel": "lyra-bottomsheet",
+            "header": "lyra-bottomsheet__header",
+            "title": "lyra-bottomsheet__title",
+            "close": "lyra-bottomsheet__close",
+            "body": "lyra-bottomsheet__body"
+        }
+    }
+]
