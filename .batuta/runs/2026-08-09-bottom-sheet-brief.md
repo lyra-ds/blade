@@ -53,3 +53,12 @@ Report: files touched; pest and pint output; commit hash; uncertainties declared
 ## Stop conditions
 
 Stop and report when: the binding source contradicts this brief, the same command fails twice, or the fix needs edits beyond Scope.
+
+---
+
+# Run result (appended)
+
+- Tentativa 1: stop condition legítima — brief errado (labelId no x-data; a factory só aceita defaultOpen). Executor parou sem tocar nada, como devia.
+- Tentativa 2 (mesma sessão, esclarecimento): entrega limpa, commit `8f63595` no worktree antes do report.
+- Verificação: scope exato; x-data só defaultOpen; união labelledby/label servida com uniqid; x-cloak; modelable open; 727/727 (3079 assertions); pint ok; idempotente.
+- Verdict: ✅ approved — squash na main, cleanup completo.
