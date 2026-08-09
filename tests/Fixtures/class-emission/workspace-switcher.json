@@ -1,0 +1,4 @@
+[
+    {"props": {}, "expected_class": "lyra-wssw"},
+    {"props": {"class": "extra custom"}, "expected_class": "lyra-wssw extra custom"}
+]

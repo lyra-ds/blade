@@ -609,3 +609,17 @@ Root class alternatives observed in fixtures: `lyra-tooltip` | `lyra-tooltip lyr
 Props:
 - `tip` — required; no fixture examples (fixtures do not constrain this prop).
 - `placement` — default: `"top"`; fixture examples (not constraints): `"bottom"`.
+
+### workspace-switcher
+
+Tags: `<x-lyra::workspace-switcher>...</x-lyra::workspace-switcher>` or `<lyra:workspace-switcher>...</lyra:workspace-switcher>`.
+
+Root class combination observed in fixtures: `lyra-wssw`.
+
+Props:
+- `workspaces` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `current` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `create` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `createLabel` — default: `"Create workspace"`; no fixture examples (fixtures do not constrain this prop).
+- `createId` — default: `"create"`; no fixture examples (fixtures do not constrain this prop).
+- `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
