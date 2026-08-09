@@ -228,6 +228,23 @@ Props:
 - `factory` — default: `"lyraCombobox"`; no fixture examples (fixtures do not constrain this prop).
 - `extraOptions` — default: unknown; no fixture examples (fixtures do not constrain this prop).
 
+### command-palette
+
+Tags: `<x-lyra::command-palette>...</x-lyra::command-palette>` or `<lyra:command-palette>...</lyra:command-palette>`.
+
+Root class alternatives observed in fixtures: `lyra-cmdk-overlay` | `lyra-cmdk` | `lyra-cmdk__search` | `lyra-cmdk__body` | `lyra-cmdk__empty` | `lyra-cmdk__group` | `lyra-cmdk__group-label` | `lyra-cmdk__item` | `lyra-cmdk__item-icon` | `lyra-cmdk__item-label` | `lyra-cmdk__item-hint` | `lyra-cmdk__shortcut` | `lyra-kbd` | `lyra-cmdk__footer`.
+
+Props:
+- `groups` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `placeholder` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `emptyMessage` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `searchLabel` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `hints` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `hotkey` — default: `"k"`; no fixture examples (fixtures do not constrain this prop).
+- `inline` — default: `false`; fixture examples (not constraints): `true`.
+- `label` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+
 ### container
 
 Tags: `<x-lyra::container>...</x-lyra::container>` or `<lyra:container>...</lyra:container>`.

@@ -1,0 +1,20 @@
+[
+    {"target": "overlay", "props": {}, "expected_class": "lyra-cmdk-overlay"},
+    {"target": "panel", "props": {}, "expected_class": "lyra-cmdk"},
+    {"target": "panel", "props": {"class": "consumer utility"}, "expected_class": "lyra-cmdk consumer utility"},
+    {"target": "panel", "props": {"inline": true}, "expected_class": "lyra-cmdk"},
+    {"target": "panel", "props": {"inline": true, "class": "consumer utility"}, "expected_class": "lyra-cmdk consumer utility"},
+    {"target": "search", "props": {}, "expected_class": "lyra-cmdk__search"},
+    {"target": "body", "props": {}, "expected_class": "lyra-cmdk__body"},
+    {"target": "empty", "props": {}, "expected_class": "lyra-cmdk__empty"},
+    {"target": "group", "props": {}, "expected_class": "lyra-cmdk__group"},
+    {"target": "group-label", "props": {}, "expected_class": "lyra-cmdk__group-label"},
+    {"target": "item", "props": {}, "expected_class": "lyra-cmdk__item"},
+    {"target": "item-icon", "props": {}, "expected_class": "lyra-cmdk__item-icon"},
+    {"target": "item-label", "props": {}, "expected_class": "lyra-cmdk__item-label"},
+    {"target": "item-hint", "props": {}, "expected_class": "lyra-cmdk__item-hint"},
+    {"target": "shortcut", "props": {}, "expected_class": "lyra-cmdk__shortcut"},
+    {"target": "item-kbd", "props": {}, "expected_class": "lyra-kbd"},
+    {"target": "kbd", "props": {}, "expected_class": "lyra-kbd"},
+    {"target": "footer", "props": {}, "expected_class": "lyra-cmdk__footer"}
+]
