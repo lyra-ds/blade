@@ -1,0 +1,16 @@
+[
+    {"target": "control", "props": {}, "expected_class": "lyra-timeinput"},
+    {"target": "input", "props": {}, "expected_class": "lyra-input"},
+    {"target": "input", "props": {"size": "sm"}, "expected_class": "lyra-input lyra-input--sm"},
+    {"target": "input", "props": {"size": "lg"}, "expected_class": "lyra-input lyra-input--lg"},
+    {"target": "input", "props": {"error": "Invalid"}, "expected_class": "lyra-input lyra-input--error"},
+    {"target": "input", "props": {"invalid": true}, "expected_class": "lyra-input lyra-input--error"},
+    {"target": "input", "props": {"size": "sm", "invalid": true}, "expected_class": "lyra-input lyra-input--sm lyra-input--error"},
+    {"target": "input", "props": {"class": "extra"}, "expected_class": "lyra-input extra"},
+    {"target": "steppers", "props": {}, "expected_class": "lyra-timeinput__steppers"},
+    {"target": "step", "props": {}, "expected_class": "lyra-timeinput__step"},
+    {"target": "field", "props": {"label": "Start time"}, "expected_class": "lyra-field"},
+    {"target": "label", "props": {"label": "Start time"}, "expected_class": "lyra-label"},
+    {"target": "hint", "props": {"hint": "Use 24-hour time"}, "expected_class": "lyra-hint"},
+    {"target": "hint", "props": {"error": "Invalid time"}, "expected_class": "lyra-hint lyra-hint--error"}
+]

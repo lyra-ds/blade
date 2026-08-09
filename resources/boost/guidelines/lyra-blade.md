@@ -594,6 +594,26 @@ Props:
 - `hint` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `error` — default: `null`; fixture examples (not constraints): `"Invalid"`.
 
+### time-input
+
+Tags: `<x-lyra::time-input>...</x-lyra::time-input>` or `<lyra:time-input>...</lyra:time-input>`.
+
+Root class alternatives observed in fixtures: `lyra-timeinput` | `lyra-input` | `lyra-input lyra-input--sm` | `lyra-input lyra-input--lg` | `lyra-input lyra-input--error` | `lyra-input lyra-input--sm lyra-input--error` | `lyra-timeinput__steppers` | `lyra-timeinput__step` | `lyra-field` | `lyra-label` | `lyra-hint` | `lyra-hint lyra-hint--error`.
+
+Props:
+- `label` — default: `null`; fixture examples (not constraints): `"Start time"`.
+- `hint` — default: `null`; fixture examples (not constraints): `"Use 24-hour time"`.
+- `error` — default: `null`; fixture examples (not constraints): `"Invalid time"`, `"Invalid"`.
+- `value` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `defaultValue` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `step` — default: `15`; no fixture examples (fixtures do not constrain this prop).
+- `min` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `max` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `size` — default: `"md"`; class-selector values evidenced by defaults and fixtures: `"lg"`, `"md"`, `"sm"`.
+- `invalid` — default: `false`; fixture examples (not constraints): `true`.
+- `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+
 ### toast-stack
 
 Tags: `<x-lyra::toast-stack>...</x-lyra::toast-stack>` or `<lyra:toast-stack>...</lyra:toast-stack>`.
