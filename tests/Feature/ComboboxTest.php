@@ -13,7 +13,6 @@ function renderCombobox(array $props = [], string $slots = ''): string
     $placeholder = $props['placeholder'] ?? null;
     $searchPlaceholder = $props['searchPlaceholder'] ?? null;
     $emptyMessage = $props['emptyMessage'] ?? null;
-    $searchLabel = $props['searchLabel'] ?? null;
     $disabled = $props['disabled'] ?? false;
     $factory = $props['factory'] ?? 'lyraCombobox';
     $extraOptions = $props['extraOptions'] ?? [];
@@ -27,7 +26,6 @@ function renderCombobox(array $props = [], string $slots = ''): string
         $props['placeholder'],
         $props['searchPlaceholder'],
         $props['emptyMessage'],
-        $props['searchLabel'],
         $props['disabled'],
         $props['factory'],
         $props['extraOptions'],
@@ -43,7 +41,7 @@ function renderCombobox(array $props = [], string $slots = ''): string
 
     return Blade::render(
         sprintf(
-            '<x-lyra::combobox :options="$options" :value="$value" :default-open="$defaultOpen" :label="$label" :hint="$hint" :error="$error" :placeholder="$placeholder" :search-placeholder="$searchPlaceholder" :empty-message="$emptyMessage" :search-label="$searchLabel" :disabled="$disabled" :factory="$factory" :extra-options="$extraOptions" %s>%s</x-lyra::combobox>',
+            '<x-lyra::combobox :options="$options" :value="$value" :default-open="$defaultOpen" :label="$label" :hint="$hint" :error="$error" :placeholder="$placeholder" :search-placeholder="$searchPlaceholder" :empty-message="$emptyMessage" :disabled="$disabled" :factory="$factory" :extra-options="$extraOptions" %s>%s</x-lyra::combobox>',
             $attributes,
             $slots,
         ),
@@ -57,7 +55,6 @@ function renderCombobox(array $props = [], string $slots = ''): string
             'placeholder',
             'searchPlaceholder',
             'emptyMessage',
-            'searchLabel',
             'disabled',
             'factory',
             'extraOptions',
@@ -69,8 +66,9 @@ function comboboxOpeningTag(string $html, string $target): string
 {
     $pattern = match ($target) {
         'root' => '/<div\b(?=[^>]*\bx-modelable="value")[^>]*>/',
-        'combobox' => '/<div\b(?=[^>]*\bclass="lyra-combobox")[^>]*>/',
-        'trigger' => '/<button\b(?=[^>]*\bclass="lyra-input lyra-combobox__trigger")[^>]*>/',
+        'combobox' => '/<div\b(?=[^>]*\bclass="[^"]*\blyra-combobox\b[^"]*")[^>]*>/',
+        'field' => '/<div\b(?=[^>]*\bclass="lyra-field")[^>]*>/',
+        'trigger' => '/<button\b(?=[^>]*\bclass="lyra-input lyra-combobox__trigger(?: lyra-input--error)?")[^>]*>/',
         'pop' => '/<div\b(?=[^>]*\bclass="lyra-combobox__pop")[^>]*>/',
         'search' => '/<div\b(?=[^>]*\bclass="lyra-combobox__search")[^>]*>/',
         'search-input' => '/<input\b(?=[^>]*\bx-bind="search")[^>]*>/',
@@ -107,6 +105,36 @@ function comboboxAttribute(string $tag, string $attribute): ?string
 function comboboxClass(string $html, string $target): string
 {
     return comboboxAttribute(comboboxOpeningTag($html, $target), 'class') ?? '';
+}
+
+/** @return list<array{tag: string, class: string}> */
+function comboboxFieldChildren(string $html): array
+{
+    $document = new DOMDocument;
+    $loaded = @$document->loadHTML(
+        '<!DOCTYPE html><html><body>'.$html.'</body></html>',
+        LIBXML_NOERROR | LIBXML_NOWARNING,
+    );
+
+    expect($loaded)->toBeTrue();
+
+    $xpath = new DOMXPath($document);
+    $field = $xpath->query('//div[contains(concat(" ", normalize-space(@class), " "), " lyra-field ")]')?->item(0);
+
+    expect($field)->toBeInstanceOf(DOMElement::class);
+
+    $children = [];
+
+    foreach ($field->childNodes as $child) {
+        if ($child instanceof DOMElement) {
+            $children[] = [
+                'tag' => $child->tagName,
+                'class' => $child->getAttribute('class'),
+            ];
+        }
+    }
+
+    return $children;
 }
 
 /** @return array<string, mixed> */
@@ -148,6 +176,41 @@ it('emits the exact static React class strings without duplicating classes owned
     expect(comboboxClass($html, $case['target']))->toBe($case['expected_class'])
         ->and($classAttributes[0])->toHaveCount($case['expected_class'] === '' ? 0 : 1);
 })->with('combobox class emission');
+
+it('returns only the modelable combobox control when no field content is present', function (): void {
+    $html = renderCombobox([
+        'class' => 'consumer',
+        'data-track' => 'country-picker',
+    ]);
+    $root = comboboxOpeningTag($html, 'root');
+
+    expect($html)->not->toContain('lyra-field')
+        ->and($root)->toBe(comboboxOpeningTag($html, 'combobox'))
+        ->and(comboboxAttribute($root, 'class'))->toBe('lyra-combobox consumer')
+        ->and($root)->toContain('x-data="lyraCombobox(')
+        ->and($root)->toContain('x-modelable="value"')
+        ->and($root)->toContain('data-track="country-picker"');
+});
+
+it('renders label control and message as field siblings while binding only the control', function (): void {
+    $html = renderCombobox([
+        'id' => 'country',
+        'label' => 'Country',
+        'hint' => 'Choose one',
+        'error' => 'Required',
+    ]);
+    $field = comboboxOpeningTag($html, 'field');
+    $root = comboboxOpeningTag($html, 'root');
+
+    expect(comboboxFieldChildren($html))->toBe([
+        ['tag' => 'label', 'class' => 'lyra-label'],
+        ['tag' => 'div', 'class' => 'lyra-combobox'],
+        ['tag' => 'span', 'class' => 'lyra-hint lyra-hint--error'],
+    ])->and($field)->not->toContain('x-data=')
+        ->and($field)->not->toContain('x-modelable=')
+        ->and($root)->toContain('x-data="lyraCombobox(')
+        ->and($root)->toContain('x-modelable="value"');
+});
 
 it('serializes the complete binding contract as valid JSON and exposes value as modelable', function (): void {
     $options = [
@@ -203,7 +266,7 @@ it('uses the time zone factory without changing any markup outside x-data', func
     $props = [
         'id' => 'time-zone',
         'label' => 'Time zone',
-        'searchLabel' => 'Search time zones',
+        'searchPlaceholder' => 'Search time zones',
     ];
     $default = renderCombobox($props, $slots);
     $specialized = renderCombobox([
@@ -387,15 +450,19 @@ it('serves a stable trigger id and wires the label before Alpine boots', functio
     $generatedId = comboboxAttribute(comboboxOpeningTag($generated, 'trigger'), 'id');
     $explicit = renderCombobox(['id' => 'country', 'label' => 'Country']);
 
+    $generatedLabelId = comboboxAttribute(comboboxOpeningTag($generated, 'label'), 'id');
+
     expect($generatedId)->toMatch('/^lyra-combobox-/')
+        ->and($generatedLabelId)->toBe($generatedId.'-label')
         ->and(comboboxOpeningTag($generated, 'label'))->toContain('for="'.$generatedId.'"')
         ->and(comboboxAttribute(comboboxOpeningTag($explicit, 'trigger'), 'id'))->toBe('country')
+        ->and(comboboxAttribute(comboboxOpeningTag($explicit, 'label'), 'id'))->toBe('country-label')
         ->and(comboboxOpeningTag($explicit, 'label'))->toContain('for="country"')
         ->and(comboboxOptions($explicit)['id'])->toBe('country');
 });
 
 it('renders the trigger and popup search skeleton with the exact binding hooks', function (): void {
-    $html = renderCombobox(['searchLabel' => 'Search countries']);
+    $html = renderCombobox(['searchPlaceholder' => 'Search countries']);
     $trigger = comboboxOpeningTag($html, 'trigger');
     $pop = comboboxOpeningTag($html, 'pop');
     $searchInput = comboboxOpeningTag($html, 'search-input');
@@ -416,6 +483,38 @@ it('renders the trigger and popup search skeleton with the exact binding hooks',
         ->and($empty)->toContain('class="lyra-combobox__empty"')
         ->and($empty)->toContain('x-bind="empty"')
         ->and($empty)->toContain('x-text="emptyMessage"');
+});
+
+it('derives the search accessible name from the field label or search placeholder', function (): void {
+    $labelled = renderCombobox([
+        'id' => 'country',
+        'label' => 'Country',
+        'searchPlaceholder' => 'Search countries',
+    ]);
+    $unlabelled = renderCombobox([
+        'id' => 'country',
+        'searchPlaceholder' => 'Search countries',
+    ]);
+    $labelledSearch = comboboxOpeningTag($labelled, 'search-input');
+    $unlabelledSearch = comboboxOpeningTag($unlabelled, 'search-input');
+    $labelId = comboboxAttribute(comboboxOpeningTag($labelled, 'label'), 'id');
+
+    expect($labelId)->toBe('country-label')
+        ->and(comboboxAttribute($labelledSearch, 'aria-labelledby'))->toBe($labelId)
+        ->and(comboboxAttribute($labelledSearch, 'aria-label'))->toBeNull()
+        ->and(comboboxAttribute($unlabelledSearch, 'aria-label'))->toBe('Search countries')
+        ->and(comboboxAttribute($unlabelledSearch, 'aria-labelledby'))->toBeNull();
+});
+
+it('does not expose searchLabel and always falls back to searchPlaceholder without a label', function (): void {
+    $html = renderCombobox([
+        'searchPlaceholder' => 'Search countries',
+        'search-label' => 'Legacy search label',
+    ]);
+
+    expect(comboboxAttribute(comboboxOpeningTag($html, 'search-input'), 'aria-label'))
+        ->toBe('Search countries')
+        ->not->toBe('Legacy search label');
 });
 
 it('renders the canonical data driven option and group bindings', function (): void {
@@ -472,8 +571,15 @@ it('prioritizes error over hint and derives describedBy from the rendered messag
     $plain = renderCombobox();
     $errorMessageId = comboboxAttribute(comboboxOpeningTag($error, 'message'), 'id');
     $hintMessageId = comboboxAttribute(comboboxOpeningTag($hint, 'message'), 'id');
+    $errorTrigger = comboboxOpeningTag($error, 'trigger');
+    $errorSearch = comboboxOpeningTag($error, 'search-input');
+    $hintTrigger = comboboxOpeningTag($hint, 'trigger');
+    $hintSearch = comboboxOpeningTag($hint, 'search-input');
+    $plainTrigger = comboboxOpeningTag($plain, 'trigger');
+    $plainSearch = comboboxOpeningTag($plain, 'search-input');
 
-    expect(comboboxClass($error, 'root'))->toBe('lyra-field')
+    expect(comboboxClass($error, 'root'))->toBe('lyra-combobox')
+        ->and(comboboxClass($error, 'field'))->toBe('lyra-field')
         ->and(comboboxClass($error, 'message'))->toBe('lyra-hint lyra-hint--error')
         ->and($error)->toContain('>Country is required</span>')
         ->and($error)->not->toContain('Choose one')
@@ -483,9 +589,25 @@ it('prioritizes error over hint and derives describedBy from the rendered messag
         ->and($hint)->toContain('>Choose one</span>')
         ->and(comboboxOptions($hint)['error'])->toBeFalse()
         ->and(comboboxOptions($hint)['describedBy'])->toBe($hintMessageId)
-        ->and(comboboxClass($plain, 'root'))->toBe('')
+        ->and(comboboxAttribute($errorTrigger, 'aria-describedby'))->toBe($errorMessageId)
+        ->and(comboboxAttribute($errorSearch, 'aria-describedby'))->toBe($errorMessageId)
+        ->and(comboboxAttribute($hintTrigger, 'aria-describedby'))->toBe($hintMessageId)
+        ->and(comboboxAttribute($hintSearch, 'aria-describedby'))->toBe($hintMessageId)
+        ->and(comboboxClass($plain, 'root'))->toBe('lyra-combobox')
         ->and($plain)->not->toContain('class="lyra-hint')
-        ->and(comboboxOptions($plain))->not->toHaveKey('describedBy');
+        ->and(comboboxOptions($plain))->not->toHaveKey('describedBy')
+        ->and(comboboxAttribute($plainTrigger, 'aria-describedby'))->toBeNull()
+        ->and(comboboxAttribute($plainSearch, 'aria-describedby'))->toBeNull();
+});
+
+it('serves the trigger error class before Alpine boots', function (): void {
+    $error = renderCombobox(['error' => 'Required']);
+    $plain = renderCombobox();
+
+    expect(comboboxClass($error, 'trigger'))
+        ->toBe('lyra-input lyra-combobox__trigger lyra-input--error')
+        ->and(comboboxClass($plain, 'trigger'))
+        ->toBe('lyra-input lyra-combobox__trigger');
 });
 
 it('treats zero strings as present field content', function (): void {
@@ -493,11 +615,11 @@ it('treats zero strings as present field content', function (): void {
     $hint = renderCombobox(['hint' => '0']);
     $error = renderCombobox(['error' => '0']);
 
-    expect(comboboxClass($label, 'root'))->toBe('lyra-field')
+    expect(comboboxClass($label, 'field'))->toBe('lyra-field')
         ->and($label)->toContain('>0</label>')
-        ->and(comboboxClass($hint, 'root'))->toBe('lyra-field')
+        ->and(comboboxClass($hint, 'field'))->toBe('lyra-field')
         ->and($hint)->toContain('>0</span>')
-        ->and(comboboxClass($error, 'root'))->toBe('lyra-field')
+        ->and(comboboxClass($error, 'field'))->toBe('lyra-field')
         ->and($error)->toContain('>0</span>')
         ->and(comboboxOptions($error)['error'])->toBeTrue();
 });
@@ -507,7 +629,7 @@ it('passes disabled state to the binding', function (): void {
         ->and(comboboxOptions(renderCombobox(['disabled' => false]))['disabled'])->toBeFalse();
 });
 
-it('keeps hostile data inside JSON and escapes the consumer search label attribute', function (): void {
+it('keeps hostile data inside JSON and escapes the derived search label attribute', function (): void {
     $payload = "'); window.pwned=1; //\"\\</script>";
     $options = [[
         'value' => $payload,
@@ -522,7 +644,6 @@ it('keeps hostile data inside JSON and escapes the consumer search label attribu
         'placeholder' => $payload,
         'searchPlaceholder' => $payload,
         'emptyMessage' => $payload,
-        'searchLabel' => $payload,
     ]);
     $root = comboboxOpeningTag($html, 'root');
     $serialized = comboboxOptions($html);
@@ -551,7 +672,8 @@ it('splits model attributes onto the modelable root and preserves native attribu
     ]);
     $root = comboboxOpeningTag($html, 'root');
 
-    expect(comboboxClass($html, 'root'))->toBe('lyra-field wide')
+    expect(comboboxClass($html, 'root'))->toBe('lyra-combobox lyra-field wide')
+        ->and(comboboxClass($html, 'field'))->toBe('lyra-field')
         ->and($root)->toContain('wire:model.live="country"')
         ->and($root)->toContain('x-model.fill="selectedCountry"')
         ->and($root)->toContain('data-track="country-picker"')
@@ -562,8 +684,8 @@ it('splits model attributes onto the modelable root and preserves native attribu
 });
 
 it('renders namespaced and short syntax identically', function (): void {
-    $namespaced = Blade::render('<x-lyra::combobox id="country" label="Country" search-label="Search countries" />');
-    $short = Blade::render('<lyra:combobox id="country" label="Country" search-label="Search countries" />');
+    $namespaced = Blade::render('<x-lyra::combobox id="country" label="Country" search-placeholder="Search countries" />');
+    $short = Blade::render('<lyra:combobox id="country" label="Country" search-placeholder="Search countries" />');
 
     expect($short)->toBe($namespaced)
         ->and($short)->toContain('lyraCombobox(');

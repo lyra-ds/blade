@@ -8,7 +8,6 @@
     'placeholder' => null,
     'searchPlaceholder' => null,
     'emptyMessage' => null,
-    'searchLabel' => null,
     'disabled' => false,
     'factory' => 'lyraCombobox',
     'extraOptions' => [],
@@ -35,8 +34,9 @@
     $hasMessage = $hasError || $hasHint;
     $hasField = $hasLabel || $hasMessage;
     $triggerId = $attributes->get('id') ?? 'lyra-combobox-'.uniqid();
+    $labelId = $hasLabel ? $triggerId.'-label' : null;
     $messageId = $hasMessage ? 'lyra-combobox-message-'.uniqid() : null;
-    $resolvedSearchLabel = $searchLabel ?? $searchPlaceholder ?? 'Search…';
+    $resolvedSearchPlaceholder = is_string($searchPlaceholder) ? $searchPlaceholder : 'Search…';
     $allowedFactories = ['lyraCombobox', 'lyraTimeZonePicker'];
     $resolvedFactory = in_array($factory, $allowedFactories, true) ? $factory : 'lyraCombobox';
     $modelAttributes = $attributes->whereStartsWith(['wire:model', 'x-model']);
@@ -45,7 +45,7 @@
         ->except(['id', 'class', 'x-data']);
     $consumerClasses = preg_split('/\s+/', trim((string) $attributes->get('class', ''))) ?: [];
     $rootClasses = array_values(array_unique(array_filter(
-        [...($hasField ? ['lyra-field'] : []), ...$consumerClasses],
+        ['lyra-combobox', ...$consumerClasses],
         static fn (string $class): bool => $class !== '',
     )));
     $rootClass = implode(' ', $rootClasses);
@@ -134,31 +134,44 @@
     );
 @endphp
 
-<div
-    x-data="{{ $resolvedFactory.'('.$optionsLiteral.')' }}"
-    x-modelable="value"
-    @if ($rootClass !== '')
-        class="{{ $rootClass }}"
-    @endif
-    {{ $modelAttributes }}
-    {{ $rootAttributes }}
->
+@if ($hasField)
+    <div class="lyra-field">
     @if ($hasLabel)
-        <label class="lyra-label" for="{{ $triggerId }}">{{ $label }}</label>
+        <label id="{{ $labelId }}" class="lyra-label" for="{{ $triggerId }}">{{ $label }}</label>
     @endif
+@endif
 
-    <div class="lyra-combobox">
+    <div
+        x-data="{{ $resolvedFactory.'('.$optionsLiteral.')' }}"
+        x-modelable="value"
+        class="{{ $rootClass }}"
+        {{ $modelAttributes }}
+        {{ $rootAttributes }}
+    >
         <button
             type="button"
             id="{{ $triggerId }}"
-            class="lyra-input lyra-combobox__trigger"
+            class="lyra-input lyra-combobox__trigger{{ $hasError ? ' lyra-input--error' : '' }}"
             x-bind="trigger"
+            @if ($messageId !== null)
+                aria-describedby="{{ $messageId }}"
+            @endif
         >
             <span x-bind="triggerValue"></span>
         </button>
         <div class="lyra-combobox__pop" x-bind="pop">
             <div class="lyra-combobox__search">
-                <input x-bind="search" aria-label="{{ $resolvedSearchLabel }}">
+                <input
+                    x-bind="search"
+                    @if ($labelId !== null)
+                        aria-labelledby="{{ $labelId }}"
+                    @else
+                        aria-label="{{ $resolvedSearchPlaceholder }}"
+                    @endif
+                    @if ($messageId !== null)
+                        aria-describedby="{{ $messageId }}"
+                    @endif
+                >
             </div>
             <div class="lyra-combobox__list" x-bind="list">
                 <span
@@ -209,9 +222,11 @@
         </div>
     </div>
 
+@if ($hasField)
     @if ($hasError)
         <span id="{{ $messageId }}" class="lyra-hint lyra-hint--error">{{ $error }}</span>
     @elseif ($hasHint)
         <span id="{{ $messageId }}" class="lyra-hint">{{ $hint }}</span>
     @endif
-</div>
+    </div>
+@endif

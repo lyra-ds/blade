@@ -1,0 +1,8 @@
+[
+    {"props": {}, "expected_class": "lyra-combobox lyra-tzpicker"},
+    {"props": {"label": "Time zone"}, "expected_class": "lyra-combobox lyra-tzpicker"},
+    {"props": {"hint": "Choose one"}, "expected_class": "lyra-combobox lyra-tzpicker"},
+    {"props": {"error": "Required"}, "expected_class": "lyra-combobox lyra-tzpicker"},
+    {"props": {"class": "consumer utility"}, "expected_class": "lyra-combobox lyra-tzpicker consumer utility"},
+    {"props": {"label": "Time zone", "class": "consumer"}, "expected_class": "lyra-combobox lyra-tzpicker consumer"}
+]

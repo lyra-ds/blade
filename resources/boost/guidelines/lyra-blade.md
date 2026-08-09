@@ -212,7 +212,7 @@ Props:
 
 Tags: `<x-lyra::combobox>...</x-lyra::combobox>` or `<lyra:combobox>...</lyra:combobox>`.
 
-Root class alternatives observed in fixtures: `` | `lyra-field` | `lyra-combobox` | `lyra-input lyra-combobox__trigger` | `lyra-combobox__pop` | `lyra-combobox__search` | `lyra-combobox__list` | `lyra-combobox__empty` | `lyra-combobox__group` | `lyra-combobox__option` | `lyra-combobox__option-label` | `lyra-combobox__option-hint` | `lyra-combobox__trailing` | `lyra-label` | `lyra-hint` | `lyra-hint lyra-hint--error`.
+Root class alternatives observed in fixtures: `lyra-combobox` | `lyra-input lyra-combobox__trigger` | `lyra-input lyra-combobox__trigger lyra-input--error` | `lyra-combobox__pop` | `lyra-combobox__search` | `lyra-combobox__list` | `lyra-combobox__empty` | `lyra-combobox__group` | `lyra-combobox__option` | `lyra-combobox__option-label` | `lyra-combobox__option-hint` | `lyra-combobox__trailing` | `lyra-label` | `lyra-hint` | `lyra-hint lyra-hint--error`.
 
 Props:
 - `options` — default: unknown; no fixture examples (fixtures do not constrain this prop).
@@ -224,7 +224,6 @@ Props:
 - `placeholder` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `searchPlaceholder` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `emptyMessage` — default: `null`; no fixture examples (fixtures do not constrain this prop).
-- `searchLabel` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
 - `factory` — default: `"lyraCombobox"`; no fixture examples (fixtures do not constrain this prop).
 - `extraOptions` — default: unknown; no fixture examples (fixtures do not constrain this prop).
@@ -768,6 +767,26 @@ Props:
 - `step` — default: `30`; no fixture examples (fixtures do not constrain this prop).
 - `min` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `max` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `locale` — default: `"en-US"`; no fixture examples (fixtures do not constrain this prop).
+- `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+
+### time-zone-picker
+
+Tags: `<x-lyra::time-zone-picker>...</x-lyra::time-zone-picker>` or `<lyra:time-zone-picker>...</lyra:time-zone-picker>`.
+
+Root class combination observed in fixtures: `lyra-combobox lyra-tzpicker`.
+
+Props:
+- `value` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `zones` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `recentZones` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `detectedZone` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `referenceDate` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `label` — default: `null`; fixture examples (not constraints): `"Time zone"`.
+- `hint` — default: `null`; fixture examples (not constraints): `"Choose one"`.
+- `error` — default: `null`; fixture examples (not constraints): `"Required"`.
+- `placeholder` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `locale` — default: `"en-US"`; no fixture examples (fixtures do not constrain this prop).
 - `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
 - `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
