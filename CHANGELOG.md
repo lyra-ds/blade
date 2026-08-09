@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.6.0](https://github.com/lyra-ds/blade/compare/v0.5.0...v0.6.0) (2026-08-09)
+
+
+### Features
+
+* add app sidebar component ([394078f](https://github.com/lyra-ds/blade/commit/394078f028beeb5a3aa81be571e27af259e8f78f))
+* add calendar component ([457224f](https://github.com/lyra-ds/blade/commit/457224f10c10d021971b25bede322e4e9a4d9a1d))
+* add date picker component ([285a474](https://github.com/lyra-ds/blade/commit/285a474936a6909a21e7621e71a0aadffd875eb0))
+* add date range picker component ([c353914](https://github.com/lyra-ds/blade/commit/c353914f91cd30eb20e5985950e05b78f394003c))
+* **time-picker:** add responsive time picker ([ff40a35](https://github.com/lyra-ds/blade/commit/ff40a35bbb91aa99b6e5733eb7f56b822f2c8c7b))
+* ToastStack dynamic queue wiring with tone icons and close button ([186d30b](https://github.com/lyra-ds/blade/commit/186d30baf897377c3701556bf3863a8920522771))
+
+
+### Miscellaneous Chores
+
+* destrava task 7 (lyraAppSidebar publicado no alpine 0.3.0) e ignora .playwright-mcp (batuta) ([f18d33d](https://github.com/lyra-ds/blade/commit/f18d33d84107311bfe3753a0730e30956465e2df))
+* record demo toasts showcase cycle (batuta) ([9e89264](https://github.com/lyra-ds/blade/commit/9e89264b76c09e832a868edc731bc90bae87d4e9))
+* record release 0.5.0; onda C shipped end to end (batuta) ([51bb286](https://github.com/lyra-ds/blade/commit/51bb286628feaa4cd14742b5ef8f13a7f0df308e))
+* record task 19 (calendar) cycle (batuta) ([b586dca](https://github.com/lyra-ds/blade/commit/b586dca6290601c88ed716172c87bf89892e7114))
+* record task 20 (date-picker) cycle and close the styles backlog item (batuta) ([e95f06c](https://github.com/lyra-ds/blade/commit/e95f06cc1e352368226d1e1cd1a09bb6f3d6b4cd))
+* record task 21 (date-range-picker) cycle (batuta) ([07ceb34](https://github.com/lyra-ds/blade/commit/07ceb34af151f7dbfbfe94cda556c53347cc1536))
+* record task 22 (time-picker) cycle and register the lyraTimePicker upstream candidate (batuta) ([f47b4e8](https://github.com/lyra-ds/blade/commit/f47b4e813222887fbeb8ef292aeef60a58af7a2c))
+* record task 23 (demo dates gallery) cycle (batuta) ([e1afc59](https://github.com/lyra-ds/blade/commit/e1afc59d99568e941ee43c645fe7e7142b4698ff))
+* record task 7 (app-sidebar) cycle (batuta) ([29f4aa0](https://github.com/lyra-ds/blade/commit/29f4aa0f7ded48ee458b25c39e13a9892e9211d1))
+* record ToastStack dynamic queue cycle (batuta) ([24e0d42](https://github.com/lyra-ds/blade/commit/24e0d42950ebc12f63c7ebde64fed0cd010ecd22))
+* registra fix candidato do styles (segmented active vs hover) (batuta) ([fe721a4](https://github.com/lyra-ds/blade/commit/fe721a4d9702d8d91384d2747450ebbaabafc3d7))
+
 ## [0.5.0](https://github.com/lyra-ds/blade/compare/v0.4.0...v0.5.0) (2026-08-09)
 
 
