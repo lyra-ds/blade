@@ -404,6 +404,17 @@ Root class combination observed in fixtures: `lyra-radio`.
 Props:
 - `label` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
+### segmented-control
+
+Tags: `<x-lyra::segmented-control>...</x-lyra::segmented-control>` or `<lyra:segmented-control>...</lyra:segmented-control>`.
+
+Root class combination observed in fixtures: `lyra-segmented`.
+
+Props:
+- `options` — required; no fixture examples (fixtures do not constrain this prop).
+- `value` — required; no fixture examples (fixtures do not constrain this prop).
+- `label` — required; no fixture examples (fixtures do not constrain this prop).
+
 ### segmented-ring
 
 Tags: `<x-lyra::segmented-ring>...</x-lyra::segmented-ring>` or `<lyra:segmented-ring>...</lyra:segmented-ring>`.

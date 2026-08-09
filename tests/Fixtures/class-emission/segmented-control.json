@@ -1,0 +1,4 @@
+[
+    {"props": {}, "expected_class": "lyra-segmented"},
+    {"props": {"class": "extra custom"}, "expected_class": "lyra-segmented extra custom"}
+]
