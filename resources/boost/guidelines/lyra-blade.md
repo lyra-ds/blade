@@ -230,6 +230,25 @@ Props:
 - `essentialsLabel` — default: `"Only essentials"`; no fixture examples (fixtures do not constrain this prop).
 - `acceptLabel` — default: `"Accept all"`; no fixture examples (fixtures do not constrain this prop).
 
+### date-picker
+
+Tags: `<x-lyra::date-picker>...</x-lyra::date-picker>` or `<lyra:date-picker>...</lyra:date-picker>`.
+
+Root class alternatives observed in fixtures: `` | `lyra-field`.
+
+Props:
+- `label` — default: `null`; fixture examples (not constraints): `"0"`, `"Date"`.
+- `hint` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `error` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `defaultValue` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `placeholder` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `min` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `max` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `locale` — default: `"en-US"`; no fixture examples (fixtures do not constrain this prop).
+- `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `name` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+
 ### dialog
 
 Tags: `<x-lyra::dialog>...</x-lyra::dialog>` or `<lyra:dialog>...</lyra:dialog>`.
@@ -447,6 +466,7 @@ Props:
 - `align` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `width` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `ariaLabel` — default: `"Popover"`; no fixture examples (fixtures do not constrain this prop).
+- `wrapTrigger` — default: `true`; no fixture examples (fixtures do not constrain this prop).
 
 ### progress
 

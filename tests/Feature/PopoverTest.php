@@ -16,12 +16,14 @@ function renderPopover(
     $align = $props['align'] ?? null;
     $width = $props['width'] ?? null;
     $ariaLabel = $props['ariaLabel'] ?? 'Popover';
+    $wrapTrigger = $props['wrapTrigger'] ?? true;
     unset(
         $props['defaultOpen'],
         $props['side'],
         $props['align'],
         $props['width'],
         $props['ariaLabel'],
+        $props['wrapTrigger'],
     );
 
     $attributes = collect($props)
@@ -34,10 +36,10 @@ function renderPopover(
 
     return Blade::render(
         sprintf(
-            '<x-lyra::popover :default-open="$defaultOpen" :side="$side" :align="$align" :width="$width" :aria-label="$ariaLabel" %s><x-slot:trigger>{{ $trigger }}</x-slot:trigger>{{ $content }}</x-lyra::popover>',
+            '<x-lyra::popover :default-open="$defaultOpen" :side="$side" :align="$align" :width="$width" :aria-label="$ariaLabel" :wrap-trigger="$wrapTrigger" %s><x-slot:trigger>{{ $trigger }}</x-slot:trigger>{{ $content }}</x-lyra::popover>',
             $attributes,
         ),
-        compact('defaultOpen', 'side', 'align', 'width', 'ariaLabel', 'trigger', 'content'),
+        compact('defaultOpen', 'side', 'align', 'width', 'ariaLabel', 'wrapTrigger', 'trigger', 'content'),
     );
 }
 
@@ -170,7 +172,7 @@ it('keeps passthrough on the root and appends the user class last', function ():
         ->and($panel)->not->toContain('data-track="popover"');
 });
 
-it('always wraps trigger content with the complete trigger contract', function (): void {
+it('wraps trigger content with the complete trigger contract by default', function (): void {
     $closed = renderPopover(trigger: new HtmlString('<svg data-trigger></svg>Actions'));
     $open = renderPopover(['defaultOpen' => true]);
     $closedTag = popoverOpeningTag($closed, 'trigger');
@@ -183,6 +185,18 @@ it('always wraps trigger content with the complete trigger contract', function (
         ->and($closedTag)->toContain('x-bind="trigger"')
         ->and($closed)->toContain('<svg data-trigger></svg>Actions</span>')
         ->and($openTag)->toContain('aria-expanded="true"');
+});
+
+it('renders trigger slot content directly when wrapping is disabled', function (): void {
+    $html = renderPopover(
+        ['wrapTrigger' => false],
+        new HtmlString('<button type="button" x-bind="trigger">Actions</button>'),
+    );
+
+    expect($html)->toContain('<button type="button" x-bind="trigger">Actions</button>')
+        ->and($html)->not->toContain('role="button"')
+        ->and($html)->not->toContain('tabindex="0"')
+        ->and(substr_count($html, 'x-bind="trigger"'))->toBe(1);
 });
 
 it('renders the initial panel placement, alignment, and accessibility contract', function (): void {

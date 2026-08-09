@@ -4,9 +4,14 @@
     'align' => null,
     'width' => null,
     'ariaLabel' => 'Popover',
+    'wrapTrigger' => true,
 ])
 
-{{-- trigger: required; pass non-interactive content because the component always supplies the interactive wrapper. --}}
+{{--
+    trigger: required. With wrapTrigger=true (the default), pass non-interactive content because
+    the component supplies the interactive wrapper. With wrapTrigger=false, pass an interactive
+    element carrying x-bind="trigger"; the slot is rendered directly without a wrapper.
+--}}
 @php
     $resolvedSide = in_array($side, ['auto', 'bottom', 'top'], true)
         ? $side
@@ -32,13 +37,17 @@
     {{ $modelAttributes }}
     {{ $rootAttributes->class('lyra-popover-anchor') }}
 >
-    <span
-        role="button"
-        tabindex="0"
-        aria-haspopup="dialog"
-        aria-expanded="{{ $defaultOpen ? 'true' : 'false' }}"
-        x-bind="trigger"
-    >{{ $trigger }}</span>
+    @if ($wrapTrigger)
+        <span
+            role="button"
+            tabindex="0"
+            aria-haspopup="dialog"
+            aria-expanded="{{ $defaultOpen ? 'true' : 'false' }}"
+            x-bind="trigger"
+        >{{ $trigger }}</span>
+    @else
+        {{ $trigger }}
+    @endif
     <div
         class="lyra-popover lyra-popover--{{ $initialSide }} lyra-popover--align-{{ $initialAlign }}"
         role="dialog"
