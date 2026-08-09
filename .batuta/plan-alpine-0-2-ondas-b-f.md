@@ -17,8 +17,8 @@ demo varrida ao fim de cada onda, guidelines do Boost regeneradas a cada item.
       Accept: `blade-demo/package.json` em `^0.2.0`, lockfile atualizado, `vite build` verde, galeria atual (50 componentes) sem regressão visual óbvia; commit no repo do demo. **FEITO** — commit `1313bb8` no demo, 0.2.0 instalado, build 161ms, 3/3 testes, view:cache ok.
 - [x] 3. Componente `code-block` (binding `lyraCodeBlock`, S) — codex (medium)
       Accept: markup servido com `x-bind` `copyButton`/`status`, `data-copy-text` opcional, live-region `role="status"`; class-emission contra o fixture do React; suíte verde; guidelines regeneradas idempotentes; pint limpo. **FEITO** — commit `34457c0`, suíte 601 → 617 (2401 assertions); 1 rodada corretiva (`type="button"` servido).
-- [ ] 4. Componente `cookie-banner` (`lyraCookieBanner`, S) — codex (medium)
-      Accept: `x-cloak` obrigatório documentado (inversão do React), botões accept/essentials emitindo `lyra:accept`/`lyra:essentials`, `--closing` servido; class-emission; suíte verde; guidelines; pint.
+- [x] 4. Componente `cookie-banner` (`lyraCookieBanner`, S) — codex (medium)
+      Accept: `x-cloak` obrigatório documentado (inversão do React), botões accept/essentials emitindo `lyra:accept`/`lyra:essentials`, `--closing` NUNCA servido (é runtime do binding); class-emission; suíte verde; guidelines; pint. **FEITO** — commit `974b953`, suíte 617 → 628 (2454 assertions).
 - [ ] 5. Componente `sidebar-group` (`lyraSidebarGroup`, S) — codex (medium)
       Accept: `collapsed` via `x-modelable`, `aria-expanded` no label-botão, itens desmontados quando colapsado, evento de seleção; class-emission; suíte verde; guidelines; pint. **Destrava a task 7.**
 - [ ] 6. Componente `segmented-control` (`lyraSegmentedControl`, S/M) — codex (medium)
