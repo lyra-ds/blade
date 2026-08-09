@@ -542,6 +542,17 @@ Root class combination observed in fixtures: `lyra-switch`.
 Props:
 - `label` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
+### table-of-contents
+
+Tags: `<x-lyra::table-of-contents>...</x-lyra::table-of-contents>` or `<lyra:table-of-contents>...</lyra:table-of-contents>`.
+
+Root class combination observed in fixtures: `lyra-toc`.
+
+Props:
+- `items` — required; no fixture examples (fixtures do not constrain this prop).
+- `activeId` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `label` — required; no fixture examples (fixtures do not constrain this prop).
+
 ### table
 
 Tags: `<x-lyra::table>...</x-lyra::table>` or `<lyra:table>...</lyra:table>`.

@@ -1,0 +1,22 @@
+[
+    {
+        "props": {},
+        "expected_class": "lyra-toc",
+        "expected_title_class": "lyra-toc__title",
+        "expected_list_class": "lyra-toc__list",
+        "expected_item_class": "",
+        "expected_link_class": "lyra-toc__link",
+        "expected_active_link_class": "lyra-toc__link lyra-toc__link--active",
+        "expected_active_modifier_class": "lyra-toc__link--active"
+    },
+    {
+        "props": {"class": "extra custom"},
+        "expected_class": "lyra-toc extra custom",
+        "expected_title_class": "lyra-toc__title",
+        "expected_list_class": "lyra-toc__list",
+        "expected_item_class": "",
+        "expected_link_class": "lyra-toc__link",
+        "expected_active_link_class": "lyra-toc__link lyra-toc__link--active",
+        "expected_active_modifier_class": "lyra-toc__link--active"
+    }
+]
