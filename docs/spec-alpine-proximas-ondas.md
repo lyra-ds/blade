@@ -4,7 +4,7 @@
 > De: análise dos fontes React, 2026-08-07 (Batuta, lyra-ds/blade).
 > Complementa `docs/prd-fase-2-alpine.md`; não reabre decisões fechadas.
 > O lado upstream desta spec foi entregue como PRD autocontido ao monorepo:
-> `lyra/docs/prd-alpine-ondas-b-f.md` (2026-08-08) — a sessão do alpine
+> `lyra/.batuta/prd-alpine-ondas-b-f.md` (2026-08-08, commit `ade1488`) — a sessão do alpine
 > executa por ele; este documento rege o lado Blade.
 > Fonte de verdade analisada: `lyra/packages/react/src/<nome>/<nome>.tsx` de cada
 > componente, contra o padrão dos 7 bindings existentes (`lyra/packages/alpine/src`).

@@ -5,6 +5,8 @@
 > Fonte analisada: `lyra/packages/react/src/app-sidebar/app-sidebar.tsx` (fonte de verdade)
 > e `packages/styles/components/navigation/navigation.css` (as regras do modo rail).
 > Complementa `docs/spec-alpine-proximas-ondas.md` e **corrige uma classificação dela**.
+> Entregue ao monorepo como `lyra/.batuta/prd-alpine-app-sidebar.md` (mesmo caminho do
+> PRD das ondas B–F, `ade1488` — NÃO `lyra/docs/`, como a spec anterior afirmava).
 
 ## 1. Por que esta spec existe
 
