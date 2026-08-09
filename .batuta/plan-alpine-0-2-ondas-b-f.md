@@ -28,8 +28,8 @@ demo varrida ao fim de cada onda, guidelines do Boost regeneradas a cada item.
 - [ ] 7. Componente `app-sidebar` — **BLOQUEADO (2026-08-08), sai da onda B**
       A premissa da spec caiu: `app-sidebar` NÃO é estático — o React usa `useControllableState` para o modo rail (botão de colapsar, chevron que inverte, `--appsidebar-width` 64px↔width, headings ocultos, `title` nos itens). E o alpine 0.2.0 não tem `lyraAppSidebar` (28 `Alpine.data()` conferidos no `dist` publicado). Decisão do usuário: adiar o Blade e abrir o binding upstream — spec autocontida em `docs/spec-alpine-app-sidebar.md`. Volta ao plano quando `lyraAppSidebar` for publicado.
       Accept (quando destravar): brand, grupos em modo dados compondo `<lyra:sidebar-group>`, slot de composição, footer, width, `collapsible`/`default-collapsed`/`labels`, estado inicial servido (classe `--rail` + largura), `x-modelable="collapsed"`; class-emission; suíte verde; guidelines; pint.
-- [ ] 8. Componente `workspace-switcher` (`lyraWorkspaceSwitcher`, M) — codex complex (gpt-5.6-sol, reasoning high)
-      Accept: listbox-popover com `open` modelable, navegação por foco real, flip placement, evento de troca de workspace; class-emission; suíte verde; guidelines; pint.
+- [x] 8. Componente `workspace-switcher` (`lyraWorkspaceSwitcher`, M) — codex complex (gpt-5.6-sol, reasoning high)
+      Accept: listbox-popover com `open` modelable, navegação por foco real, flip placement, evento de troca de workspace; class-emission; suíte verde; guidelines; pint. **FEITO** — commit `1844f51`, suíte 657 → 674 (2735 assertions); ids ARIA servidos pelo Blade (este binding não gera) e a ação criar reusa `lyra:change` via `create-id`.
 - [ ] 9. Varredura da galeria do `blade-demo` — seção da onda B (6 componentes) — codex (medium)
       Accept: cada componente novo com seção na galeria, `artisan test` verde, `view:cache` ok; commit no repo do demo.
 - [ ] 10. Release 0.4.0 — maestro (claude)
