@@ -1,0 +1,5 @@
+[
+    {"props": {}, "expected_class": ""},
+    {"props": {"label": "Time"}, "expected_class": "lyra-field"},
+    {"props": {"class": "consumer utility"}, "expected_class": "consumer utility"}
+]

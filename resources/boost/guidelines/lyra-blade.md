@@ -732,6 +732,25 @@ Props:
 - `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
 - `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
 
+### time-picker
+
+Tags: `<x-lyra::time-picker>...</x-lyra::time-picker>` or `<lyra:time-picker>...</lyra:time-picker>`.
+
+Root class alternatives observed in fixtures: `` | `lyra-field`.
+
+Props:
+- `label` — default: `null`; fixture examples (not constraints): `"Time"`.
+- `hint` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `error` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `defaultValue` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `placeholder` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `step` — default: `30`; no fixture examples (fixtures do not constrain this prop).
+- `min` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `max` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `locale` — default: `"en-US"`; no fixture examples (fixtures do not constrain this prop).
+- `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+
 ### toast-stack
 
 Tags: `<x-lyra::toast-stack>...</x-lyra::toast-stack>` or `<lyra:toast-stack>...</lyra:toast-stack>`.
