@@ -21,7 +21,15 @@ Classificação por análise de estado no fonte React:
 
 - **3 estáticos** (zero hooks): `app-sidebar`, `checkbox-group`, `radio-group` —
   não precisam de binding; entram como componentes Blade fase-1-style.
+  (Correção 2026-08-08: `app-sidebar` NÃO é estático — renderiza SidebarGroup;
+  spec própria do `lyraAppSidebar` entregue upstream.)
 - **24 interativos** — especificados abaixo.
+- **Lacuna corrigida (2026-08-09):** o `toast-provider` ficou fora da análise
+  original (filtrado junto com index/internal). É ele quem dá auto-dismiss ao
+  Toast no React (duration 4000, `0` desliga, dismiss por id). Spec entregue
+  upstream: `lyra/.batuta/prd-alpine-toasts.md` — `Alpine.store('lyraToasts')` +
+  `lyraToastStack` (candidato à onda C); o lado Blade re-liga o botão de fechar
+  no fluxo dinâmico e mantém o estático como degradação.
 
 ## 2. Vereditos (fechados com o usuário, 2026-08-08)
 
