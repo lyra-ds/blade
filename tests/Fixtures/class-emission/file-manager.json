@@ -1,0 +1,45 @@
+[
+    {
+        "props": {},
+        "expected_class": "lyra-fm",
+        "expected_classes": {
+            "toolbar": "lyra-fm__toolbar",
+            "search": "lyra-fm__search",
+            "views": "lyra-fm__views",
+            "list_button": "lyra-fm__view lyra-fm__view--on",
+            "grid_button": "lyra-fm__view",
+            "path": "lyra-fm__path",
+            "crumb": "lyra-fm__crumb",
+            "list": "lyra-fm__list",
+            "head": "lyra-fm__head",
+            "row": "lyra-fm__row",
+            "name": "lyra-fm__name",
+            "list_icon": "lyra-fm__icon lyra-fm__icon--folder",
+            "label": "lyra-fm__label",
+            "shared": "lyra-fm__shared",
+            "cell": "lyra-fm__cell",
+            "actions": "lyra-fm__actions",
+            "more": "lyra-fm__more",
+            "grid": "lyra-fm__grid",
+            "card": "lyra-fm__card",
+            "card_actions": "lyra-fm__card-actions",
+            "card_body": "lyra-fm__card-body",
+            "grid_icon": "lyra-fm__icon lyra-fm__icon--big lyra-fm__icon--folder",
+            "card_meta": "lyra-fm__card-meta",
+            "empty": "lyra-fm__empty"
+        }
+    },
+    {
+        "props": {"defaultView": "grid"},
+        "expected_class": "lyra-fm",
+        "expected_classes": {
+            "list_button": "lyra-fm__view",
+            "grid_button": "lyra-fm__view lyra-fm__view--on"
+        }
+    },
+    {
+        "props": {"class": "extra custom"},
+        "expected_class": "lyra-fm extra custom",
+        "expected_classes": {}
+    }
+]

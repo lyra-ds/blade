@@ -252,6 +252,22 @@ Root class combination observed in fixtures: `lyra-fieldset`.
 
 Props: none (slots and pass-through attributes only).
 
+### file-manager
+
+Tags: `<x-lyra::file-manager>...</x-lyra::file-manager>` or `<lyra:file-manager>...</lyra:file-manager>`.
+
+Root class combination observed in fixtures: `lyra-fm`.
+
+Props:
+- `files` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `path` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `defaultView` — default: `"list"`; fixture examples (not constraints): `"grid"`.
+- `defaultQuery` — default: `""`; no fixture examples (fixtures do not constrain this prop).
+- `actions` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `searchPlaceholder` — default: `"Search files…"`; no fixture examples (fixtures do not constrain this prop).
+- `emptyMessage` — default: `"No files found."`; no fixture examples (fixtures do not constrain this prop).
+- `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+
 ### file-upload
 
 Tags: `<x-lyra::file-upload>...</x-lyra::file-upload>` or `<lyra:file-upload>...</lyra:file-upload>`.
