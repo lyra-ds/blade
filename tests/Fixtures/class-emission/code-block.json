@@ -1,0 +1,7 @@
+[
+    {"props": {}, "expected_class": "lyra-code"},
+    {"props": {"lineNumbers": true}, "expected_class": "lyra-code lyra-code--line-numbers"},
+    {"props": {"wrap": true}, "expected_class": "lyra-code lyra-code--wrap"},
+    {"props": {"lineNumbers": true, "wrap": true}, "expected_class": "lyra-code lyra-code--line-numbers lyra-code--wrap"},
+    {"props": {"class": "extra"}, "expected_class": "lyra-code extra"}
+]

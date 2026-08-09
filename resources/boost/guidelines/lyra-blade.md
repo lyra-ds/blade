@@ -148,6 +148,20 @@ Root class combination observed in fixtures: `lyra-checkbox`.
 Props:
 - `label` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
+### code-block
+
+Tags: `<x-lyra::code-block>...</x-lyra::code-block>` or `<lyra:code-block>...</lyra:code-block>`.
+
+Root class alternatives observed in fixtures: `lyra-code` | `lyra-code lyra-code--line-numbers` | `lyra-code lyra-code--wrap` | `lyra-code lyra-code--line-numbers lyra-code--wrap`.
+
+Props:
+- `language` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `lineNumbers` — default: `false`; fixture examples (not constraints): `true`.
+- `wrap` — default: `false`; fixture examples (not constraints): `true`.
+- `copyLabel` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `copiedLabel` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `copyText` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+
 ### container
 
 Tags: `<x-lyra::container>...</x-lyra::container>` or `<lyra:container>...</lyra:container>`.
