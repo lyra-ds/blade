@@ -1,0 +1,7 @@
+[
+    {"props": {}, "expected_class": ""},
+    {"props": {"label": "Period"}, "expected_class": "lyra-field"},
+    {"props": {"label": "0"}, "expected_class": "lyra-field"},
+    {"props": {"class": "consumer utility"}, "expected_class": "consumer utility"},
+    {"props": {"label": "Period", "class": "consumer utility"}, "expected_class": "lyra-field consumer utility"}
+]
