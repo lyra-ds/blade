@@ -62,3 +62,12 @@ Report: files touched; pest and pint output; the emitted script text; commit has
 ## Stop conditions
 
 Stop and report when: theme.ts contradicts this brief, the same command fails twice, or the fix needs edits beyond Scope.
+
+---
+
+# Run result (appended)
+
+- Tentativa 1: stop condition legítima — theme.ts hard-coda 'lyra-theme', factory sem options; argumento custom inviável (embelezamento do maestro na recomendação, não decisão do usuário).
+- Tentativa 2 (mesma sessão): v1 zero-config entregue, commit `3f46864` antes do report.
+- Verificação: scope exato (README/provider/ThemeScript/teste); script literal conferido (chave fixa, dataset.theme, matchMedia system, try/catch); 762/762 (3437 assertions); pint ok.
+- Verdict: ✅ approved — squash na main, cleanup completo. Upstream candidate anotada no backlog.
