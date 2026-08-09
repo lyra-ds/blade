@@ -80,7 +80,7 @@ Every component emits exactly the class strings emitted by the corresponding Lyr
 
 | `lyra-ds/blade` | Laravel 12 | Laravel 13 | PHP 8.3 | PHP 8.4 | `@lyra-ds/styles` | `@lyra-ds/alpine` |
 | --- | --- | --- | --- | --- | --- | --- |
-| `0.x` (unreleased/dev) | Supported | Supported | Supported | Supported | `^0.4` | `^0.1.1` |
+| `0.x` (unreleased/dev) | Supported | Supported | Supported | Supported | `^0.4` | `^0.2` |
 
 These are the versions the current `main` branch was tested against.
 
