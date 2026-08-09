@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.5.0](https://github.com/lyra-ds/blade/compare/v0.4.0...v0.5.0) (2026-08-09)
+
+
+### Features
+
+* [@lyra](https://github.com/lyra)ThemeScript directive with anti-flash inline script ([668a7de](https://github.com/lyra-ds/blade/commit/668a7de5cf3a16e44ecb9a9f80737cb13760db63))
+* BottomSheet component, structural sibling of Dialog and Drawer ([b39dcbd](https://github.com/lyra-ds/blade/commit/b39dcbd004c25ac2936914df5b9798d6135e9867))
+* FileManager component with served dual trees and client filter ([22ba8b2](https://github.com/lyra-ds/blade/commit/22ba8b2078b84c0ecd8a5817e23f9b91258f5eb9))
+* FileUpload component with runtime item template ([bfa2f6b](https://github.com/lyra-ds/blade/commit/bfa2f6be8bf80e0243f630122823c364e7127b3f))
+* TableOfContents component wired to the scroll-spy binding ([4d2cf18](https://github.com/lyra-ds/blade/commit/4d2cf189c47db6d5e3a94c593109a020a598eb0c))
+* TimeInput component with served spinbutton semantics ([fd68ef2](https://github.com/lyra-ds/blade/commit/fd68ef210fc6251b44bbeaa271b5dc78ea01d5fe))
+
+
+### Miscellaneous Chores
+
+* fecha a decisão da task 16 — diretiva [@lyra](https://github.com/lyra)ThemeScript (batuta) ([5fd0210](https://github.com/lyra-ds/blade/commit/5fd02105b71bd8352c8153fccce4f5323d86fb93))
+* record release 0.4.0; onda B shipped end to end (batuta) ([3cd875b](https://github.com/lyra-ds/blade/commit/3cd875b5da5ea18d7dcb7a6f2b3acadd2aabe87e))
+* record task 11; task 12 delegated (batuta) ([7bb016e](https://github.com/lyra-ds/blade/commit/7bb016e72bb567b970fdcb2757d445547830962c))
+* record task 12; task 13 delegated (batuta) ([40ff82e](https://github.com/lyra-ds/blade/commit/40ff82ee0075ec2c46103c55ef37a811765ae19d))
+* record task 13; task 14 delegated (batuta) ([d6ef008](https://github.com/lyra-ds/blade/commit/d6ef008b6b1073ded66e0d34580c55c4902e3cc8))
+* record task 14; task 15 delegated (batuta) ([e860bf2](https://github.com/lyra-ds/blade/commit/e860bf2191bbd219b050f604437da4fd0858cede))
+* record task 15; task 16 delegated (batuta) ([6f0408f](https://github.com/lyra-ds/blade/commit/6f0408f2c38f5a1f3d41d6cbec28d980d72da4fc))
+* record task 16; task 17 delegated (batuta) ([7e5b8ed](https://github.com/lyra-ds/blade/commit/7e5b8edf732e85e01850a028828453d0d7b6825c))
+* record task 17 (batuta) ([e148d1a](https://github.com/lyra-ds/blade/commit/e148d1ab7df5a3dbe485ca2743ce9d377b78e608))
+
 ## [0.4.0](https://github.com/lyra-ds/blade/compare/v0.3.0...v0.4.0) (2026-08-09)
 
 
