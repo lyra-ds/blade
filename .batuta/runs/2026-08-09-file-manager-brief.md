@@ -58,3 +58,11 @@ Report: files touched; pest and pint output; commit hash; uncertainties declared
 ## Stop conditions
 
 Stop and report when: the binding source contradicts this brief, the same command fails twice, or the fix needs edits beyond Scope.
+
+---
+
+# Run result (appended)
+
+- Executor: codex (gpt-5.6-sol, high) via Compozy `sess-de14e54a3ec884f5`. Commit-antes-do-report cumprido (`2feac53`).
+- Verificação: scope exato; duas árvores com data-name; aria-pressed por defaultView; modelables view/query distribuídos; dropdown composto com actions(file); 755/755 (3419 assertions); pint ok; idempotente.
+- Verdict: ✅ approved — squash na main, cleanup completo.
