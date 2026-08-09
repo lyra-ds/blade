@@ -1,7 +1,7 @@
 # WORK — lyra-ds/blade
 
 ## In progress
-- [ ] Ondas B–F sobre o `@lyra-ds/alpine` 0.2.0 — plano aprovado em `.batuta/plan-alpine-0-2-ondas-b-f.md` (34 tasks, 23 componentes, releases 0.4.0→0.8.0). **Onda B fechada** (5 componentes, suíte 601 → 674). Tasks 9 e 10 fechadas (galeria + release 0.4.0, 2026-08-09). Próxima: onda C (tasks 11+), com a decisão da task 16 (forma da infra de tema) a fechar com o usuário antes de delegar o item — e o `app-sidebar` volta assim que o `lyraAppSidebar` sair. Task 7 (`app-sidebar`) BLOQUEADA: não é estático e o alpine 0.2.0 não tem `lyraAppSidebar` — spec upstream em `docs/spec-alpine-app-sidebar.md`, decisão do usuário de adiar
+- [ ] Ondas B–F sobre o `@lyra-ds/alpine` 0.2.0 — plano aprovado em `.batuta/plan-alpine-0-2-ondas-b-f.md` (34 tasks, 23 componentes, releases 0.4.0→0.8.0). **Onda B fechada** (5 componentes, suíte 601 → 674). Tasks 9 e 10 fechadas (galeria + release 0.4.0, 2026-08-09). Próxima: onda C (tasks 11+), task 16 DESTRAVADA: decisão fechada 2026-08-09 — diretiva `@lyraThemeScript` (argumento opcional de storage key, default lyra-theme) — e o `app-sidebar` volta assim que o `lyraAppSidebar` sair. Task 7 (`app-sidebar`) BLOQUEADA: não é estático e o alpine 0.2.0 não tem `lyraAppSidebar` — spec upstream em `docs/spec-alpine-app-sidebar.md`, decisão do usuário de adiar
 
 ## Backlog
 - [ ] Sistema de toasts (pós-lacuna, candidato à onda C): upstream `Alpine.store('lyraToasts')` + `lyraToastStack` por `lyra/.batuta/prd-alpine-toasts.md` (entregue 2026-08-09, não-commitado lá por convenção); depois o lado Blade — wiring no toast-stack, template x-for, botão de fechar de volta no fluxo dinâmico, evento `lyra:toast` p/ Livewire (2026-08-09)

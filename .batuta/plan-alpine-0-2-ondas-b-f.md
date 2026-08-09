@@ -48,7 +48,8 @@ demo varrida ao fim de cada onda, guidelines do Boost regeneradas a cada item.
 - [ ] 15. Componente `file-manager` (`lyraFileManager`, M) — codex complex
       Accept: busca DOM-driven por `data-name`, `view` (`list|grid`) modelable com as duas árvores servidas, empty state, breadcrumb server-side, menus por item reusando `<x-lyra::dropdown>`; class-emission; suíte verde; guidelines; pint.
 - [ ] 16. Infra de tema: store `theme` + diretiva Blade de anti-flash — maestro decide a API, codex complex implementa
-      Accept: decisão fechada sobre o nome/forma (`@lyraThemeScript` vs parcial publicável) registrada no plano antes de delegar; script inline bloqueante no `<head>` setando `data-theme` a partir de `localStorage['lyra-theme']`; seção no README; testes cobrindo o HTML emitido pela diretiva; suíte verde; pint. **Único item com decisão de API aberta.**
+      **DECISÃO FECHADA (usuário, 2026-08-09): diretiva `@lyraThemeScript`**, registrada pelo service provider, com argumento opcional para storage key custom (default `lyra-theme`, mesma chave do store). Sem publish; o script evolui com o pacote.
+      Accept: script inline bloqueante no `<head>` setando `data-theme` a partir de `localStorage['lyra-theme']` + `prefers-color-scheme`; seção no README; testes cobrindo o HTML emitido pela diretiva; suíte verde; pint.
 - [ ] 17. Varredura da galeria do `blade-demo` — seção da onda C + toggle de tema — codex (medium)
       Accept: 5 componentes novos + demonstração do theme store na galeria; `artisan test` verde; commit no demo.
 - [ ] 18. Release 0.5.0 — maestro (claude)
