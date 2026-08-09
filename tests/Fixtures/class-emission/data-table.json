@@ -1,0 +1,18 @@
+[
+    {"target": "wrapper", "props": {}, "expected_class": "lyra-table-wrap"},
+    {"target": "wrapper", "props": {"class": "consumer utility"}, "expected_class": "lyra-table-wrap consumer utility"},
+    {"target": "scroll", "props": {}, "expected_class": "lyra-table-scroll"},
+    {"target": "table", "props": {}, "expected_class": "lyra-table"},
+    {"target": "table", "props": {"hover": true}, "expected_class": "lyra-table lyra-table--hover"},
+    {"target": "table", "props": {"density": "compact"}, "expected_class": "lyra-table lyra-table--compact"},
+    {"target": "table", "props": {"stickyHeader": true}, "expected_class": "lyra-table lyra-table--sticky"},
+    {"target": "table", "props": {"hover": true, "density": "compact", "stickyHeader": true}, "expected_class": "lyra-table lyra-table--hover lyra-table--compact lyra-table--sticky"},
+    {"target": "header-check", "props": {"selectable": true}, "expected_class": "lyra-table__check"},
+    {"target": "sort-button", "props": {}, "expected_class": "lyra-table__sortbtn"},
+    {"target": "sort-button", "props": {"sorting": {"key": "name", "dir": "asc"}}, "expected_class": "lyra-table__sortbtn lyra-table__sortbtn--active"},
+    {"target": "row", "props": {"selected": ["a"]}, "expected_class": "lyra-table__row--selected"},
+    {"target": "row-check", "props": {"selectable": true}, "expected_class": "lyra-table__check"},
+    {"target": "primary", "props": {}, "expected_class": "lyra-table__primary"},
+    {"target": "empty", "props": {"rows": []}, "expected_class": "lyra-table__emptycell"},
+    {"target": "footer", "props": {}, "slots": "<x-slot:footer>Footer</x-slot:footer>", "expected_class": "lyra-table__footer"}
+]
