@@ -890,6 +890,21 @@ Props:
 - `tip` — required; no fixture examples (fixtures do not constrain this prop).
 - `placement` — default: `"top"`; fixture examples (not constraints): `"bottom"`.
 
+### weekly-schedule-editor
+
+Tags: `<x-lyra::weekly-schedule-editor>...</x-lyra::weekly-schedule-editor>` or `<lyra:weekly-schedule-editor>...</lyra:weekly-schedule-editor>`.
+
+Root class alternatives observed in fixtures: `lyra-sched` | `lyra-sched__row` | `lyra-sched__daycell` | `lyra-sched__ranges` | `lyra-sched__range` | `lyra-sched__dash` | `lyra-sched__ghostbtn` | `lyra-sched__error` | `lyra-sched__addrange` | `lyra-sched__off` | `lyra-sched__actions` | `lyra-sched__copy` | `lyra-sched__copy-title` | `lyra-check-row` | `lyra-checkbox` | `lyra-sched__exc` | `lyra-sched__exc-row` | `lyra-sched__exc-date`.
+
+Props:
+- `value` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `exceptions` — default: unknown; fixture examples (not constraints): `[{"date":"2026-08-10","ranges":[]}]`.
+- `defaultRange` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `weekStartsOn` — default: `1`; no fixture examples (fixtures do not constrain this prop).
+- `showExceptions` — default: `true`; no fixture examples (fixtures do not constrain this prop).
+- `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `name` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+
 ### workspace-switcher
 
 Tags: `<x-lyra::workspace-switcher>...</x-lyra::workspace-switcher>` or `<lyra:workspace-switcher>...</lyra:workspace-switcher>`.

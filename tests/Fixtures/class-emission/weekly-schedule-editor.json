@@ -1,0 +1,21 @@
+[
+    {"target": "root", "props": {}, "expected_class": "lyra-sched"},
+    {"target": "root", "props": {"class": "consumer utility"}, "expected_class": "lyra-sched consumer utility"},
+    {"target": "row", "props": {}, "expected_class": "lyra-sched__row"},
+    {"target": "daycell", "props": {}, "expected_class": "lyra-sched__daycell"},
+    {"target": "ranges", "props": {}, "expected_class": "lyra-sched__ranges"},
+    {"target": "range", "props": {}, "expected_class": "lyra-sched__range"},
+    {"target": "dash", "props": {}, "expected_class": "lyra-sched__dash"},
+    {"target": "ghost", "props": {}, "expected_class": "lyra-sched__ghostbtn"},
+    {"target": "error", "props": {}, "expected_class": "lyra-sched__error"},
+    {"target": "add-range", "props": {}, "expected_class": "lyra-sched__addrange"},
+    {"target": "off", "props": {}, "expected_class": "lyra-sched__off"},
+    {"target": "actions", "props": {}, "expected_class": "lyra-sched__actions"},
+    {"target": "copy", "props": {}, "expected_class": "lyra-sched__copy"},
+    {"target": "copy-title", "props": {}, "expected_class": "lyra-sched__copy-title"},
+    {"target": "check-row", "props": {}, "expected_class": "lyra-check-row"},
+    {"target": "checkbox", "props": {}, "expected_class": "lyra-checkbox"},
+    {"target": "exceptions", "props": {}, "expected_class": "lyra-sched__exc"},
+    {"target": "exception-row", "props": {"exceptions": [{"date": "2026-08-10", "ranges": []}]}, "expected_class": "lyra-sched__exc-row"},
+    {"target": "exception-date", "props": {"exceptions": [{"date": "2026-08-10", "ranges": []}]}, "expected_class": "lyra-sched__exc-date"}
+]
