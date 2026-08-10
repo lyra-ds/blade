@@ -186,6 +186,7 @@ it('serializes every coordinator option as valid JSON and exposes selected as mo
         'max' => '17:00',
         'locale' => 'pt-BR',
         'placeholder' => 'Pick a time',
+        'labels' => ['timeOptions' => 'Time options'],
     ])->and($root)->toContain('x-modelable="selected"');
 });
 
@@ -194,6 +195,7 @@ it('uses binding defaults without inventing optional values', function (): void 
         'step' => 30,
         'locale' => 'en-US',
         'placeholder' => 'Select time',
+        'labels' => ['timeOptions' => 'Time options'],
     ]);
 });
 
@@ -222,6 +224,40 @@ it('lets the explicit placeholder override the translated label', function (): v
     ]);
 
     expect(timePickerOptions($html)['placeholder'])->toBe('Pick one');
+});
+
+it('keeps time options and placeholder labels when they are customized together', function (): void {
+    $html = renderTimePicker([
+        'labels' => [
+            'placeholder' => 'Escolha um horário',
+            'timeOptions' => 'Opções de horário',
+        ],
+    ]);
+    $lists = timePickerListTags($html);
+
+    expect(timePickerOptions($html)['placeholder'])->toBe('Escolha um horário')
+        ->and(timePickerOptions($html)['labels'])->toBe(['timeOptions' => 'Opções de horário'])
+        ->and($lists)->toHaveCount(2);
+
+    foreach ($lists as $list) {
+        expect($list)->toContain('aria-label="Opções de horário"');
+    }
+});
+
+it('keeps custom time options labels in parity across HTML and the binding', function (): void {
+    $html = renderTimePicker([
+        'labels' => ['timeOptions' => 'Opções de horário'],
+    ]);
+    $lists = timePickerListTags($html);
+
+    expect(timePickerOptions($html)['labels'])->toBe(['timeOptions' => 'Opções de horário'])
+        ->and($lists)->toHaveCount(2);
+
+    foreach ($lists as $list) {
+        expect(timePickerAttribute($list, 'aria-label'))->toBe(
+            timePickerOptions($html)['labels']['timeOptions'],
+        );
+    }
 });
 
 it('renders both responsive branches with the real overlays and default labels', function (): void {
@@ -291,6 +327,8 @@ it('renders both listboxes with the exact Alpine option contract', function (): 
     );
 
     expect($lists)->toHaveCount(2);
+
+    expect(timePickerOptions($html)['labels'])->toBe(['timeOptions' => 'Time options']);
 
     foreach ($lists as $list) {
         expect($list)->toContain('class="lyra-timelist"')
@@ -388,6 +426,7 @@ it('keeps hostile option and label values inside JSON literals', function (): vo
             'popover' => $payload,
             'sheetTitle' => $payload,
             'close' => $payload,
+            'timeOptions' => $payload,
         ],
     ]);
     $root = timePickerOpeningTag($html, 'root');
@@ -400,6 +439,7 @@ it('keeps hostile option and label values inside JSON literals', function (): vo
         'max' => $payload,
         'locale' => $payload,
         'placeholder' => $payload,
+        'labels' => ['timeOptions' => $payload],
     ])->and(substr_count($root, 'x-data='))->toBe(1)
         ->and($dataExpressions[1])->not->toBeEmpty()
         ->and($html)->not->toContain('</script>')

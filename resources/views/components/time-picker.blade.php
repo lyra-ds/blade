@@ -20,9 +20,8 @@
     resolving open back to themselves.
 
     The option list and trigger text are runtime-only because Intl formats each time with the
-    consumer locale, which PHP cannot reproduce without ext-intl. The list binding currently fixes
-    its accessible name to "Time options" and has no label option, so the same string is served here
-    instead of exposing a Blade prop that Alpine would overwrite after boot.
+    consumer locale, which PHP cannot reproduce without ext-intl. The list's accessible name is
+    served in the HTML and passed to the binding so both sides agree before and after Alpine boots.
 --}}
 @php
     $hasLabel = $label !== null && $label !== '';
@@ -34,6 +33,7 @@
         'popover' => 'Time picker',
         'sheetTitle' => 'Select time',
         'close' => 'Close',
+        'timeOptions' => 'Time options',
     ], is_array($labels) ? $labels : []);
     $resolvedPlaceholder = $placeholder ?? $resolvedLabels['placeholder'];
     $sheetTitle = $label ?? $resolvedLabels['sheetTitle'];
@@ -73,6 +73,7 @@
 
     $options['locale'] = $locale;
     $options['placeholder'] = $resolvedPlaceholder;
+    $options['labels'] = ['timeOptions' => $resolvedLabels['timeOptions']];
 
     if ($defaultValue !== null) {
         $options = ['defaultValue' => $defaultValue] + $options;
@@ -167,7 +168,7 @@
 
                     <div
                         class="lyra-timelist"
-                        aria-label="Time options"
+                        aria-label="{{ $resolvedLabels['timeOptions'] }}"
                         x-bind="list"
                     >
                         <template x-for="time in options()" :key="time">
@@ -223,7 +224,7 @@
                 >
                     <div
                         class="lyra-timelist"
-                        aria-label="Time options"
+                        aria-label="{{ $resolvedLabels['timeOptions'] }}"
                         x-bind="list"
                     >
                         <template x-for="time in options()" :key="time">
