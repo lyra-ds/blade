@@ -81,7 +81,7 @@ Every component emits exactly the class strings emitted by the corresponding Lyr
 
 | `lyra-ds/blade` | Laravel 12 | Laravel 13 | PHP 8.3 | PHP 8.4 | `@lyra-ds/styles` | `@lyra-ds/alpine` |
 | --- | --- | --- | --- | --- | --- | --- |
-| `0.x` (unreleased/dev) | Supported | Supported | Supported | Supported | `^0.4.2` | `^0.3.0` |
+| `0.x` (unreleased/dev) | Supported | Supported | Supported | Supported | `^0.4.2` | `^0.4.0` |
 
 These are the versions the current `main` branch was tested against.
 
@@ -134,6 +134,12 @@ Place `@lyraThemeScript` in the document `<head>`, before stylesheets that use t
     {{ $slot }}
 </body>
 </html>
+```
+
+The optional storage key is declared in one place—the directive argument—and the Alpine store reads it from the `<html data-lyra-theme-key>` attribute written by the script. Without an argument, the key defaults to `lyra-theme`; alternatively, declare `data-lyra-theme-key` on the `<html>` element in your layout and keep the argumentless directive.
+
+```blade
+@lyraThemeScript(config('app.theme_key'))
 ```
 
 Toggle between the resolved light and dark themes through the Alpine store:
