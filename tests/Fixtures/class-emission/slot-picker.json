@@ -1,0 +1,15 @@
+[
+    {"target": "root", "props": {}, "expected_class": "lyra-slotpicker"},
+    {"target": "root", "props": {"class": "consumer utility"}, "expected_class": "lyra-slotpicker consumer utility"},
+    {"target": "side", "props": {}, "expected_class": "lyra-slotpicker__side"},
+    {"target": "timezone", "props": {}, "expected_class": "lyra-slotpicker__tz"},
+    {"target": "main", "props": {}, "expected_class": "lyra-slotpicker__main"},
+    {"target": "slots", "props": {"loading": true}, "expected_class": "lyra-slotpicker__slots"},
+    {"target": "skeleton", "props": {"loading": true}, "expected_class": "lyra-slotpicker__skeleton"},
+    {"target": "empty", "props": {}, "expected_class": "lyra-slotpicker__empty"},
+    {"target": "day-label", "props": {"slots": [{"start": "2026-08-10T13:00:00Z", "end": "2026-08-10T13:30:00Z"}], "timezone": "America/Sao_Paulo"}, "expected_class": "lyra-slotpicker__daylabel"},
+    {"target": "pair", "props": {"slots": [{"start": "2026-08-10T13:00:00Z", "end": "2026-08-10T13:30:00Z"}], "timezone": "America/Sao_Paulo"}, "expected_class": "lyra-slotpicker__pair"},
+    {"target": "slot", "props": {"slots": [{"start": "2026-08-10T13:00:00Z", "end": "2026-08-10T13:30:00Z"}], "timezone": "America/Sao_Paulo"}, "expected_class": "lyra-slotpicker__slot"},
+    {"target": "hold", "props": {"slots": [{"start": "2026-08-10T13:00:00Z", "end": "2026-08-10T13:30:00Z"}], "timezone": "America/Sao_Paulo", "holdExpiresAt": "2099-08-10T13:02:05Z"}, "expected_class": "lyra-slotpicker__hold"},
+    {"target": "day-marker", "props": {}, "expected_class": "lyra-cal__dot"}
+]

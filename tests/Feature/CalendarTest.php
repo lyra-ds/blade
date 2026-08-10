@@ -18,6 +18,7 @@ function renderCalendar(
     $todayButton = $props['todayButton'] ?? false;
     $locale = $props['locale'] ?? 'en-US';
     $labels = $props['labels'] ?? [];
+    $dateDisabledPredicate = $props['dateDisabledPredicate'] ?? null;
     unset(
         $props['range'],
         $props['defaultValue'],
@@ -29,6 +30,7 @@ function renderCalendar(
         $props['todayButton'],
         $props['locale'],
         $props['labels'],
+        $props['dateDisabledPredicate'],
     );
 
     $attributes = collect($props)
@@ -44,7 +46,7 @@ function renderCalendar(
 
     return Blade::render(
         sprintf(
-            '<x-lyra::calendar :range="$range" :default-value="$defaultValue" :min="$min" :max="$max" :disabled-dates="$disabledDates" :week-starts-on="$weekStartsOn" :size="$size" :today-button="$todayButton" :locale="$locale" :labels="$labels" %s>%s</x-lyra::calendar>',
+            '<x-lyra::calendar :range="$range" :default-value="$defaultValue" :min="$min" :max="$max" :disabled-dates="$disabledDates" :week-starts-on="$weekStartsOn" :size="$size" :today-button="$todayButton" :locale="$locale" :labels="$labels" :date-disabled-predicate="$dateDisabledPredicate" %s>%s</x-lyra::calendar>',
             $attributes,
             $markerSlot,
         ),
@@ -59,6 +61,7 @@ function renderCalendar(
             'todayButton',
             'locale',
             'labels',
+            'dateDisabledPredicate',
             'dayMarker',
         ),
     );
@@ -300,4 +303,30 @@ it('appends consumer attributes and classes after fixed root attributes', functi
         ->and($root)->toContain('id="booking-calendar"')
         ->and($root)->toContain('data-track="calendar"')
         ->and(strpos($root, 'x-modelable="selected"'))->toBeLessThan(strpos($root, 'class="lyra-cal'));
+});
+
+it('emits the whitelisted internal date-disabled predicate', function (): void {
+    $root = html_entity_decode(calendarOpeningTag(renderCalendar([
+        'dateDisabledPredicate' => 'slot-picker',
+    ]), 'root'), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+    expect($root)->toContain('isDateDisabled: (date) => !hasSlots(date)');
+});
+
+it('omits unknown internal date-disabled predicate names', function (): void {
+    $html = renderCalendar(['dateDisabledPredicate' => 'another-composite']);
+
+    expect(calendarOptions($html))->toBe([])
+        ->and(calendarOpeningTag($html, 'root'))->not->toContain('isDateDisabled');
+});
+
+it('never injects a consumer expression through the internal predicate prop', function (): void {
+    $payload = "slot-picker'); window.calendarPwned = true; //";
+    $root = calendarOpeningTag(renderCalendar([
+        'dateDisabledPredicate' => $payload,
+    ]), 'root');
+
+    expect($root)->not->toContain($payload)
+        ->and($root)->not->toContain('calendarPwned')
+        ->and(calendarOptions(renderCalendar(['dateDisabledPredicate' => $payload])))->toBe([]);
 });

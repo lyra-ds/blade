@@ -9,15 +9,23 @@
     'todayButton' => false,
     'locale' => 'en-US',
     'labels' => [],
+    'dateDisabledPredicate' => null,
 ])
 
 {{--
     Calendar is a documented runtime-rendered exception: locale-dependent headings and cells come
     from Intl through these served x-for templates. The selected Date or {start, end} object is
     modelable; consumers that need ISO values should listen for the lyra:change event instead.
+
+    dateDisabledPredicate exists for internal package composition. Its whitelist deliberately maps
+    package-owned names to expressions; unsupported names are omitted instead of injecting a
+    consumer-provided x-data expression.
 --}}
 @php
     $options = [];
+    $allowedDateDisabledPredicates = [
+        'slot-picker' => '(date) => !hasSlots(date)',
+    ];
 
     if ($range) {
         $options['range'] = true;
@@ -61,6 +69,15 @@
             | JSON_UNESCAPED_SLASHES
             | JSON_UNESCAPED_UNICODE,
     );
+    $predicateExpression = is_string($dateDisabledPredicate)
+        ? ($allowedDateDisabledPredicates[$dateDisabledPredicate] ?? null)
+        : null;
+
+    if ($predicateExpression !== null) {
+        $optionsLiteral = substr($optionsLiteral, 0, -1)
+            .($options === [] ? '' : ',')
+            .'isDateDisabled: '.$predicateExpression.'}';
+    }
 @endphp
 
 <div

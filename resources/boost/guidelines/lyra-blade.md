@@ -158,6 +158,7 @@ Props:
 - `todayButton` — default: `false`; no fixture examples (fixtures do not constrain this prop).
 - `locale` — default: `"en-US"`; no fixture examples (fixtures do not constrain this prop).
 - `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `dateDisabledPredicate` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### card
 
@@ -679,6 +680,26 @@ Props:
 - `width` — default: `"100%"`; no fixture examples (fixtures do not constrain this prop).
 - `height` — default: `14`; no fixture examples (fixtures do not constrain this prop).
 - `circle` — default: `false`; fixture examples (not constraints): `true`.
+
+### slot-picker
+
+Tags: `<x-lyra::slot-picker>...</x-lyra::slot-picker>` or `<lyra:slot-picker>...</lyra:slot-picker>`.
+
+Root class alternatives observed in fixtures: `lyra-slotpicker` | `lyra-slotpicker__side` | `lyra-slotpicker__tz` | `lyra-slotpicker__main` | `lyra-slotpicker__slots` | `lyra-slotpicker__skeleton` | `lyra-slotpicker__empty` | `lyra-slotpicker__daylabel` | `lyra-slotpicker__pair` | `lyra-slotpicker__slot` | `lyra-slotpicker__hold` | `lyra-cal__dot`.
+
+Props:
+- `slots` — default: unknown; fixture examples (not constraints): `[{"start":"2026-08-10T13:00:00Z","end":"2026-08-10T13:30:00Z"}]`.
+- `date` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `timezone` — default: `null`; fixture examples (not constraints): `"America/Sao_Paulo"`.
+- `detectedZone` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `holdExpiresAt` — default: `null`; fixture examples (not constraints): `"2099-08-10T13:02:05Z"`.
+- `nextAvailableDate` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `loading` — default: `false`; fixture examples (not constraints): `true`.
+- `locale` — default: `"en-US"`; no fixture examples (fixtures do not constrain this prop).
+- `min` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `max` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `tzLabels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
 
 ### spinner
 
