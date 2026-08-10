@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.0](https://github.com/lyra-ds/blade/compare/v0.8.1...v0.9.0) (2026-08-10)
+
+
+### Features
+
+* **theme:** accept storage key in theme script ([fe5ff29](https://github.com/lyra-ds/blade/commit/fe5ff29da20d565eab4e1cec3cfc018a80da4d2b))
+* **time-picker:** add configurable time options label ([7e5f58a](https://github.com/lyra-ds/blade/commit/7e5f58ab47457c4c479cc27462b5f5f64afbcbb3))
+
 ## [0.8.1](https://github.com/lyra-ds/blade/compare/v0.8.0...v0.8.1) (2026-08-10)
 
 
