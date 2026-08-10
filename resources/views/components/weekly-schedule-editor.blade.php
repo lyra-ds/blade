@@ -233,7 +233,7 @@
                 <template x-for="(range, index) in rangesFor(day)" :key="index">
                     <div>
                         <div class="lyra-sched__range">
-                            <div x-data="{ get t() { return rangesFor(day)[index].start }, set t(v) { setRangeStart(day, index, v) } }">
+                            <div x-data="{ get t() { return rangesFor(day)[index]?.start }, set t(v) { setRangeStart(day, index, v) } }">
                                 <x-lyra::time-input
                                     x-model="t"
                                     :aria-label="$startLabel"
@@ -241,7 +241,7 @@
                                 />
                             </div>
                             <span class="lyra-sched__dash">–</span>
-                            <div x-data="{ get t() { return rangesFor(day)[index].end }, set t(v) { setRangeEnd(day, index, v) } }">
+                            <div x-data="{ get t() { return rangesFor(day)[index]?.end }, set t(v) { setRangeEnd(day, index, v) } }">
                                 <x-lyra::time-input
                                     x-model="t"
                                     :aria-label="$endLabel"
