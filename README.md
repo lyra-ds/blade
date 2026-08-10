@@ -2,7 +2,7 @@
 
 Thin Blade wrappers for the Lyra Design System in Laravel applications. Each component renders the same canonical `.lyra-*` classes as its React counterpart—all appearance lives in `@lyra-ds/styles`, never in this Composer package.
 
-The package ships 27 static and 7 interactive anonymous Blade components under the `lyra` namespace. Laravel discovers its service provider automatically, so components are ready to use with the short syntax (`<lyra:button>`) or the equivalent namespaced syntax (`<x-lyra::button>`).
+The package ships 42 static and 30 interactive anonymous Blade components under the `lyra` namespace. Laravel discovers its service provider automatically, so components are ready to use with the short syntax (`<lyra:button>`) or the equivalent namespaced syntax (`<x-lyra::button>`).
 
 ## Quickstart
 
@@ -61,14 +61,15 @@ Component props and ordinary HTML attributes can be combined. For example, this 
 
 | Category | Components |
 | --- | --- |
-| Buttons | `button`, `icon-button` |
-| Display | `badge`, `tag`, `card`, `avatar` |
-| Feedback | `alert`, `spinner`, `skeleton`, `progress` |
-| Data | `stat`, `empty-state`, `table` |
-| Layout | `container`, `stack`, `grid`, `separator` |
-| Forms | `fieldset`, `form-row`, `input`, `textarea`, `select`, `checkbox`, `radio`, `switch` |
-| Navigation | `breadcrumb`, `pagination` |
-| Interactive | `dropdown`, `dialog`, `drawer`, `tabs`, `accordion`, `tooltip`, `popover` |
+| Actions | `action-bar`, `button`, `icon-button` |
+| Brand and identity | `avatar`, `brand`, `icon`, `person-cell` |
+| Feedback and status | `alert`, `badge`, `empty-state`, `progress`, `segmented-ring`, `skeleton`, `spinner`, `stat`, `tag`, `toast`, `toast-stack` |
+| Layout and structure | `card`, `container`, `footer`, `grid`, `page-header`, `separator`, `shell`, `stack` |
+| Navigation | `app-sidebar`, `bottom-nav`, `breadcrumb`, `nav-link`, `navbar`, `pagination`, `sidebar-group`, `stepper`, `table-of-contents`, `tabs`, `workspace-switcher` |
+| Forms and selection | `checkbox`, `checkbox-group`, `combobox`, `fieldset`, `form-row`, `input`, `radio`, `radio-group`, `segmented-control`, `select`, `switch`, `textarea` |
+| Dates and scheduling | `calendar`, `date-picker`, `date-range-picker`, `recurrence-selector`, `slot-picker`, `time-input`, `time-picker`, `time-zone-picker`, `weekly-schedule-editor` |
+| Data and files | `code-block`, `data-table`, `file-manager`, `file-upload`, `table` |
+| Overlays and disclosure | `accordion`, `bottom-sheet`, `command-palette`, `cookie-banner`, `dialog`, `drawer`, `dropdown`, `popover`, `tooltip` |
 
 Use each name with either equivalent form—for example, `button` becomes `<lyra:button>` or `<x-lyra::button>`.
 
@@ -80,7 +81,7 @@ Every component emits exactly the class strings emitted by the corresponding Lyr
 
 | `lyra-ds/blade` | Laravel 12 | Laravel 13 | PHP 8.3 | PHP 8.4 | `@lyra-ds/styles` | `@lyra-ds/alpine` |
 | --- | --- | --- | --- | --- | --- | --- |
-| `0.x` (unreleased/dev) | Supported | Supported | Supported | Supported | `^0.4` | `^0.2` |
+| `0.x` (unreleased/dev) | Supported | Supported | Supported | Supported | `^0.4.2` | `^0.3.0` |
 
 These are the versions the current `main` branch was tested against.
 
@@ -94,7 +95,13 @@ Conventional commits drive the changelog in the bot-maintained release PR. Merge
 
 ## Interactivity
 
-Dropdown, Dialog, Drawer, Tabs, Accordion, Tooltip, and Popover get their behavior from the `@lyra-ds/alpine` plugin. Alpine.js `>=3.13 <4` is a consumer-installed peer and is never bundled. Static components continue to work without Alpine; if Alpine is not loaded, interactive components remain inert in their served initial state.
+The Alpine-backed components are `accordion`, `app-sidebar`, `bottom-sheet`, `calendar`, `code-block`, `combobox`, `command-palette`, `cookie-banner`, `data-table`, `date-picker`, `date-range-picker`, `dialog`, `drawer`, `dropdown`, `file-manager`, `file-upload`, `popover`, `recurrence-selector`, `segmented-control`, `sidebar-group`, `slot-picker`, `table-of-contents`, `tabs`, `time-input`, `time-picker`, `time-zone-picker`, `toast-stack`, `tooltip`, `weekly-schedule-editor`, and `workspace-switcher`. They get their behavior from the `@lyra-ds/alpine` plugin. Alpine.js `>=3.13 <4` is a consumer-installed peer and is never bundled.
+
+Static components continue to work without Alpine. Alpine-backed components are static-first: except for the data-driven regions described below, their structure and initial state are present in the served HTML and remain inert until Alpine starts.
+
+Some repeated content is intentionally runtime-rendered because filtering, locale-aware generation, queue state, or user-added rows belong to the Alpine binding. `calendar`, `combobox`, `command-palette`, `file-upload`, `time-picker`, `toast-stack`, and `weekly-schedule-editor` stamp those grids, options, items, toasts, or rows through `x-for`; those repeated regions do not exist in the served DOM until Alpine boots.
+
+`data-table` keeps sorting server-side by default: its header controls emit `lyra:sort`, and the application returns the rows in the requested order. Set `clientSort` to opt into in-browser sorting; sortable cells then provide their comparison value through `data-sort-value`.
 
 After installing `@lyra-ds/styles` as described in the Quickstart, install Alpine.js and the Lyra plugin:
 
@@ -147,7 +154,14 @@ Add this required rule to your application's CSS:
 
 The styles package does not ship this rule. Without it, closed menus and dialogs can flash before Alpine boots.
 
-Livewire is a first-class integration. Controllable state is exposed through `x-modelable`: `open` for Dropdown, Dialog, Drawer, and Popover; `active` for Tabs; and `openItems` for Accordion. Use `wire:model` or `x-model` directly on the component tag.
+Livewire is a first-class integration. Twenty-four components expose controllable state through `x-modelable`:
+
+- `open`: `bottom-sheet`, `command-palette` (overlay mode), `dialog`, `drawer`, `dropdown`, `popover`, and `workspace-switcher`
+- `selected`: `calendar`, `date-picker`, `date-range-picker`, `time-input`, and `time-picker`
+- `value`: `combobox`, `recurrence-selector`, and `segmented-control`
+- Component-specific state: `accordion` (`openItems`), `app-sidebar` (`collapsed`), `data-table` (`selected`, or `sorting` via `x-modelable`), `file-manager` (`view`, with `query` modelable on its search field), `file-upload` (`items`), `slot-picker` (`date`, or `timezone` via `x-modelable`), `table-of-contents` (`activeId`), `tabs` (`active`), and `weekly-schedule-editor` (`value`, or `exceptions` via `x-modelable`)
+
+Use `wire:model` or `x-model` directly on a component tag for its root modelable state. Where alternatives are listed, select the target with the `x-modelable` attribute.
 
 ## Requirements
 
