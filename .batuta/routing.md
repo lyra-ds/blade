@@ -66,3 +66,33 @@ O hang do opencode não é específico de modelo nem de brief longo. Até
 segunda ordem: tarefas triviais escalam direto para codex (exec direto ou
 Compozy); a lane opencode fica só para research com escopo mínimo, com
 kill após ~10min de output vazio.
+
+Sessão dedicada ao commit (2026-08-10, fase 2 fechada + tasks 35–38): com o runtime
+Compozy, **o commit é o elo frágil do ciclo, não a implementação**. No dia:
+**5 mortes confirmadas** de sessão por `peer disconnected`
+(`sess-5149f5c45f9e536e`, `sess-26d1ac4c682dcf4f`, `sess-f9303603fb39ddc3`,
+`sess-7cfe81bf91382463`, `sess-39f842c47a1f8c6b`), quase todas **depois** do trabalho
+pronto e **antes** do commit — em duas delas o conteúdo ficou correto e *staged*, fazendo
+o invariante de entrega falhar por motivo que não é do modelo. Houve ainda um caso
+distinto (task 33.2) em que a sessão seguiu viva e simplesmente não commitou.
+
+Consequências práticas, a aplicar sem tratar como recuperação de falha:
+
+- **Commit-antes-do-report continua obrigatório** em todo brief: é ele que preserva o
+  trabalho quando a sessão cai. Funcionou nas 5 quedas.
+- **Sessão dedicada ao commit é fluxo normal**, não exceção: quando a primária cair com o
+  trabalho pronto, abrir `<task_id>#N` cujo único pedido é commitar. Ela recebe o veredito
+  do gate já feito pelo maestro (o que passou, com números) e a instrução de **não tocar em
+  arquivo**. Custa pouco e mantém o commit com o executor, como o ciclo exige.
+- **Repetir o caminho absoluto do worktree no corpo do prompt**, sempre. `--cwd` não
+  garantiu o cwd do agente: em pelo menos um caso a sessão rodou no checkout principal e
+  reportou "nada a commitar" olhando `main...origin/main`, com o trabalho intacto no
+  worktree. A mitigação (caminho absoluto + `git branch --show-current` como primeira
+  ordem) acertou em todas as vezes seguintes.
+- **Repetir as convenções no brief**, inclusive conventional commits. Duas rodadas foram
+  reprovadas só pela mensagem — uma fora do padrão (task 36) e uma tipada `fix:` para
+  mudança que não altera o pacote publicado (task 38), o que cortaria patch anunciando
+  "Bug Fixes" inexistente. Onde o release-please lê o tipo, a mensagem é entrega, não estilo.
+- **Relatório truncado é comum** quando a sessão cai: o gate não depende dele (relatório
+  nunca foi evidência), mas o que se perde é o self-review e as incertezas declaradas —
+  então provas de força (quebra deliberada) passam a ser do maestro.
