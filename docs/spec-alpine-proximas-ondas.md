@@ -9,6 +9,30 @@
 > Fonte de verdade analisada: `lyra/packages/react/src/<nome>/<nome>.tsx` de cada
 > componente, contra o padrão dos 7 bindings existentes (`lyra/packages/alpine/src`).
 
+## Status — ✅ EXECUTADA (2026-08-10)
+
+Documento histórico a partir daqui: as cinco ondas que ele especifica (B, C, D, E, F)
+foram entregues de ponta a ponta, uma release por onda — **0.4.0, 0.5.0, 0.6.0, 0.7.0 e
+0.8.0**. O catálogo Blade fechou em **72 componentes**, com paridade de classes com o React
+em todos, e a galeria do `blade-demo` cobre os 72. A suíte foi de 601 para 1139 testes
+(6311 assertions).
+
+Desvios registrados em relação ao que esta spec previa, todos decididos durante a execução
+e rastreados no `WORK.md` e nas trilhas de `.batuta/runs/`:
+
+- `app-sidebar` não era estático (corrigido já em 2026-08-08, na §1 abaixo) e ganhou spec
+  upstream própria; entrou na onda B como interativo, destravado quando o `lyraAppSidebar`
+  saiu no `@lyra-ds/alpine` 0.3.0.
+- `toast-provider` ficou fora da análise original; a lacuna virou spec upstream e o store
+  `lyraToasts` entrou na onda C.
+- `create-workspace-dialog` foi excluído do catálogo por decisão do usuário — vira receita
+  na documentação, não componente.
+- `calendar-view` seguiu adiado e não entrou em nenhuma onda.
+
+Aberto para uma fase futura: os dois itens de upstream no backlog do `WORK.md`
+(`aria-label` traduzível no bind `list` do `lyraTimePicker`; storage key configurável no
+`lyraTheme()`).
+
 ## 1. Situação
 
 A onda core entregou os 7 bindings (dropdown, dialog, drawer, tabs, accordion,
