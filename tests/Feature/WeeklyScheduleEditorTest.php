@@ -86,6 +86,33 @@ function weeklyScheduleElement(string $html, string $target): DOMElement
     return $element;
 }
 
+function weeklyScheduleOpeningTag(string $html, string $target): string
+{
+    $pattern = match ($target) {
+        'remove-range' => '/<button\b(?=[^>]*\bclass="lyra-sched__ghostbtn")(?=[^>]*:aria-label="label\(\'removeInterval\'\)")[^>]*>/',
+        'add-range' => '/<button\b(?=[^>]*\bclass="lyra-sched__addrange")[^>]*>/',
+        'apply-copy' => '/<button\b(?=[^>]*\bclass="[^"]*\blyra-btn\b[^"]*")(?=[^>]*\bx-bind:disabled="picked\(day\)\.length === 0")[^>]*>/',
+    };
+    $matched = preg_match($pattern, $html, $matches);
+
+    expect($matched)->toBe(1);
+
+    return $matches[0];
+}
+
+function weeklyScheduleAttribute(string $tag, string $attribute): ?string
+{
+    $matched = preg_match(
+        sprintf('/(?:^|\s)%s="([^"]*)"/', preg_quote($attribute, '/')),
+        $tag,
+        $matches,
+    );
+
+    return $matched === 1
+        ? html_entity_decode($matches[1], ENT_QUOTES | ENT_HTML5, 'UTF-8')
+        : null;
+}
+
 /** @return array<string, mixed> */
 function weeklyScheduleOptions(string $html): array
 {
@@ -221,10 +248,10 @@ it('renders runtime ranges through x-for with aliases validation controls and th
         ->and($endInput->getAttribute('x-bind:aria-invalid'))->toContain('invalid(range)')
         ->and($removeTemplate)->toBeInstanceOf(DOMElement::class)
         ->and($remove->getAttribute('type'))->toBe('button')
-        ->and($remove->getAttribute('@click'))->toBe('removeRange(day, index)')
+        ->and(weeklyScheduleAttribute(weeklyScheduleOpeningTag($html, 'remove-range'), '@click'))->toBe('removeRange(day, index)')
         ->and($error->getAttribute('x-show'))->toBe('invalid(range)')
         ->and(trim($error->textContent))->toBe('End time must be after start time.')
-        ->and($add->getAttribute('@click'))->toBe('addRange(day)')
+        ->and(weeklyScheduleAttribute(weeklyScheduleOpeningTag($html, 'add-range'), '@click'))->toBe('addRange(day)')
         ->and(trim($add->textContent))->toBe('+ Add interval')
         ->and(weeklyScheduleOptions($html)['value'][1][1])->toBe(['start' => '13:00', 'end' => '13:00']);
 });
@@ -319,7 +346,7 @@ it('serves each copy popover closed with six targets and a disabled Apply button
         ->and($targetLabels)->toBe(['Sunday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])
         ->and($apply->hasAttribute('disabled'))->toBeTrue()
         ->and($apply->getAttribute('x-bind:disabled'))->toBe('picked(day).length === 0')
-        ->and($apply->getAttribute('@click'))->toBe('applyCopy(day)')
+        ->and(weeklyScheduleAttribute(weeklyScheduleOpeningTag($html, 'apply-copy'), '@click'))->toBe('applyCopy(day)')
         ->and(trim($apply->textContent))->toBe('Apply');
 });
 

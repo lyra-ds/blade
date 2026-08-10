@@ -78,6 +78,31 @@ function recurrenceSelectorElement(string $html, string $target): DOMElement
     return $element;
 }
 
+function recurrenceSelectorOpeningTag(string $html, string $target): string
+{
+    $pattern = match ($target) {
+        'day' => '/<button\b(?=[^>]*\bclass="[^"]*\blyra-recur__day\b[^"]*")[^>]*>/',
+    };
+    $matched = preg_match($pattern, $html, $matches);
+
+    expect($matched)->toBe(1);
+
+    return $matches[0];
+}
+
+function recurrenceSelectorAttribute(string $tag, string $attribute): ?string
+{
+    $matched = preg_match(
+        sprintf('/(?:^|\s)%s="([^"]*)"/', preg_quote($attribute, '/')),
+        $tag,
+        $matches,
+    );
+
+    return $matched === 1
+        ? html_entity_decode($matches[1], ENT_QUOTES | ENT_HTML5, 'UTF-8')
+        : null;
+}
+
 /** @return array<string, mixed> */
 function recurrenceSelectorOptions(string $html): array
 {
@@ -332,7 +357,7 @@ it('serves weekday pressed state and modifier classes and cloaks the group for m
             'lyra-recur__day lyra-recur__day--on',
         ])->and($days[0]->getAttribute(':aria-pressed'))->toBe('dayPressed(0)')
         ->and($days[0]->getAttribute(':class'))->toBe('dayClass(0)')
-        ->and($days[0]->getAttribute('@click'))->toBe('toggleDay(0)')
+        ->and(recurrenceSelectorAttribute(recurrenceSelectorOpeningTag($weekly, 'day'), '@click'))->toBe('toggleDay(0)')
         ->and($days[0]->getAttribute('type'))->toBe('button')
         ->and(recurrenceSelectorElement($weekly, 'days')->hasAttribute('x-cloak'))->toBeFalse()
         ->and(recurrenceSelectorElement($monthly, 'days')->hasAttribute('x-cloak'))->toBeTrue();
