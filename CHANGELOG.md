@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.8.0](https://github.com/lyra-ds/blade/compare/v0.7.0...v0.8.0) (2026-08-10)
+
+
+### Features
+
+* add data table component ([0dc7648](https://github.com/lyra-ds/blade/commit/0dc76487f88da027aed96390447816f514599561))
+* add recurrence selector component ([836ca74](https://github.com/lyra-ds/blade/commit/836ca74f8a45784db5c5f5f7602bccbc6cdbb9e7))
+* add slot picker component ([a9dd9f5](https://github.com/lyra-ds/blade/commit/a9dd9f5cb75174b2d6b8548db7eace3b8d19521f))
+* add weekly schedule editor component ([ba7fc30](https://github.com/lyra-ds/blade/commit/ba7fc3006602c0d400c89a274273debe7210f1a6))
+
+
+### Miscellaneous Chores
+
+* close phase 2 — waves B–F delivered, catalogue complete ([c94832b](https://github.com/lyra-ds/blade/commit/c94832bb1507d81c97ae497c22a9f095ed028b30))
+* handoff da pausa após a onda E (batuta) ([f924fea](https://github.com/lyra-ds/blade/commit/f924fea3d5f9926be493f368dbd9ca674f8f2ab4))
+* record release 0.7.0; onda E shipped end to end (batuta) ([8d189a9](https://github.com/lyra-ds/blade/commit/8d189a959c4a46368d045994c8cb9b093d1b7f1c))
+* record task 29 (data-table) cycle (batuta) ([1183192](https://github.com/lyra-ds/blade/commit/1183192ca3ee8a170e1ca6673e366799faad655e))
+* record task 30 (recurrence-selector) cycle (batuta) ([817acb0](https://github.com/lyra-ds/blade/commit/817acb06e12c51dc7365670b20536f4a6f5bf77e))
+* record task 31 (slot-picker) cycle (batuta) ([db34490](https://github.com/lyra-ds/blade/commit/db34490d334ed84a3c820921a115250e37b8785f))
+* record task 32 (weekly-schedule-editor) cycle (batuta) ([978f0ab](https://github.com/lyra-ds/blade/commit/978f0ab5767c5bbb04cc7226d43e450f257ae0bf))
+* record task 33.1 (demo gallery, wave F) cycle (batuta) ([7cee042](https://github.com/lyra-ds/blade/commit/7cee0421747d1012a7072c3e3ade48fb82b1d5c7))
+* record task 33.2 (README catalogue refresh) cycle (batuta) ([8ce905b](https://github.com/lyra-ds/blade/commit/8ce905bc5c9d1f95d427483a3310eecf80144563))
+
 ## [0.7.0](https://github.com/lyra-ds/blade/compare/v0.6.0...v0.7.0) (2026-08-09)
 
 
