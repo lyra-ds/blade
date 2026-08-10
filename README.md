@@ -77,6 +77,13 @@ Use each name with either equivalent form—for example, `button` becomes `<lyra
 
 Every component emits exactly the class strings emitted by the corresponding Lyra React component. Data-driven class-emission tests enforce that contract using the fixtures in `tests/Fixtures/class-emission/`, keeping Blade and React on the same styling surface.
 
+Class parity is not the same as full coverage. Two React components have no Blade equivalent, both by decision:
+
+- **`CalendarView`** is not ported. Everything it displays is either `Intl`-formatted text or an event chip positioned by pixel geometry derived from time math, and its event popover is placed from measured element rectangles. The served HTML would be an empty frame, which is the opposite of the static-first contract the rest of this package keeps. Compose the equivalent screen from `calendar`, `popover`, `segmented-control`, and `slot-picker` instead.
+- **`CreateWorkspaceDialog`** is a composition, not a primitive: it is `dialog` plus fields this package already ships. Build it in your application rather than importing a fixed arrangement of them.
+
+React's `ThemeProvider` and `ToastProvider` also have no matching tag, because a provider is not a Blade shape. Their behavior is here: the theme lives in `@lyraThemeScript` plus the Alpine `$store.theme`, and the toast queue lives in `toast-stack`.
+
 ## Compatibility
 
 | `lyra-ds/blade` | Laravel 12 | Laravel 13 | PHP 8.3 | PHP 8.4 | `@lyra-ds/styles` | `@lyra-ds/alpine` |
