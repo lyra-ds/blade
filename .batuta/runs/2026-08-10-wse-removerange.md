@@ -89,3 +89,17 @@ servida — o resto é browser.
 ✅ Aprovado após 1 rodada corretiva (mensagem), promovido por fast-forward (`22f4c56`).
 Item de backlog fechado. Como é um `fix:`, o release-please vai abrir PR de **0.8.1** no
 próximo push — cortar ou não é decisão do usuário.
+
+## Release 0.8.1 (cortada a pedido do usuário, 2026-08-10)
+
+- PR #10, squash com bypass de admin (mesmo caminho da 0.7.0 e 0.8.0), commit `e805d4a`
+- Tag **`v0.8.1`** publicada 2026-08-10T14:53:26Z; Packagist confirmado por API
+- Matriz 8/8 verde **antes** do merge, e — lição da 0.8.0 aplicada — o pai do head do PR foi
+  conferido primeiro: `7ebd66e`, igual ao tip da `main`, ou seja branch não defasada
+- Changelog: uma entrada em Bug Fixes, o `fix(weekly-schedule-editor)`
+
+**Observação registrada:** o `refactor:` da task 35 (padronização `@` → `x-on:`) **não entra
+no changelog** — a config do release-please só lista `feat` e `fix`. A 0.8.1 publica portanto
+uma mudança visível no markup servido sem linha de changelog. É neutra para o Alpine, mas um
+consumidor que inspeciona HTML vê a diferença sem aviso. Candidato a ciclo próprio: incluir
+`refactor` nas seções do changelog.
