@@ -42,13 +42,17 @@ Efeito colateral bom e não previsto no pedido: com `chore` oculto, um período 
 só produziu commits de registro **deixa de propor release**. Antes, o simples ato de registrar
 o ciclo gerava um PR de release sem mudança de código.
 
-## Pendência deixada para o usuário
+## PR obsoleto — fechado com aval do usuário
 
-O **PR #11** (`chore(main): release 0.8.2`) continua aberto: o release-please pula, mas não
-fecha PR de release obsoleto. Ele foi montado sob a config antiga e propõe uma 0.8.2 cujo
-changelog lista exatamente os `chore` que acabaram de ser ocultados — os quatro commits do
-range são todos `chore`, nenhuma mudança de código. Fechar é limpeza, mas é ação visível no
-repositório e ficou para decisão do usuário.
+O **PR #11** (`chore(main): release 0.8.2`) ficou aberto: o release-please pula o range, mas
+não fecha PR de release obsoleto. Ele fora montado sob a config antiga e propunha uma 0.8.2
+cujo changelog listava exatamente os `chore` recém-ocultados — os quatro commits do range são
+todos `chore`, nenhuma mudança de código.
+
+Fechado em 2026-08-10T17:08:12Z, a pedido do usuário, com comentário explicando a supersessão.
+A branch `release-please--branches--main--components--lyra-ds/blade` **foi mantida** no remoto
+de propósito: é a branch que a ferramenta reusa e reescreve quando houver release de verdade;
+apagá-la não traz ganho e mexe em estado que é dela.
 
 ## Verdict
 
