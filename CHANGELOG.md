@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.8.2](https://github.com/lyra-ds/blade/compare/v0.8.1...v0.8.2) (2026-08-10)
+
+
+### Miscellaneous Chores
+
+* record release 0.8.1 (batuta) ([baea9a4](https://github.com/lyra-ds/blade/commit/baea9a4887542ae7c469008f7601cc72b4bd3844))
+* record task 37 (explicit changelog sections) cycle (batuta) ([9bde7cf](https://github.com/lyra-ds/blade/commit/9bde7cf9ee95ebfbcdb07879ae7c026cf95c2fa3))
+* **release-please:** declare changelog sections explicitly ([7355632](https://github.com/lyra-ds/blade/commit/7355632c62461b4e571a7f96b447f0c7714ada9e))
+
 ## [0.8.1](https://github.com/lyra-ds/blade/compare/v0.8.0...v0.8.1) (2026-08-10)
 
 
