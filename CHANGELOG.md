@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.8.1](https://github.com/lyra-ds/blade/compare/v0.8.0...v0.8.1) (2026-08-10)
+
+
+### Bug Fixes
+
+* **weekly-schedule-editor:** removing a time range no longer throws ([22f4c56](https://github.com/lyra-ds/blade/commit/22f4c5620d30573a48fadc3daf7dfb275bc32b2b))
+
+
+### Miscellaneous Chores
+
+* record release 0.8.0; phase 2 shipped end to end (batuta) ([e9ec962](https://github.com/lyra-ds/blade/commit/e9ec962608ec992b604a45021d7a82cb41050ff4))
+* record task 35 (x-on standardisation) cycle (batuta) ([296d012](https://github.com/lyra-ds/blade/commit/296d0122f16976501ebb0eca4529ecdbf290c7da))
+* record task 36 (removeRange console errors) cycle (batuta) ([7ebd66e](https://github.com/lyra-ds/blade/commit/7ebd66e97407fe47649f1b678465adc14b91ef4f))
+
 ## [0.8.0](https://github.com/lyra-ds/blade/compare/v0.7.0...v0.8.0) (2026-08-10)
 
 
