@@ -167,7 +167,7 @@
                         type="button"
                         id="{{ $triggerId }}"
                         class="lyra-input lyra-datepicker__btn{{ $hasError ? ' lyra-input--error' : '' }}"
-                        @click="open = true"
+                        x-on:click="open = true"
                     >
                         <svg
                             width="15"

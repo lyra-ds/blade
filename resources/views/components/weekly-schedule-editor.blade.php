@@ -219,7 +219,7 @@
                     :label="$dayLabel"
                     :checked="$dayEnabled"
                     x-bind:checked="enabled(day)"
-                    @change="setEnabled(day, $event.currentTarget.checked)"
+                    x-on:change="setEnabled(day, $event.currentTarget.checked)"
                 />
             </div>
 
@@ -256,7 +256,7 @@
                                     class="lyra-sched__ghostbtn"
                                     aria-label="{{ $resolvedLabels['removeInterval'] }}"
                                     :aria-label="label('removeInterval')"
-                                    @click="removeRange(day, index)"
+                                    x-on:click="removeRange(day, index)"
                                 >
                                     <x-lyra::icon name="x" :size="15" />
                                 </button>
@@ -272,7 +272,7 @@
                 <button
                     type="button"
                     class="lyra-sched__addrange"
-                    @click="addRange(day)"
+                    x-on:click="addRange(day)"
                     x-text="label('addInterval')"
                 >{{ $resolvedLabels['addInterval'] }}</button>
             </div>
@@ -325,7 +325,7 @@
                                         type="checkbox"
                                         class="lyra-checkbox"
                                         :checked="picked(day).includes({{ $target }})"
-                                        @change="togglePicked(day, {{ $target }})"
+                                        x-on:change="togglePicked(day, {{ $target }})"
                                     >
                                     <span x-text="dayLabel({{ $target }})">{{ $resolvedLabels['weekdays'][$target] }}</span>
                                 </label>
@@ -334,7 +334,7 @@
                                 size="sm"
                                 disabled
                                 x-bind:disabled="picked(day).length === 0"
-                                @click="applyCopy(day)"
+                                x-on:click="applyCopy(day)"
                                 x-text="label('apply')"
                             >{{ $resolvedLabels['apply'] }}</x-lyra::button>
                         </div>
@@ -380,7 +380,7 @@
                         type="button"
                         class="lyra-sched__ghostbtn"
                         :aria-label="label('removeException')"
-                        @click="removeException(index)"
+                        x-on:click="removeException(index)"
                     >
                         <x-lyra::icon name="x" :size="15" />
                     </button>

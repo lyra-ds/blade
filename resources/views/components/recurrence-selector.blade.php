@@ -451,7 +451,7 @@
                     ])
                     :class="dayClass({{ $dayIndex }})"
                     :aria-pressed="dayPressed({{ $dayIndex }})"
-                    @click="toggleDay({{ $dayIndex }})"
+                    x-on:click="toggleDay({{ $dayIndex }})"
                     x-text="weekdayEntries()[{{ $dayIndex }}].label"
                 >{{ $dayLabel }}</button>
             @endforeach

@@ -108,32 +108,6 @@ function slotPickerElement(string $html, string $target): DOMElement
     return $element;
 }
 
-function slotPickerOpeningTag(string $html, string $target): string
-{
-    $pattern = match ($target) {
-        'visible-option' => '/<button\b(?=[^>]*\brole="option")(?=[^>]*\bclass="lyra-slotpicker__slot")(?![^>]*\bx-cloak\b)[^>]*>/',
-        'confirm' => '/<button\b(?=[^>]*\bx-bind="confirmButton")[^>]*>/',
-    };
-    $matched = preg_match($pattern, $html, $matches);
-
-    expect($matched)->toBe(1);
-
-    return $matches[0];
-}
-
-function slotPickerAttribute(string $tag, string $attribute): ?string
-{
-    $matched = preg_match(
-        sprintf('/(?:^|\s)%s="([^"]*)"/', preg_quote($attribute, '/')),
-        $tag,
-        $matches,
-    );
-
-    return $matched === 1
-        ? html_entity_decode($matches[1], ENT_QUOTES | ENT_HTML5, 'UTF-8')
-        : null;
-}
-
 /** @return array<string, mixed> */
 function slotPickerOptions(string $html): array
 {
@@ -361,7 +335,7 @@ it('serves listbox semantics, interpolated labels, and the unselected initial st
         ->and($option)->toBeInstanceOf(DOMElement::class)
         ->and($option->getAttribute('type'))->toBe('button')
         ->and($option->getAttribute('aria-selected'))->toBe('false')
-        ->and(slotPickerAttribute(slotPickerOpeningTag($html, 'visible-option'), '@click'))->toContain('selectSlot(')
+        ->and($option->getAttribute('x-on:click'))->toContain('selectSlot(')
         ->and(slotPickerVisibleElements($html, 'lyra-slotpicker__pair'))->toHaveCount(0);
 });
 
@@ -384,7 +358,7 @@ it('ships the selected pair and confirm control hidden until a slot is selected'
         ->and(trim($selected->textContent))->toBe('10:00 AM')
         ->and($confirm)->toBeInstanceOf(DOMElement::class)
         ->and($confirm->getAttribute('class'))->toBe('lyra-btn lyra-btn--primary lyra-btn--md')
-        ->and(slotPickerAttribute(slotPickerOpeningTag($html, 'confirm'), '@click'))->toContain('confirm(')
+        ->and($confirm->getAttribute('x-on:click'))->toContain('confirm(')
         ->and(trim($confirm->textContent))->toBe('Reserve');
 });
 

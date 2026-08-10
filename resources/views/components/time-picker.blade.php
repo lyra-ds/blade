@@ -177,7 +177,7 @@
                                 role="option"
                                 :class="{ 'lyra-timelist__item--selected': time === selected }"
                                 :aria-selected="time === selected ? 'true' : false"
-                                @click="pick(time)"
+                                x-on:click="pick(time)"
                                 x-text="formatTime(time)"
                             ></button>
                         </template>
@@ -193,7 +193,7 @@
                         type="button"
                         id="{{ $triggerId }}"
                         class="lyra-input lyra-datepicker__btn{{ $hasError ? ' lyra-input--error' : '' }}"
-                        @click="open = true"
+                        x-on:click="open = true"
                     >
                         <svg
                             width="15"
@@ -233,7 +233,7 @@
                                 role="option"
                                 :class="{ 'lyra-timelist__item--selected': time === selected }"
                                 :aria-selected="time === selected ? 'true' : false"
-                                @click="pick(time)"
+                                x-on:click="pick(time)"
                                 x-text="formatTime(time)"
                             ></button>
                         </template>

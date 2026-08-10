@@ -418,7 +418,7 @@
                     >{{ $serverSlot['time'] }}</span>
                     <x-lyra::button
                         x-bind="confirmButton"
-                        @click="{{ 'confirm('.$serverSlot['literal'].')' }}"
+                        x-on:click="{{ 'confirm('.$serverSlot['literal'].')' }}"
                         x-text="label('confirm')"
                     >{{ $resolvedLabels['confirm'] }}</x-lyra::button>
                 </span>
@@ -428,7 +428,7 @@
                     aria-selected="false"
                     class="lyra-slotpicker__slot"
                     x-show="{{ $inDayExpression.' && !('.$selectedExpression.')' }}"
-                    @click="{{ 'selectSlot('.$serverSlot['literal'].')' }}"
+                    x-on:click="{{ 'selectSlot('.$serverSlot['literal'].')' }}"
                     x-text="{{ 'timeOf('.$serverSlot['startLiteral'].')' }}"
                     @unless ($slotInitiallyVisible)
                         x-cloak

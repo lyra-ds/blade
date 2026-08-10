@@ -237,9 +237,9 @@ it('renders localized weekday and day loops with the authoritative bindings', fu
         ->and($day)->toContain(':aria-label="dayLabel(date)"')
         ->and($day)->toContain(':aria-pressed="dayPressed(date)"')
         ->and($day)->toContain(':data-key="dayKey(date)"')
-        ->and($day)->toContain('@click="selectDate(date)"')
-        ->and($day)->toContain('@focus="onDayFocus(date)"')
-        ->and($day)->toContain('@keydown="onDayKeydown($event, date)"')
+        ->and($day)->toContain('x-on:click="selectDate(date)"')
+        ->and($day)->toContain('x-on:focus="onDayFocus(date)"')
+        ->and($day)->toContain('x-on:keydown="onDayKeydown($event, date)"')
         ->and($html)->toContain('<span x-text="date.getDate()"></span>');
 });
 
@@ -250,11 +250,11 @@ it('renders the month and year loops with the authoritative bindings', function 
     expect($html)->toContain('<template x-for="month in months()" :key="month.getMonth()">')
         ->and($month)->toContain('type="button"')
         ->and($month)->toContain(':class="monthClass(month)"')
-        ->and($month)->toContain('@click="pickMonth(month)"')
+        ->and($month)->toContain('x-on:click="pickMonth(month)"')
         ->and($month)->toContain('x-text="monthName(month)"')
         ->and($html)->toContain('<template x-for="year in years()" :key="year">')
         ->and($html)->toContain(':class="yearClass(year)"')
-        ->and($html)->toContain('@click="pickYear(year)"')
+        ->and($html)->toContain('x-on:click="pickYear(year)"')
         ->and($html)->toContain('x-text="year"');
 });
 

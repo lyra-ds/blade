@@ -197,8 +197,8 @@
                                 :id="optionId(entry.index)"
                                 :class="itemClass(entry.index)"
                                 :aria-selected="isActive(entry.index) ? 'true' : 'false'"
-                                @mouseenter="setActive(entry.index)"
-                                @click="pick(entry.item)"
+                                x-on:mouseenter="setActive(entry.index)"
+                                x-on:click="pick(entry.item)"
                             >
                                 @isset($itemIcon)
                                     <span class="lyra-cmdk__item-icon">{{ $itemIcon }}</span>

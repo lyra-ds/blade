@@ -150,9 +150,9 @@
                     :aria-label="dayLabel(date)"
                     :aria-pressed="dayPressed(date)"
                     :data-key="dayKey(date)"
-                    @click="selectDate(date)"
-                    @focus="onDayFocus(date)"
-                    @keydown="onDayKeydown($event, date)"
+                    x-on:click="selectDate(date)"
+                    x-on:focus="onDayFocus(date)"
+                    x-on:keydown="onDayKeydown($event, date)"
                 >
                     <span x-text="date.getDate()"></span>
                     @isset($dayMarker)
@@ -182,7 +182,7 @@
                     type="button"
                     class="lyra-cal__mcell"
                     :class="monthClass(month)"
-                    @click="pickMonth(month)"
+                    x-on:click="pickMonth(month)"
                     x-text="monthName(month)"
                 ></button>
             </template>
@@ -196,7 +196,7 @@
                     type="button"
                     class="lyra-cal__mcell"
                     :class="yearClass(year)"
-                    @click="pickYear(year)"
+                    x-on:click="pickYear(year)"
                     x-text="year"
                 ></button>
             </template>

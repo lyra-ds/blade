@@ -196,8 +196,8 @@
                             :id="optionId(index)"
                             :class="optionClass(filteredIndex)"
                             :aria-selected="optionSelected(option)"
-                            @mouseenter="setActive(filteredIndex)"
-                            @click="pick(option)"
+                            x-on:mouseenter="setActive(filteredIndex)"
+                            x-on:click="pick(option)"
                         >
                             @isset($optionIcon)
                                 {{ $optionIcon }}

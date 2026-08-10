@@ -302,7 +302,7 @@ it('renders both listboxes with the exact Alpine option contract', function (): 
         ->and(substr_count($html, 'class="lyra-timelist__item"'))->toBe(2)
         ->and(substr_count($html, ':class="{ \'lyra-timelist__item--selected\': time === selected }"'))->toBe(2)
         ->and(substr_count($html, ':aria-selected="time === selected ? \'true\' : false"'))->toBe(2)
-        ->and(substr_count($html, '@click="pick(time)"'))->toBe(2)
+        ->and(substr_count($html, 'x-on:click="pick(time)"'))->toBe(2)
         ->and(substr_count($html, 'x-text="formatTime(time)"'))->toBe(2);
 
     expect($options[0])->toHaveCount(2);

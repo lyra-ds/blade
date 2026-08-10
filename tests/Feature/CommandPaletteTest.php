@@ -350,8 +350,8 @@ it('renders canonical nested group and item templates with binding-owned item se
         ->and($item)->toContain(':id="optionId(entry.index)"')
         ->and($item)->toContain(':class="itemClass(entry.index)"')
         ->and($item)->toContain(":aria-selected=\"isActive(entry.index) ? 'true' : 'false'\"")
-        ->and($item)->toContain('@mouseenter="setActive(entry.index)"')
-        ->and($item)->toContain('@click="pick(entry.item)"')
+        ->and($item)->toContain('x-on:mouseenter="setActive(entry.index)"')
+        ->and($item)->toContain('x-on:click="pick(entry.item)"')
         ->and($item)->not->toContain('type="button"')
         ->and($item)->not->toContain('tabindex=')
         ->and($item)->not->toContain('role="option"');
