@@ -1,0 +1,1 @@
+<lyra:spinner size="md" />
