@@ -117,18 +117,26 @@ it('renders a stable html for components whose ids come from uniqid', function (
         ->and($first['input']['html'])->not->toMatch('/\b[0-9a-f]{13}\b/');
 });
 
+// O guard vigia o CONTEÚDO, não o carimbo de versão. O release-please sobe o manifesto
+// no seu próprio PR, sem rodar o gerador, então exigir a versão do manifesto aqui
+// deixaria todo release PR vermelho por construção. A versão certa entra no artefato
+// que sai anexado à release, gerada pelo workflow depois do bump — e o teste
+// 'stamps the released version' cobre esse caminho.
 it('keeps the committed artifact synchronized with the sources', function (): void {
     $root = dirname(__DIR__, 2);
-    $manifest = json_decode((string) file_get_contents($root.'/.release-please-manifest.json'), true);
+
+    expect(is_file($root.'/docs/api.json'))->toBeTrue();
+
+    $committed = (string) file_get_contents($root.'/docs/api.json');
+    $stampedVersion = json_decode($committed, true, flags: JSON_THROW_ON_ERROR)['version'];
 
     $fresh = (new DocsApiGenerator)->generate(
         $root.'/resources/views/components',
         $root.'/resources/docs-examples',
         $root.'/tests/Fixtures/class-emission',
-        $manifest['.'],
+        $stampedVersion,
         static fn (string $template): string => Blade::render($template),
     );
 
-    expect(is_file($root.'/docs/api.json'))->toBeTrue();
-    expect(file_get_contents($root.'/docs/api.json'))->toBe($fresh);
+    expect($committed)->toBe($fresh);
 });
