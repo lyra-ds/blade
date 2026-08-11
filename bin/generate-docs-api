@@ -1,0 +1,43 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Illuminate\Support\Facades\Blade;
+use LyraDs\Blade\DocsApiGenerator;
+
+$root = dirname(__DIR__);
+
+require $root.'/vendor/autoload.php';
+
+$_ENV['APP_KEY'] = $_SERVER['APP_KEY'] = 'base64:'.base64_encode(random_bytes(32));
+putenv('APP_KEY='.$_ENV['APP_KEY']);
+
+Orchestra\Testbench\Foundation\Application::create(
+    basePath: $root.'/vendor/orchestra/testbench-core/laravel',
+    options: ['extra' => ['providers' => [
+        BladeUI\Icons\BladeIconsServiceProvider::class,
+        MallardDuck\LucideIcons\BladeLucideIconsServiceProvider::class,
+        LyraDs\Blade\BladeServiceProvider::class,
+    ]]],
+);
+
+$manifest = json_decode((string) file_get_contents($root.'/.release-please-manifest.json'), true, flags: JSON_THROW_ON_ERROR);
+
+$artifact = (new DocsApiGenerator)->generate(
+    $root.'/resources/views/components',
+    $root.'/resources/docs-examples',
+    $root.'/tests/Fixtures/class-emission',
+    $manifest['.'],
+    static fn (string $template): string => Blade::render($template),
+);
+
+if (! is_dir($root.'/docs') && ! mkdir($root.'/docs', 0755, true)) {
+    throw new RuntimeException('Unable to create the docs directory.');
+}
+
+if (file_put_contents($root.'/docs/api.json', $artifact) === false) {
+    throw new RuntimeException('Unable to write docs/api.json.');
+}
+
+fwrite(STDOUT, "Generated docs/api.json\n");
