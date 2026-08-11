@@ -2,7 +2,19 @@
 
 ## In progress
 
-_Nada em voo. Falta só a release patch **0.8.2**, que publica as tasks 39 e 40 abaixo._
+_Nada em voo. A Frente B (`lyra-ds/lyra`, tasks 11–12) está destravada assim que sair a primeira release com `api.json` anexado._
+
+## Frente A — artefato `docs/api.json` (2026-08-11)
+
+Plano `docs/superpowers/plans/2026-08-10-docs-api-frente-a.md` executado inteiro, 7 tasks, um commit por task (a 3 em 6 lotes). Suíte 1149 → **1379** (7096 assertions). O `lyra-ds.dev` já pode consumir o artefato: `gh release download --repo lyra-ds/blade --pattern api.json`.
+
+- [x] Tasks 1–7 — parser de `@props` extraído para `BladePropParser`, 72 exemplos curados em `resources/docs-examples/` (compilados e renderizados sob teste), `DocsApiGenerator` + `bin/generate-docs-api`, `docs/api.json` commitado sob teste de frescor, binding Alpine por componente, upload no workflow de release e contrato documentado no README.
+
+**Três desvios do plano, todos por lacuna do plano, não do código.**
+
+1. **Ids voláteis.** Doze componentes derivam ids de `uniqid()`, então o mesmo snippet renderiza HTML diferente a cada execução — o teste de frescor, como escrito, nunca poderia passar. **Decisão do usuário:** normalizar no gerador, cada token de 13 hex vira `id1`, `id2`… Prova de força feita: o guard falha com o arquivo mexido e volta ao verde depois de regenerar.
+2. **Ordenação.** `glob` ordena por caminho, e `checkbox-group.blade.php` precede `checkbox.blade.php` como string de arquivo. O contrato promete ordem por **slug**, então o gerador ordena por slug, não por caminho.
+3. **Binding lido do HTML, não do template.** A regex do plano (`x-data="lyraX(`) achava 19 dos 29 componentes: dez emitem o factory por echo Blade, e o `combobox` o recebe por **prop** — é assim que o `time-zone-picker` injeta o seu. Ler o `x-data` do HTML renderizado cobre as três formas e continua sendo leitura, não lista mantida à mão. Resultado: **30** com binding (os 29 com `x-data` mais o `time-zone-picker`), o mesmo conjunto que a seção Interactivity do README já listava. Efeito colateral pego por teste novo: um exemplo com filho interativo dentro de componente estático fazia o `shell` herdar `lyraSidebarGroup` — o exemplo foi corrigido e o invariante travado.
 
 ## Ciclo dos dois itens de upstream (2026-08-10)
 
