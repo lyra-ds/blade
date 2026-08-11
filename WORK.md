@@ -2,11 +2,11 @@
 
 ## In progress
 
-_Nada em voo. A Frente B (`lyra-ds/lyra`, tasks 11–12) está destravada assim que sair a primeira release com `api.json` anexado._
+_Nada em voo. A Frente B (`lyra-ds/lyra`, tasks 11–12) está **destravada** — avisada no PR #176 do site ([comentário](https://github.com/lyra-ds/lyra/pull/176#issuecomment-5257682269)), com os três desvios do contrato e a ressalva do `version` explicitados lá._
 
 ## Frente A — artefato `docs/api.json` (2026-08-11)
 
-Plano `docs/superpowers/plans/2026-08-10-docs-api-frente-a.md` executado inteiro, 7 tasks, um commit por task (a 3 em 6 lotes). Suíte 1149 → **1379** (7096 assertions). O `lyra-ds.dev` já pode consumir o artefato: `gh release download --repo lyra-ds/blade --pattern api.json`.
+Plano `docs/superpowers/plans/2026-08-10-docs-api-frente-a.md` executado inteiro, 7 tasks, um commit por task (a 3 em 6 lotes). Suíte 1149 → **1379** (7096 assertions). **Release 0.10.0 publicada com o `api.json` anexado** (PR #13 por rebase; PR de release #14 por squash, ambos com `--admin`); asset conferido por download: `version=0.10.0`, 72 componentes, 30 com binding. O comando que a Frente B usa funciona como escrito: `gh release download --repo lyra-ds/blade --pattern api.json`.
 
 - [x] Tasks 1–7 — parser de `@props` extraído para `BladePropParser`, 72 exemplos curados em `resources/docs-examples/` (compilados e renderizados sob teste), `DocsApiGenerator` + `bin/generate-docs-api`, `docs/api.json` commitado sob teste de frescor, binding Alpine por componente, upload no workflow de release e contrato documentado no README.
 
@@ -15,6 +15,18 @@ Plano `docs/superpowers/plans/2026-08-10-docs-api-frente-a.md` executado inteiro
 1. **Ids voláteis.** Doze componentes derivam ids de `uniqid()`, então o mesmo snippet renderiza HTML diferente a cada execução — o teste de frescor, como escrito, nunca poderia passar. **Decisão do usuário:** normalizar no gerador, cada token de 13 hex vira `id1`, `id2`… Prova de força feita: o guard falha com o arquivo mexido e volta ao verde depois de regenerar.
 2. **Ordenação.** `glob` ordena por caminho, e `checkbox-group.blade.php` precede `checkbox.blade.php` como string de arquivo. O contrato promete ordem por **slug**, então o gerador ordena por slug, não por caminho.
 3. **Binding lido do HTML, não do template.** A regex do plano (`x-data="lyraX(`) achava 19 dos 29 componentes: dez emitem o factory por echo Blade, e o `combobox` o recebe por **prop** — é assim que o `time-zone-picker` injeta o seu. Ler o `x-data` do HTML renderizado cobre as três formas e continua sendo leitura, não lista mantida à mão. Resultado: **30** com binding (os 29 com `x-data` mais o `time-zone-picker`), o mesmo conjunto que a seção Interactivity do README já listava. Efeito colateral pego por teste novo: um exemplo com filho interativo dentro de componente estático fazia o `shell` herdar `lyraSidebarGroup` — o exemplo foi corrigido e o invariante travado.
+
+**Quarto desvio, achado só na release — e teria mordido toda release futura.** O PR de release nasceu **vermelho**, matriz inteira, sempre no `keeps the committed artifact synchronized with the sources`. Causa: o `version` do artefato sai de `.release-please-manifest.json`, o artefato é commitado, e o release-please sobe o manifesto **no seu próprio PR sem rodar o gerador** — manifesto `0.10.0` contra artefato `0.9.0`. Os três invariantes do plano eram incompatíveis entre si por construção. Correção (PR #16): o guard vigia **conteúdo**, gerando com a versão que o próprio artefato commitado carrega; a versão da release continua correta porque o workflow regenera **depois** do bump, e o teste `stamps the released version` cobre esse caminho. Provado nos dois sentidos: com o manifesto em `0.10.0` a suíte fica verde, e alterar um `usage` no artefato ainda derruba o guard. **Consequência para consumidores:** entre releases, a cópia commitada pode carregar versão atrasada — a canônica é o asset da release, nunca o `raw.githubusercontent`.
+
+**Lição para o próximo plano gerador-de-artefato.** As quatro lacunas foram do plano, não do código, e todas do mesmo tipo: invariantes escritos isoladamente que se contradizem quando se encontram (versão do manifesto × artefato commitado × teste byte-a-byte; ordenação por slug × `glob` por caminho; binding por regex × factory que chega por prop). Um plano que declara um artefato determinístico precisa provar o determinismo **antes** de escrever o guard — foi o `uniqid()` que denunciou isso primeiro, e a release que denunciou o resto.
+
+## Ciclo de CI e release (2026-08-11)
+
+- [x] **Deduplicação das actions** (PR #15, label `ci`) — o `ci.yml` disparava em `push:` e `pull_request:` sem filtro de branch, então todo push numa branch de PR rodava a matriz **duas vezes** para o mesmo commit: 8 jobs em vez de 4. `push` limitado a `main` (que segue coberta pelo push pós-merge) e `concurrency` com `cancel-in-progress` fora da `main`. Medido no próprio PR: uma run, 4 jobs. **Trade-off aceito:** branch empurrada sem PR aberto deixa de rodar CI. Validado com `actionlint 1.7.7`.
+- [x] **Release 0.10.0 publicada** (PR #14, squash, `--admin`) — minor pelos dois `feat:`. Tag `v0.10.0` e asset `api.json` confirmados por API; Packagist pelo webhook de sempre. O gate de auto-aprovação segue inaplicável (motivo já registrado no ciclo de 2026-08-10), então todo release exige `--admin`.
+- [x] **Frente B avisada** — comentário no PR #176 do `lyra-ds/lyra` com o Step 1 da task 11 já conferido, os três desvios do contrato e a ressalva do `version`.
+
+**Dois percalços de infraestrutura, ambos do GitHub, ambos resolvidos por re-disparo:** o release-please caiu com `We couldn't respond to your request in time` (timeout da API, não configuração), e um job ficou preso reportando `pending` num run já `completed success` — re-rodado sozinho para não fazer merge com check pendurado.
 
 ## Ciclo dos dois itens de upstream (2026-08-10)
 
