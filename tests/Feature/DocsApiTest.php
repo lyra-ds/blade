@@ -52,6 +52,62 @@ it('reports button props with defaults and observed values', function (): void {
         ->and($variant['values'])->toContain('danger');
 });
 
+it('names the Alpine binding of interactive components', function (): void {
+    $components = collect(generatedDocsApi()['components'])->keyBy('slug');
+
+    expect($components['dropdown']['binding'])->toBe('lyraDropdown')
+        ->and($components['time-picker']['binding'])->toBe('lyraTimePicker')
+        ->and($components['combobox']['binding'])->toBe('lyraCombobox')
+        ->and($components['time-zone-picker']['binding'])->toBe('lyraTimeZonePicker')
+        ->and($components['button']['binding'])->toBeNull();
+});
+
+it('finds a binding for every component whose template carries x-data', function (): void {
+    $root = dirname(__DIR__, 2);
+    $components = collect(generatedDocsApi()['components'])->keyBy('slug');
+
+    foreach (glob($root.'/resources/views/components/*.blade.php') ?: [] as $path) {
+        $slug = basename($path, '.blade.php');
+        // O template só reconhece o factory escrito literalmente — direto ou por echo
+        // Blade. Ele é limite inferior: quem o carrega tem binding obrigatoriamente.
+        $carriesFactory = (bool) preg_match(
+            '/x-data="(?:\{\{\s*\')?(lyra[A-Z]\w*)\(/',
+            (string) file_get_contents($path),
+        );
+
+        if ($carriesFactory) {
+            expect($components[$slug]['binding'])->not->toBeNull("binding ausente em {$slug}");
+        }
+    }
+});
+
+it('never borrows the binding of a component nested in the example', function (): void {
+    foreach (generatedDocsApi()['components'] as $component) {
+        if ($component['binding'] === null) {
+            continue;
+        }
+
+        $own = 'lyra'.str_replace('-', '', ucwords($component['slug'], '-'));
+
+        expect($component['binding'])->toBe(
+            $own,
+            "o exemplo de {$component['slug']} expõe o binding de outro componente antes do seu",
+        );
+    }
+});
+
+it('backs every reported binding with the x-data of the rendered example', function (): void {
+    foreach (generatedDocsApi()['components'] as $component) {
+        if ($component['binding'] === null) {
+            expect($component['html'])->not->toMatch('/x-data="lyra[A-Z]/', "binding ausente em {$component['slug']}");
+
+            continue;
+        }
+
+        expect($component['html'])->toContain('x-data="'.$component['binding'].'(');
+    }
+});
+
 it('renders a stable html for components whose ids come from uniqid', function (): void {
     $first = collect(generatedDocsApi()['components'])->keyBy('slug');
     $second = collect(generatedDocsApi()['components'])->keyBy('slug');

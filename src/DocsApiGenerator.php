@@ -52,11 +52,13 @@ final class DocsApiGenerator
             $usage = rtrim((string) file_get_contents($examplePath), "\n");
             $fixture = $this->readFixture($fixturesDirectory."/{$slug}.json");
 
+            $html = $this->stabilizeIds(trim($render($usage)));
+
             $components[] = [
                 'slug' => $slug,
                 'usage' => $usage,
-                'html' => $this->stabilizeIds(trim($render($usage))),
-                'binding' => null,
+                'html' => $html,
+                'binding' => $this->bindingName($html),
                 'props' => array_map(
                     fn (array $prop): array => [
                         'name' => $prop['name'],
@@ -73,6 +75,22 @@ final class DocsApiGenerator
             ['version' => $version, 'components' => $components],
             JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR,
         )."\n";
+    }
+
+    /**
+     * O nome do factory Alpine que anima o componente, lido do HTML que o exemplo
+     * realmente produz. Deliberadamente uma leitura, não uma lista mantida à mão: uma
+     * lista envelhece silenciosamente, o render não. O template não serve como fonte
+     * porque o combobox recebe o factory por prop — `time-zone-picker` o injeta — e um
+     * literal no template só descreveria o caso padrão.
+     */
+    private function bindingName(string $html): ?string
+    {
+        if (preg_match('/x-data="(lyra[A-Z]\w*)\(/', $html, $matches) !== 1) {
+            return null;
+        }
+
+        return $matches[1];
     }
 
     /**
