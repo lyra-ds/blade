@@ -1,11 +1,22 @@
 name: CI
 
+# Sem o filtro de branch abaixo, um push numa branch de PR dispara `push` e
+# `pull_request` para o mesmo commit e a matriz roda duas vezes. `main` continua
+# coberta pelo push pós-merge, e toda branch de trabalho pelo pull_request.
 on:
   push:
+    branches:
+      - main
   pull_request:
 
 permissions:
   contents: read
+
+# Um push novo sobre um PR aposenta a run anterior; em `main` nada é cancelado,
+# porque cada commit lá precisa do seu próprio veredito.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   test:
