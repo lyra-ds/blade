@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.10.0](https://github.com/lyra-ds/blade/compare/v0.9.0...v0.10.0) (2026-08-11)
+
+
+### Features
+
+* gera docs/api.json com props, uso e html renderizado dos componentes ([2e8faf4](https://github.com/lyra-ds/blade/commit/2e8faf4e41422af663b6ff04a8f2461d69166350))
+* identifica o binding Alpine de cada componente no artefato de API ([541ed63](https://github.com/lyra-ds/blade/commit/541ed63d2214f22fbec1c6de4e985abf84aeeb66))
+
+
+### Bug Fixes
+
+* **test:** frescor do artefato vigia conteúdo, não o carimbo de versão ([19c2ba7](https://github.com/lyra-ds/blade/commit/19c2ba704f0836ff0b0f44ec6e19b155c67b48f2))
+
+
+### Code Refactoring
+
+* extrai o parser de [@props](https://github.com/props) para uma classe própria ([5d387e5](https://github.com/lyra-ds/blade/commit/5d387e565f79505489c4fdf5df232940c1f3550b))
+
 ## [0.9.0](https://github.com/lyra-ds/blade/compare/v0.8.1...v0.9.0) (2026-08-10)
 
 
