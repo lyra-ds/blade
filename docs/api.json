@@ -260,8 +260,8 @@
             "props": [
                 {
                     "name": "mark",
-                    "default": null,
-                    "required": true,
+                    "default": "null",
+                    "required": false,
                     "values": []
                 },
                 {
