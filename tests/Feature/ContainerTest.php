@@ -68,6 +68,32 @@ it('sets the container max custom property in pixels', function (): void {
     expect($openingTag)->toContain('style="--container-max: 960px"');
 });
 
+it('maps size keywords to pixel widths', function (string $keyword, int $pixels): void {
+    $openingTag = containerOpeningTag(
+        Blade::render(sprintf('<x-lyra::container max="%s">C</x-lyra::container>', $keyword)),
+    );
+
+    expect($openingTag)->toContain(sprintf('style="--container-max: %dpx"', $pixels))
+        ->and($openingTag)->not->toContain($keyword.'px');
+})->with([
+    ['sm', 640],
+    ['md', 768],
+    ['lg', 1024],
+    ['xl', 1280],
+]);
+
+it('accepts a numeric string as pixels', function (): void {
+    $openingTag = containerOpeningTag(renderContainer(['max' => '480']));
+
+    expect($openingTag)->toContain('style="--container-max: 480px"');
+});
+
+it('ignores unrecognised max values instead of emitting invalid CSS', function (): void {
+    $html = renderContainer(['max' => 'huge']);
+
+    expect(trim($html))->toBe('<div class="lyra-container">C</div>');
+});
+
 it('appends consumer styles after the container max custom property', function (): void {
     $openingTag = containerOpeningTag(
         Blade::render('<x-lyra::container :max="960" style="color: red">C</x-lyra::container>'),
