@@ -7,7 +7,8 @@
 
 @php
     $hasWordmark = ! $slot->isEmpty();
-    $initial = $hasWordmark ? mb_strtoupper(mb_substr(trim(strip_tags((string) $slot)), 0, 1)) : '';
+    $initialSource = $hasWordmark ? strip_tags((string) $slot) : (string) ($attributes->get('aria-label') ?? '');
+    $initial = mb_strtoupper(mb_substr(trim($initialSource), 0, 1));
     $tag = $href !== null ? 'a' : 'span';
     $rootAttributes = $attributes->class('lyra-brand');
 

@@ -140,6 +140,21 @@ it('renders without a mark or wordmark without throwing', function (): void {
     expect($html)->toContain('lyra-brand')->not->toContain('<img');
 });
 
+it('falls back to the aria-label initial when there is no mark or wordmark', function (): void {
+    $html = Blade::render('<x-lyra::brand aria-label="Acme" />');
+
+    expect($html)
+        ->toContain('lyra-brand__mark--initial')
+        ->toContain('>A</span>')
+        ->not->toContain('lyra-brand__word');
+});
+
+it('prefers the wordmark initial over the aria-label', function (): void {
+    $html = Blade::render('<x-lyra::brand aria-label="Acme">Lyra</x-lyra::brand>');
+
+    expect($html)->toContain('>L</span>')->not->toContain('>A</span>');
+});
+
 it('keeps an explicit mark working', function (): void {
     expect(renderBrand(['mark' => '/m.svg'], 'Lyra'))->toContain('<img class="lyra-brand__mark" src="/m.svg"');
 });
