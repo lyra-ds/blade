@@ -123,3 +123,23 @@ it('passes arbitrary attributes through to the root and keeps user classes last'
         ->and($openingTag)->toContain('id="identity"')
         ->and($openingTag)->toContain('data-track="brand"');
 });
+
+it('renders without a mark, falling back to the wordmark initial', function (): void {
+    $html = Blade::render('<x-lyra::brand>Lyra</x-lyra::brand>');
+
+    expect($html)
+        ->toContain('lyra-brand__mark--initial')
+        ->toContain('>L</span>')
+        ->toContain('lyra-brand__word')
+        ->not->toContain('<img');
+});
+
+it('renders without a mark or wordmark without throwing', function (): void {
+    $html = Blade::render('<x-lyra::brand />');
+
+    expect($html)->toContain('lyra-brand')->not->toContain('<img');
+});
+
+it('keeps an explicit mark working', function (): void {
+    expect(renderBrand(['mark' => '/m.svg'], 'Lyra'))->toContain('<img class="lyra-brand__mark" src="/m.svg"');
+});
