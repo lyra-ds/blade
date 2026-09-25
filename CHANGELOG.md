@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.10.1](https://github.com/lyra-ds/blade/compare/v0.10.0...v0.10.1) (2026-09-25)
+
+
+### Bug Fixes
+
+* **brand:** fall back to aria-label for the initial ([#24](https://github.com/lyra-ds/blade/issues/24)) ([f6348e3](https://github.com/lyra-ds/blade/commit/f6348e35ee64cdeec4bf363fcc0f052d6e367c44))
+* make brand mark optional ([#22](https://github.com/lyra-ds/blade/issues/22)) ([6936205](https://github.com/lyra-ds/blade/commit/693620521fd66cab3aa54b8d099a15fb9b66209a))
+* map container max keywords to pixel widths ([#21](https://github.com/lyra-ds/blade/issues/21)) ([08a19aa](https://github.com/lyra-ds/blade/commit/08a19aab7e32a3001fcaa2c29960898729b1d4f2))
+
 ## [0.10.0](https://github.com/lyra-ds/blade/compare/v0.9.0...v0.10.0) (2026-08-11)
 
 
