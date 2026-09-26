@@ -31,6 +31,7 @@
         'close' => 'Close',
         'rangeSeparator' => ' – ',
         'incompleteRange' => '…',
+        'rangeAnnouncement' => '{start} to {end}',
         'calendar' => [],
     ], is_array($labels) ? $labels : []);
     $resolvedPlaceholder = $placeholder ?? $resolvedLabels['placeholder'];
@@ -39,6 +40,31 @@
     $popoverLabel = $resolvedLabels['popover'];
     $closeLabel = $resolvedLabels['close'];
     $triggerId = $attributes->get('id') ?? 'lyra-date-range-picker-'.uniqid();
+    $announcementId = $triggerId.'-range';
+    $jsonFlags = JSON_THROW_ON_ERROR
+        | JSON_HEX_TAG
+        | JSON_HEX_AMP
+        | JSON_HEX_APOS
+        | JSON_HEX_QUOT
+        | JSON_UNESCAPED_SLASHES
+        | JSON_UNESCAPED_UNICODE;
+    $announcementIdLiteral = json_encode($announcementId, $jsonFlags);
+    $announcementTemplate = is_string($resolvedLabels['rangeAnnouncement'])
+        ? $resolvedLabels['rangeAnnouncement']
+        : '{start} to {end}';
+    // The template is data, never code: split on the two placeholders, JSON-encode every literal
+    // chunk and join them with the formatted dates inside a package-owned arrow function.
+    $announcementParts = [];
+
+    foreach (preg_split('/(\{start\}|\{end\})/', $announcementTemplate, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) as $part) {
+        $announcementParts[] = match ($part) {
+            '{start}' => 's',
+            '{end}' => 'e',
+            default => json_encode($part, $jsonFlags),
+        };
+    }
+
+    $announcementExpression = '(s, e) => ['.implode(', ', $announcementParts).'].join(\'\')';
     $modelAttributes = $attributes->whereStartsWith(['wire:model', 'x-model']);
     $rootAttributes = $attributes
         ->whereDoesntStartWith(['wire:model', 'x-model'])
@@ -59,16 +85,8 @@
         $options = ['defaultValue' => $defaultValue] + $options;
     }
 
-    $optionsLiteral = json_encode(
-        $options,
-        JSON_THROW_ON_ERROR
-            | JSON_HEX_TAG
-            | JSON_HEX_AMP
-            | JSON_HEX_APOS
-            | JSON_HEX_QUOT
-            | JSON_UNESCAPED_SLASHES
-            | JSON_UNESCAPED_UNICODE,
-    );
+    $optionsLiteral = json_encode($options, $jsonFlags);
+    $optionsLiteral = substr($optionsLiteral, 0, -1).', "rangeAnnouncement": '.$announcementExpression.'}';
 @endphp
 
 <div
@@ -91,6 +109,7 @@
                 id="{{ $triggerId }}"
                 class="lyra-input lyra-datepicker__btn{{ $hasError ? ' lyra-input--error' : '' }}"
                 disabled
+                :aria-describedby="triggerAnnouncement() ? {{ $announcementIdLiteral }} : null"
             >
                 <svg
                     width="15"
@@ -128,6 +147,7 @@
                             id="{{ $triggerId }}"
                             class="lyra-input lyra-datepicker__btn{{ $hasError ? ' lyra-input--error' : '' }}"
                             x-bind="trigger"
+                            :aria-describedby="triggerAnnouncement() ? {{ $announcementIdLiteral }} : null"
                         >
                             <svg
                                 width="15"
@@ -173,6 +193,7 @@
                         id="{{ $triggerId }}"
                         class="lyra-input lyra-datepicker__btn{{ $hasError ? ' lyra-input--error' : '' }}"
                         x-on:click="open = true"
+                        :aria-describedby="triggerAnnouncement() ? {{ $announcementIdLiteral }} : null"
                     >
                         <svg
                             width="15"
@@ -217,6 +238,15 @@
             </div>
         </template>
     @endif
+
+    <span
+        id="{{ $announcementId }}"
+        class="lyra-visually-hidden"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        x-text="triggerAnnouncement()"
+    ></span>
 
     @if ($hasError)
         <span class="lyra-hint lyra-hint--error">{{ $error }}</span>

@@ -14,5 +14,6 @@
     {"target": "row-check", "props": {"selectable": true}, "expected_class": "lyra-table__check"},
     {"target": "primary", "props": {}, "expected_class": "lyra-table__primary"},
     {"target": "empty", "props": {"rows": []}, "expected_class": "lyra-table__emptycell"},
-    {"target": "footer", "props": {}, "slots": "<x-slot:footer>Footer</x-slot:footer>", "expected_class": "lyra-table__footer"}
+    {"target": "footer", "props": {}, "slots": "<x-slot:footer>Footer</x-slot:footer>", "expected_class": "lyra-table__footer"},
+    {"target": "caption", "props": {"caption": "Projects", "captionHidden": true}, "expected_class": "lyra-visually-hidden"}
 ]

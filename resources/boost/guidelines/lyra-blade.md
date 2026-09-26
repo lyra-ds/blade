@@ -272,7 +272,7 @@ Props:
 
 Tags: `<x-lyra::data-table>...</x-lyra::data-table>` or `<lyra:data-table>...</lyra:data-table>`.
 
-Root class alternatives observed in fixtures: `lyra-table-wrap` | `lyra-table-scroll` | `lyra-table` | `lyra-table lyra-table--hover` | `lyra-table lyra-table--compact` | `lyra-table lyra-table--sticky` | `lyra-table lyra-table--hover lyra-table--compact lyra-table--sticky` | `lyra-table__check` | `lyra-table__sortbtn` | `lyra-table__sortbtn lyra-table__sortbtn--active` | `lyra-table__row--selected` | `lyra-table__primary` | `lyra-table__emptycell` | `lyra-table__footer`.
+Root class alternatives observed in fixtures: `lyra-table-wrap` | `lyra-table-scroll` | `lyra-table` | `lyra-table lyra-table--hover` | `lyra-table lyra-table--compact` | `lyra-table lyra-table--sticky` | `lyra-table lyra-table--hover lyra-table--compact lyra-table--sticky` | `lyra-table__check` | `lyra-table__sortbtn` | `lyra-table__sortbtn lyra-table__sortbtn--active` | `lyra-table__row--selected` | `lyra-table__primary` | `lyra-table__emptycell` | `lyra-table__footer` | `lyra-visually-hidden`.
 
 Props:
 - `columns` — required; no fixture examples (fixtures do not constrain this prop).
@@ -288,6 +288,9 @@ Props:
 - `empty` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `hover` — default: `false`; fixture examples (not constraints): `true`.
 - `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `caption` — default: `null`; fixture examples (not constraints): `"Projects"`.
+- `captionHidden` — default: `false`; fixture examples (not constraints): `true`.
+- `scrollLabel` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### date-picker
 

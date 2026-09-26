@@ -138,11 +138,27 @@ function dateRangePickerOptions(string $html): array
 
     expect($expression)->toStartWith('lyraDateRangePicker(')->toEndWith(')');
 
+    // rangeAnnouncement is the only function-valued option and always comes last.
+    $json = preg_replace('/, "rangeAnnouncement": .*\}\)$/s', '})', $expression);
+
     return json_decode(
-        substr($expression, strlen('lyraDateRangePicker('), -1),
+        substr($json, strlen('lyraDateRangePicker('), -1),
         true,
         flags: JSON_THROW_ON_ERROR,
     );
+}
+
+function dateRangePickerAnnouncementExpression(string $html): string
+{
+    $expression = html_entity_decode(
+        (string) dateRangePickerAttribute(dateRangePickerOpeningTag($html, 'root'), 'x-data'),
+        ENT_QUOTES | ENT_HTML5,
+        'UTF-8',
+    );
+
+    preg_match('/, "rangeAnnouncement": (.*)\}\)$/s', $expression, $matches);
+
+    return $matches[1] ?? '';
 }
 
 /** @return array<int, array<string, mixed>> */
@@ -520,4 +536,68 @@ it('renders namespaced and short syntax identically', function (): void {
 
     expect($short)->toBe($namespaced)
         ->and($short)->toContain('lyraDateRangePicker(');
+});
+
+it('serves exactly one polite status region named after the trigger id', function (): void {
+    $html = renderDateRangePicker(['id' => 'travel', 'label' => 'Travel dates']);
+    $document = new DOMDocument;
+    @$document->loadHTML('<!DOCTYPE html><html><body>'.$html.'</body></html>', LIBXML_NOERROR | LIBXML_NOWARNING);
+    $xpath = new DOMXPath($document);
+    $regions = $xpath->query('//*[contains(@class, "lyra-visually-hidden")][@role="status"][@aria-live="polite"][@aria-atomic="true"]');
+
+    expect($regions->length)->toBe(1)
+        ->and($regions->item(0)->getAttribute('id'))->toBe('travel-range')
+        ->and($regions->item(0)->getAttribute('x-text'))->toBe('triggerAnnouncement()');
+});
+
+it('derives a distinct status id for each picker', function (): void {
+    $first = renderDateRangePicker(['id' => 'a']);
+    $second = renderDateRangePicker(['id' => 'b']);
+
+    expect($first)->toContain('id="a-range"')->not->toContain('b-range')
+        ->and($second)->toContain('id="b-range"')->not->toContain('a-range')
+        ->and(renderDateRangePicker())->toMatch('/id="lyra-date-range-picker-[0-9a-f]{13}-range"/');
+});
+
+it('describes every trigger with the status region only while the range is complete', function (): void {
+    $html = renderDateRangePicker(['id' => 'travel']);
+
+    expect(substr_count($html, ':aria-describedby="triggerAnnouncement() ? &quot;travel-range&quot; : null"'))->toBe(2)
+        ->and(substr_count($html, 'lyra-datepicker__btn'))->toBeGreaterThanOrEqual(2);
+});
+
+it('compiles the announcement template with the English default', function (): void {
+    $html = renderDateRangePicker();
+
+    expect(dateRangePickerAnnouncementExpression($html))
+        ->toBe('(s, e) => [s, " to ", e].join(\'\')');
+});
+
+it('compiles a translated announcement template', function (): void {
+    $html = renderDateRangePicker(['labels' => ['rangeAnnouncement' => 'de {start} até {end}!']]);
+
+    expect(dateRangePickerAnnouncementExpression($html))
+        ->toBe('(s, e) => ["de ", s, " até ", e, "!"].join(\'\')');
+});
+
+it('escapes a hostile announcement template inside the attribute and the expression', function (): void {
+    $html = renderDateRangePicker(['labels' => ['rangeAnnouncement' => '{start}"\'</script>{end}']]);
+    $root = dateRangePickerOpeningTag($html, 'root');
+    $expression = dateRangePickerAnnouncementExpression($html);
+
+    expect($root)->not->toContain('</script>')
+        ->and($expression)->toContain('\\u0022')
+        ->and($expression)->toContain('\\u0027')
+        ->and($expression)->toContain('\\u003C')
+        ->and($expression)->not->toContain('"\'')
+        ->and($expression)->toStartWith('(s, e) => [s, "')
+        ->and($expression)->toEndWith('", e].join(\'\')');
+});
+
+it('keeps a hostile trigger id inside a JSON string in the describedby expression', function (): void {
+    $html = renderDateRangePicker(['id' => 'x"]) || alert(1) || (\'']);
+
+    expect($html)->toContain(':aria-describedby="triggerAnnouncement() ? &quot;x')
+        ->and($html)->not->toContain('alert(1) || (\'')
+        ->and($html)->not->toContain('? \'x');
 });

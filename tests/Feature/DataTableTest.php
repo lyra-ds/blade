@@ -23,6 +23,9 @@ function renderDataTable(array $props = [], string $slots = ''): string
     $empty = $props['empty'] ?? null;
     $hover = $props['hover'] ?? false;
     $labels = $props['labels'] ?? [];
+    $caption = $props['caption'] ?? null;
+    $captionHidden = $props['captionHidden'] ?? false;
+    $scrollLabel = $props['scrollLabel'] ?? null;
     unset(
         $props['columns'],
         $props['rows'],
@@ -37,6 +40,9 @@ function renderDataTable(array $props = [], string $slots = ''): string
         $props['empty'],
         $props['hover'],
         $props['labels'],
+        $props['caption'],
+        $props['captionHidden'],
+        $props['scrollLabel'],
     );
 
     $attributes = collect($props)
@@ -49,7 +55,7 @@ function renderDataTable(array $props = [], string $slots = ''): string
 
     return Blade::render(
         sprintf(
-            '<x-lyra::data-table :columns="$columns" :rows="$rows" :sorting="$sorting" :selectable="$selectable" :selected="$selected" :client-sort="$clientSort" :sticky-header="$stickyHeader" :max-height="$maxHeight" :density="$density" :loading="$loading" :empty="$empty" :hover="$hover" :labels="$labels" %s>%s</x-lyra::data-table>',
+            '<x-lyra::data-table :columns="$columns" :rows="$rows" :sorting="$sorting" :selectable="$selectable" :selected="$selected" :client-sort="$clientSort" :sticky-header="$stickyHeader" :max-height="$maxHeight" :density="$density" :loading="$loading" :empty="$empty" :hover="$hover" :labels="$labels" :caption="$caption" :caption-hidden="$captionHidden" :scroll-label="$scrollLabel" %s>%s</x-lyra::data-table>',
             $attributes,
             $slots,
         ),
@@ -67,6 +73,9 @@ function renderDataTable(array $props = [], string $slots = ''): string
             'empty',
             'hover',
             'labels',
+            'caption',
+            'captionHidden',
+            'scrollLabel',
         ),
     );
 }
@@ -98,6 +107,7 @@ function dataTableElement(string $html, string $target): DOMElement
         'row-check' => '//tbody/tr[@data-row-id][1]/td[contains(concat(" ", normalize-space(@class), " "), " lyra-table__check ")]',
         'primary' => '//tbody/tr[@data-row-id][1]/td[contains(concat(" ", normalize-space(@class), " "), " lyra-table__primary ")]',
         'empty' => '//tbody/tr/td[contains(concat(" ", normalize-space(@class), " "), " lyra-table__emptycell ")]',
+        'caption' => '//table/caption',
         'footer' => '//div[contains(concat(" ", normalize-space(@class), " "), " lyra-table__footer ")]',
     };
     $element = $xpath->query($query)?->item(0);
@@ -635,4 +645,115 @@ it('renders namespaced and short syntax identically', function (): void {
 
     expect($short)->toBe($namespaced)
         ->and($short)->toContain('lyraDataTable(');
+});
+
+it('serves a caption first in the table and names the focusable scroll region from it', function (): void {
+    $html = renderDataTable(['caption' => 'Projects']);
+    [, $xpath] = dataTableDocument($html);
+    $scroll = dataTableElement($html, 'scroll');
+    $caption = dataTableElement($html, 'caption');
+
+    expect($xpath->query('//table/*[1]')->item(0)->tagName)->toBe('caption')
+        ->and($caption->textContent)->toBe('Projects')
+        ->and($caption->hasAttribute('class'))->toBeFalse()
+        ->and($scroll->getAttribute('role'))->toBe('region')
+        ->and($scroll->getAttribute('tabindex'))->toBe('0')
+        ->and($scroll->getAttribute('x-bind'))->toBe('scrollRegion')
+        ->and($caption->getAttribute('id'))->not->toBe('')
+        ->and($scroll->getAttribute('aria-labelledby'))->toBe($caption->getAttribute('id'))
+        ->and($scroll->hasAttribute('aria-label'))->toBeFalse();
+});
+
+it('hides the caption visually without removing it', function (): void {
+    $html = renderDataTable(['caption' => 'Projects', 'captionHidden' => true]);
+
+    expect(dataTableElement($html, 'caption')->getAttribute('class'))->toBe('lyra-visually-hidden');
+});
+
+it('gives each table a distinct caption id', function (): void {
+    $first = dataTableElement(renderDataTable(['caption' => 'A']), 'caption')->getAttribute('id');
+    $second = dataTableElement(renderDataTable(['caption' => 'B']), 'caption')->getAttribute('id');
+
+    expect($first)->not->toBe($second);
+});
+
+it('lets scrollLabel override the region name and reach the options literal', function (): void {
+    $html = renderDataTable(['caption' => 'Projects', 'scrollLabel' => 'Scrollable projects']);
+    $scroll = dataTableElement($html, 'scroll');
+
+    expect($scroll->getAttribute('aria-label'))->toBe('Scrollable projects')
+        ->and($scroll->hasAttribute('aria-labelledby'))->toBeFalse()
+        ->and(dataTableOptions($html)['scrollLabel'])->toBe('Scrollable projects')
+        ->and(dataTableOptions(renderDataTable()))->not->toHaveKey('scrollLabel');
+});
+
+it('falls back to a default region name and omits the caption when none is given', function (): void {
+    $html = renderDataTable();
+    [, $xpath] = dataTableDocument($html);
+
+    expect(dataTableElement($html, 'scroll')->getAttribute('aria-label'))->toBe('Data table')
+        ->and($xpath->query('//table/caption')->length)->toBe(0);
+});
+
+it('forwards aria-label and aria-labelledby to the table instead of the wrapper', function (): void {
+    $html = renderDataTable(['aria-label' => 'Inventory', 'aria-labelledby' => 'heading-1', 'id' => 'inv']);
+    $labelled = renderDataTable(['aria-label' => 'Inventory']);
+
+    expect(dataTableElement($html, 'table')->getAttribute('aria-label'))->toBe('Inventory')
+        ->and(dataTableElement($html, 'table')->getAttribute('aria-labelledby'))->toBe('heading-1')
+        ->and(dataTableElement($html, 'wrapper')->hasAttribute('aria-label'))->toBeFalse()
+        ->and(dataTableElement($html, 'wrapper')->hasAttribute('aria-labelledby'))->toBeFalse()
+        ->and(dataTableElement($html, 'wrapper')->getAttribute('id'))->toBe('inv')
+        ->and(dataTableElement($html, 'scroll')->getAttribute('aria-labelledby'))->toBe('heading-1')
+        ->and(dataTableElement($labelled, 'scroll')->getAttribute('aria-label'))->toBe('Inventory');
+});
+
+it('marks every column header including select-all with scope col', function (): void {
+    $html = renderDataTable(['selectable' => true]);
+    [, $xpath] = dataTableDocument($html);
+
+    expect($xpath->query('//thead/tr/th')->length)->toBe(3)
+        ->and($xpath->query('//thead/tr/th[@scope="col"]')->length)->toBe(3);
+});
+
+it('renders rowHeader columns as body th scope row and other cells as td', function (): void {
+    $html = renderDataTable(['columns' => [
+        ['key' => 'name', 'label' => 'Name', 'rowHeader' => true],
+        ['key' => 'quantity', 'label' => 'Quantity'],
+    ]]);
+    [, $xpath] = dataTableDocument($html);
+    $header = $xpath->query('//tbody/tr[@data-row-id]/th')->item(0);
+
+    expect($xpath->query('//tbody/tr[@data-row-id]/th')->length)->toBe(1)
+        ->and($header->getAttribute('scope'))->toBe('row')
+        ->and($header->getAttribute('x-bind'))->toBe('rowHeader')
+        ->and($header->getAttribute('class'))->toBe('lyra-table__primary')
+        ->and($header->textContent)->toBe('Alpha')
+        ->and($xpath->query('//tbody/tr[@data-row-id]/td')->length)->toBe(1);
+});
+
+it('marks a loading table busy and announces the loading label', function (): void {
+    $html = renderDataTable(['loading' => true, 'labels' => ['loading' => 'Please wait']]);
+    [, $xpath] = dataTableDocument($html);
+    $status = $xpath->query('//div[contains(@class, "lyra-table-scroll")]/span[@role="status"]')->item(0);
+
+    expect(dataTableElement($html, 'table')->getAttribute('aria-busy'))->toBe('true')
+        ->and($status->getAttribute('class'))->toBe('lyra-visually-hidden')
+        ->and($status->textContent)->toBe('Please wait')
+        ->and(dataTableElement(renderDataTable(['loading' => true]), 'wrapper')->textContent)->toContain('Loading data');
+});
+
+it('omits aria-busy and the status message when not loading', function (): void {
+    $html = renderDataTable();
+    [, $xpath] = dataTableDocument($html);
+
+    expect(dataTableElement($html, 'table')->hasAttribute('aria-busy'))->toBeFalse()
+        ->and($xpath->query('//*[@role="status"]')->length)->toBe(0);
+});
+
+it('escapes caption and scroll label content', function (): void {
+    $html = renderDataTable(['caption' => '<b>x</b>', 'scrollLabel' => '"><script>alert(1)</script>']);
+
+    expect($html)->not->toContain('<script>alert(1)')
+        ->and($html)->not->toContain('<b>x</b>');
 });
