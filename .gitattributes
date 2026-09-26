@@ -1,0 +1,36 @@
+# Export ignore for Composer package distribution
+/.agents                        export-ignore
+/.agents/**                     export-ignore
+/.batuta                        export-ignore
+/.batuta/**                     export-ignore
+/.gemini                        export-ignore
+/.gemini/**                     export-ignore
+/.github                        export-ignore
+/.github/**                     export-ignore
+/.gitattributes                 export-ignore
+/.gitignore                     export-ignore
+/.release-please-manifest.json  export-ignore
+/bin                            export-ignore
+/bin/**                         export-ignore
+/browser                        export-ignore
+/browser/**                     export-ignore
+/dates-desktop.png              export-ignore
+/node_modules                   export-ignore
+/node_modules/**                export-ignore
+/package.json                   export-ignore
+/package-lock.json              export-ignore
+/phpunit.xml                    export-ignore
+/pint.json                      export-ignore
+/playwright.config.js           export-ignore
+/release-please-config.json     export-ignore
+/tests                          export-ignore
+/tests/**                       export-ignore
+/AGENTS.md                      export-ignore
+/WORK.md                        export-ignore
+
+/docs/plans                     export-ignore
+/docs/plans/**                  export-ignore
+/docs/prd*.md                   export-ignore
+/docs/spec-*.md                 export-ignore
+/docs/superpowers               export-ignore
+/docs/superpowers/**            export-ignore

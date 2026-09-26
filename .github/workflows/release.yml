@@ -7,8 +7,8 @@
 # There is no publish step: Packagist publishes from its GitHub webhook when the tag
 # is pushed.
 #
-# IMPORTANT: Remove `release-as` from release-please-config.json after the first
-# release PR merges, or every subsequent release will repeat version 0.1.0.
+# IMPORTANT: Remove `release-as` from release-please-config.json after the
+# release PR merges, or every subsequent release will repeat version 1.0.0.
 name: Release
 
 on:
