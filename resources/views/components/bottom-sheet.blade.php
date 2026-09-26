@@ -4,20 +4,25 @@
     'closable' => true,
     'closeLabel' => 'Close',
     'defaultOpen' => false,
+    'returnFocusTo' => null,
+    'labelId' => null,
 ])
 
 {{-- closable maps React's onClose-provided condition to rendering the plugin-owned close control. --}}
 @php
     $hasTitle = $title !== null;
     $defaultOpenLiteral = $defaultOpen ? 'true' : 'false';
-    $titleId = $hasTitle ? 'lyra-bottom-sheet-title-'.uniqid() : null;
+    $titleId = $hasTitle ? ($labelId ?? 'lyra-bottom-sheet-title-'.substr(hash('xxh3', (string) $title), 0, 12)) : null;
     $modelAttributes = $attributes->whereStartsWith(['wire:model', 'x-model']);
     $panelAttributes = $attributes->whereDoesntStartWith(['wire:model', 'x-model']);
+    $returnFocusResolver = \LyraDs\Blade\FocusResolver::selector($returnFocusTo);
+    $returnFocusOption = $returnFocusResolver === null ? '' : ', returnFocusTo: '.$returnFocusResolver;
+    $closeLabelBinding = json_encode((string) $closeLabel, JSON_THROW_ON_ERROR | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_SLASHES);
 @endphp
 
 <div
     class="lyra-bottomsheet-overlay"
-    x-data="lyraBottomSheet({ defaultOpen: {!! $defaultOpenLiteral !!} })"
+    x-data="lyraBottomSheet({ defaultOpen: {!! $defaultOpenLiteral !!}{{ $returnFocusOption }} })"
     x-modelable="open"
     x-bind="overlay"
     @if (! $defaultOpen)
@@ -30,7 +35,7 @@
         aria-modal="true"
         @if ($hasTitle)
             aria-labelledby="{{ $titleId }}"
-        @else
+        @elseif ($ariaLabel !== null && $ariaLabel !== '')
             aria-label="{{ $ariaLabel }}"
         @endif
         tabindex="-1"
@@ -48,6 +53,7 @@
                         class="lyra-bottomsheet__close"
                         aria-label="{{ $closeLabel }}"
                         x-bind="close"
+                        :aria-label="{{ $closeLabelBinding }}"
                     >
                         <svg
                             width="14"

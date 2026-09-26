@@ -258,3 +258,54 @@ it('seeds an open Livewire sheet and keeps wire model on the overlay', function 
         ->and($panelTag)->not->toContain('wire:model')
         ->and($panelTag)->toContain('data-track="bottom-sheet"');
 });
+
+it('compiles return-focus-to into an escaped resolver option', function (): void {
+    $overlay = bottomSheetOpeningTag(renderBottomSheet(['return-focus-to' => '#after']), 'overlay');
+    $hostile = renderBottomSheet(['return-focus-to' => "a'b\"</script>"]);
+
+    expect($overlay)->toContain('returnFocusTo: () =&gt; document.querySelector(&quot;#after&quot;)')
+        ->and($hostile)->not->toContain('</script>')
+        ->and(bottomSheetOpeningTag(renderBottomSheet(), 'overlay'))->not->toContain('returnFocusTo');
+});
+
+it('resolves only whitelisted named return-focus targets', function (): void {
+    $overlay = bottomSheetOpeningTag(renderBottomSheet(['return-focus-to' => 'datepicker-trigger']), 'overlay');
+
+    expect($overlay)->toContain('.lyra-datepicker-root')
+        ->and($overlay)->toContain('.lyra-datepicker__btn')
+        ->and($overlay)->not->toContain('document.querySelector');
+});
+
+it('renders a deterministic title id and honours an explicit label id', function (): void {
+    $first = renderBottomSheet(['title' => 'Filters']);
+    $second = renderBottomSheet(['title' => 'Filters']);
+    $explicit = renderBottomSheet(['title' => 'Filters', 'labelId' => 'my-title']);
+
+    expect($first)->toBe($second)
+        ->and($explicit)->toContain('id="my-title"')
+        ->and($explicit)->toContain('aria-labelledby="my-title"');
+});
+
+it('omits aria-label when the sheet has neither a title nor an aria label', function (): void {
+    $panel = bottomSheetOpeningTag(renderBottomSheet(['title' => null]), 'panel');
+
+    expect($panel)->not->toContain('aria-label')
+        ->and($panel)->not->toContain('aria-labelledby');
+});
+
+it('reapplies the translated close label after Alpine binds the close control', function (): void {
+    $tag = bottomSheetOpeningTag(renderBottomSheet(['closeLabel' => 'Fechar']), 'close');
+
+    expect($tag)->toContain(':aria-label="&quot;Fechar&quot;"')
+        ->and(strpos($tag, 'x-bind="close"'))->toBeLessThan(strpos($tag, ':aria-label='));
+});
+
+it('keeps a hostile return-focus-to value inert inside the bottom-sheet options', function (): void {
+    $html = Blade::render('<x-lyra::bottom-sheet title="T" :return-focus-to="$target">Body</x-lyra::bottom-sheet>', [
+        'target' => "a'b\"</script>\\",
+    ]);
+
+    expect($html)->not->toContain('</script>')
+        ->and($html)->not->toContain("a'b")
+        ->and($html)->toContain('\\u0027');
+});
