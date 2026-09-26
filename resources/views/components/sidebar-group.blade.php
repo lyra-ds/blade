@@ -13,7 +13,9 @@
 
     Item selection is exposed by the Alpine binding as lyra:select with the served data-id. The
     label and item buttons deliberately serve type="button" even though their bindings also set it,
-    preventing accidental form submission before Alpine initializes.
+    preventing accidental form submission before Alpine initializes. Items with an href render as
+    native anchors (href/target/rel, aria-current) and dispatch the same lyra:select event through an
+    inline handler, since the item binding would force type="button" onto an anchor.
 --}}
 @php
     $items = array_values($items);
@@ -74,7 +76,39 @@
                     ? $icon->toHtml() !== ''
                     : (bool) $icon;
                 $hasBadge = array_key_exists('badge', $item) && $item['badge'] !== null;
+                $isLink = isset($item['href']) && $item['href'] !== '';
             @endphp
+            @if ($isLink)
+                <a
+                    @class([
+                        'lyra-sbgroup__item',
+                        'lyra-sbgroup__item--active' => $active,
+                    ])
+                    href="{{ $item['href'] }}"
+                    @if (isset($item['target']))
+                        target="{{ $item['target'] }}"
+                    @endif
+                    @if (isset($item['rel']))
+                        rel="{{ $item['rel'] }}"
+                    @endif
+                    data-id="{{ $item['id'] }}"
+                    x-on:click="$dispatch('lyra:select', { id: $el.dataset.id ?? '' })"
+                    @if ($active)
+                        aria-current="page"
+                    @endif
+                    @if (isset($item['title']))
+                        title="{{ $item['title'] }}"
+                    @endif
+                >
+                    @if ($hasIcon)
+                        <span class="lyra-sbgroup__item-icon">{{ $icon }}</span>
+                    @endif
+                    <span class="lyra-sbgroup__item-label">{{ $item['label'] }}</span>
+                    @if ($hasBadge)
+                        <span class="lyra-sbgroup__item-badge">{{ $item['badge'] }}</span>
+                    @endif
+                </a>
+            @else
             <button
                 type="button"
                 @class([
@@ -98,6 +132,7 @@
                     <span class="lyra-sbgroup__item-badge">{{ $item['badge'] }}</span>
                 @endif
             </button>
+            @endif
         @endforeach
         {{ $slot }}
     </div>
