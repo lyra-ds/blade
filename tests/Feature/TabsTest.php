@@ -36,9 +36,9 @@ function tabsOpeningTag(string $html, string $target, ?string $value = null): st
 {
     $pattern = match ($target) {
         'root' => '/<div\b(?=[^>]*\bx-data="lyraTabs\()[^>]*>/',
-        'list' => '/<div\b(?=[^>]*\bclass="lyra-tabs(?: [^"]*)?")[^>]*>/',
+        'list' => '/<div\b(?=[^>]*\bdata-lyra-tabs-enhanced)[^>]*>/',
         'tab' => sprintf('/<button\b(?=[^>]*\bdata-value="%s")[^>]*>/', preg_quote((string) $value, '/')),
-        'panel' => sprintf('/<div\b(?=[^>]*\bdata-value="%s")[^>]*>/', preg_quote((string) $value, '/')),
+        'panel' => sprintf('/<section\b(?=[^>]*\bdata-value="%s")[^>]*>/', preg_quote((string) $value, '/')),
     };
     $matched = preg_match($pattern, $html, $matches);
 
@@ -78,7 +78,7 @@ it('emits the exact React tablist class string', function (array $case): void {
     expect(tabsClass($html))->toBe($case['expected_class']);
 })->with('tabs class emission');
 
-it('renders a plain structural root with the exact Alpine state contract', function (): void {
+it('renders a structural root with the exact Alpine state contract', function (): void {
     $html = renderTabs([
         'active' => 'activity',
         'id' => 'account-tabs',
@@ -87,12 +87,13 @@ it('renders a plain structural root with the exact Alpine state contract', funct
     $rootTag = tabsOpeningTag($html, 'root');
     $listTag = tabsOpeningTag($html, 'list');
 
-    expect($rootTag)->toContain('x-data="lyraTabs({ active: \'activity\' })"')
+    expect($rootTag)->toContain('id="account-tabs"')
+        ->and($rootTag)->toContain('data-lyra-tabs')
+        ->and($rootTag)->toContain('x-data="lyraTabs({ active: \'activity\' })"')
         ->and($rootTag)->toContain('x-modelable="active"')
         ->and($rootTag)->not->toContain(' class=')
-        ->and($rootTag)->not->toContain('id="account-tabs"')
         ->and($rootTag)->not->toContain('data-track="tabs"')
-        ->and($listTag)->toContain('id="account-tabs"')
+        ->and($listTag)->not->toContain('id="account-tabs"')
         ->and($listTag)->toContain('data-track="tabs"');
 });
 
@@ -120,84 +121,85 @@ it('JavaScript-escapes quotes, slashes, and line breaks in the Alpine active lit
     expect($rootTag)->toContain("x-data=\"lyraTabs({ active: 'a\\'b\\\\c\\r\\nd' })\"");
 });
 
-it('binds the tablist and keeps fixed attributes ahead of passthrough duplicates', function (): void {
-    $listTag = tabsOpeningTag(renderTabs([
-        'role' => 'group',
-        'x-bind' => 'consumer',
-    ]), 'list');
-    $componentRolePosition = strpos($listTag, 'role="tablist"');
-    $consumerRolePosition = strpos($listTag, 'role="group"');
+it('generates a root id when none is supplied', function (): void {
+    expect(tabsOpeningTag(renderTabs(), 'root'))->toMatch('/\bid="lyra-tabs-[^"]+"/');
+});
+
+it('renders the fallback nav with one anchor per panel id', function (): void {
+    $html = renderTabs(['id' => 'account-tabs', 'label' => 'Account sections']);
+
+    expect($html)->toMatch('/<nav\b[^>]*aria-label="Account sections"[^>]*data-lyra-tabs-fallback[^>]*x-bind="fallback"[^>]*>/')
+        ->and($html)->toContain('<a href="#account-tabs-panel-0">Overview</a>')
+        ->and($html)->toContain('<a href="#account-tabs-panel-1">Activity</a>')
+        ->and(substr_count($html, 'id="account-tabs-panel-0"'))->toBe(1)
+        ->and(substr_count($html, 'href="#account-tabs-panel-0"'))->toBe(1);
+});
+
+it('renders the enhanced list hidden, labelled and bound without a static role', function (): void {
+    $listTag = tabsOpeningTag(renderTabs(['label' => 'Project views']), 'list');
+
+    expect($listTag)->toContain('aria-label="Project views"')
+        ->and($listTag)->toContain('data-lyra-tabs-enhanced')
+        ->and($listTag)->toContain(' hidden')
+        ->and($listTag)->toContain('x-bind="list"')
+        ->and($listTag)->not->toContain('role=');
+});
+
+it('defaults the accessible label and applies it to both the nav and the list', function (): void {
+    expect(substr_count(renderTabs(), 'aria-label="Tabs"'))->toBe(2);
+});
+
+it('keeps fixed attributes ahead of passthrough duplicates on the list', function (): void {
+    $listTag = tabsOpeningTag(renderTabs(['x-bind' => 'consumer']), 'list');
     $componentBindingPosition = strpos($listTag, 'x-bind="list"');
     $consumerBindingPosition = strpos($listTag, 'x-bind="consumer"');
 
-    expect($componentRolePosition)->toBeInt()
-        ->and($consumerRolePosition)->toBeInt()
-        ->and($componentRolePosition)->toBeLessThan($consumerRolePosition)
-        ->and($componentBindingPosition)->toBeInt()
+    expect($componentBindingPosition)->toBeInt()
         ->and($consumerBindingPosition)->toBeInt()
         ->and($componentBindingPosition)->toBeLessThan($consumerBindingPosition);
 });
 
-it('renders the complete active and inactive tab contracts', function (): void {
-    $html = renderTabs(['active' => 'activity']);
+it('renders tabs without static role, selection, tabindex or active class', function (): void {
+    $html = renderTabs(['active' => 'activity', 'id' => 'account-tabs']);
     $overview = tabsOpeningTag($html, 'tab', 'overview');
     $activity = tabsOpeningTag($html, 'tab', 'activity');
 
-    expect($overview)->toContain('type="button"')
-        ->and($overview)->toContain('role="tab"')
-        ->and($overview)->toContain('data-value="overview"')
-        ->and($overview)->toContain('x-bind="tab"')
-        ->and($overview)->toContain('aria-selected="false"')
-        ->and($overview)->toContain('tabindex="-1"')
-        ->and($overview)->toContain('class="lyra-tab"')
-        ->and($activity)->toContain('type="button"')
-        ->and($activity)->toContain('role="tab"')
-        ->and($activity)->toContain('data-value="activity"')
-        ->and($activity)->toContain('x-bind="tab"')
-        ->and($activity)->toContain('aria-selected="true"')
-        ->and($activity)->toContain('tabindex="0"')
-        ->and($activity)->toContain('class="lyra-tab lyra-tab--active"');
+    foreach ([$overview, $activity] as $tag) {
+        expect($tag)->toContain('type="button"')
+            ->and($tag)->toContain('class="lyra-tab"')
+            ->and($tag)->toContain('x-bind="tab"')
+            ->and($tag)->not->toContain('role=')
+            ->and($tag)->not->toContain('aria-selected')
+            ->and($tag)->not->toContain('tabindex')
+            ->and($tag)->not->toContain('lyra-tab--active');
+    }
+
+    expect($overview)->toContain('id="account-tabs-tab-0"')
+        ->and($activity)->toContain('id="account-tabs-tab-1"');
 });
 
-it('resolves the active tab position when item keys are non-sequential', function (): void {
+it('resolves the active value when item keys are non-sequential', function (): void {
     $html = renderTabs([
         'items' => [
             3 => ['id' => 'overview', 'label' => 'Overview', 'panel' => 'Overview panel'],
             7 => ['id' => 'activity', 'label' => 'Activity', 'panel' => 'Activity panel'],
         ],
         'active' => 'activity',
+        'id' => 'seq',
     ]);
-    $overview = tabsOpeningTag($html, 'tab', 'overview');
-    $activity = tabsOpeningTag($html, 'tab', 'activity');
-    $overviewPanel = tabsOpeningTag($html, 'panel', 'overview');
-    $activityPanel = tabsOpeningTag($html, 'panel', 'activity');
 
-    expect($overview)->toContain('aria-selected="false"')
-        ->and($activity)->toContain('aria-selected="true"')
-        ->and($activity)->toContain('class="lyra-tab lyra-tab--active"')
-        ->and($overviewPanel)->toContain(' hidden')
-        ->and($activityPanel)->not->toContain(' hidden');
+    expect(tabsOpeningTag($html, 'root'))->toContain("lyraTabs({ active: 'activity' })")
+        ->and(tabsOpeningTag($html, 'panel', 'overview'))->toContain('id="seq-panel-0"')
+        ->and(tabsOpeningTag($html, 'panel', 'activity'))->toContain('id="seq-panel-1"');
 });
 
 it('falls back to the first tab when active does not match an item', function (): void {
-    $html = renderTabs(['active' => 'missing']);
-    $root = tabsOpeningTag($html, 'root');
-    $overview = tabsOpeningTag($html, 'tab', 'overview');
-    $activity = tabsOpeningTag($html, 'tab', 'activity');
-
-    expect($root)->toContain('x-data="lyraTabs({ active: \'overview\' })"')
-        ->and($overview)->toContain('aria-selected="true"')
-        ->and($overview)->toContain('tabindex="0"')
-        ->and($overview)->toContain('class="lyra-tab lyra-tab--active"')
-        ->and($activity)->toContain('aria-selected="false"')
-        ->and($activity)->toContain('tabindex="-1"')
-        ->and($activity)->toContain('class="lyra-tab"');
+    expect(tabsOpeningTag(renderTabs(['active' => 'missing']), 'root'))
+        ->toContain('x-data="lyraTabs({ active: \'overview\' })"');
 });
 
 it('safe-coerces an unknown variant to line styling', function (): void {
-    $html = renderTabs(['variant' => 'unknown']);
-
-    expect(tabsClass($html))->toBe('lyra-tabs');
+    expect(tabsClass(renderTabs(['variant' => 'unknown'])))->toBe('lyra-tabs');
 });
 
 it('renders Htmlable icons before labels while escaping strings', function (): void {
@@ -218,9 +220,7 @@ it('renders Htmlable icons before labels while escaping strings', function (): v
     ]);
 
     expect($html)->toContain('<svg data-icon="raw"></svg><strong>Raw</strong>')
-        ->and($html)->toContain('&lt;svg data-icon=&quot;escaped&quot;&gt;&lt;/svg&gt;&lt;strong&gt;Escaped&lt;/strong&gt;')
-        ->and(strpos($html, '<svg data-icon="raw"></svg>'))->toBeLessThan(strpos($html, '<strong>Raw</strong>'))
-        ->and(strpos($html, '&lt;svg data-icon=&quot;escaped&quot;&gt;'))->toBeLessThan(strpos($html, '&lt;strong&gt;Escaped&lt;/strong&gt;'));
+        ->and($html)->toContain('&lt;svg data-icon=&quot;escaped&quot;&gt;&lt;/svg&gt;&lt;strong&gt;Escaped&lt;/strong&gt;');
 });
 
 it('renders a count span for zero but omits it for null or missing counts', function (): void {
@@ -237,7 +237,7 @@ it('renders a count span for zero but omits it for null or missing counts', func
         ->and(substr_count($html, 'lyra-tab__count'))->toBe(1);
 });
 
-it('renders labelled panels with content and hides only inactive panels', function (): void {
+it('renders headed sections with content and no static role, tabindex or hidden', function (): void {
     $html = renderTabs([
         'items' => [
             ['id' => 'raw', 'label' => 'Raw', 'panel' => new HtmlString('<p>Raw panel</p>')],
@@ -245,29 +245,39 @@ it('renders labelled panels with content and hides only inactive panels', functi
             ['id' => 'empty', 'label' => 'Empty'],
         ],
         'active' => 'raw',
+        'id' => 'panels',
     ]);
-    $raw = tabsOpeningTag($html, 'panel', 'raw');
-    $escaped = tabsOpeningTag($html, 'panel', 'escaped');
-    $empty = tabsOpeningTag($html, 'panel', 'empty');
 
-    expect($raw)->toContain('role="tabpanel"')
-        ->and($raw)->toContain('tabindex="0"')
-        ->and($raw)->toContain('data-value="raw"')
-        ->and($raw)->toContain('x-bind="panel"')
-        ->and($raw)->not->toContain(' hidden')
-        ->and($escaped)->toContain(' hidden')
-        ->and($empty)->toContain(' hidden')
-        ->and($html)->toContain('<p>Raw panel</p>')
+    foreach (['raw' => 0, 'escaped' => 1, 'empty' => 2] as $value => $index) {
+        $tag = tabsOpeningTag($html, 'panel', $value);
+
+        expect($tag)->toContain('id="panels-panel-'.$index.'"')
+            ->and($tag)->toContain('x-bind="panel"')
+            ->and($tag)->not->toContain('role=')
+            ->and($tag)->not->toContain('tabindex')
+            ->and($tag)->not->toContain('hidden');
+    }
+
+    expect($html)->toContain('<p>Raw panel</p>')
         ->and($html)->toContain('&lt;p&gt;Escaped panel&lt;/p&gt;')
-        ->and($html)->toMatch('/<div\b[^>]*data-value="empty"[^>]*>\s*<\/div>/');
+        ->and(substr_count($html, '<section'))->toBe(3)
+        ->and($html)->toMatch('/<section\b[^>]*data-value="raw"[^>]*>\s*<h2>Raw<\/h2>\s*<p>Raw panel<\/p>\s*<\/section>/')
+        ->and($html)->toMatch('/<section\b[^>]*data-value="empty"[^>]*>\s*<h2>Empty<\/h2>\s*<\/section>/');
 });
 
-it('serves no ids or tab-panel relationship attributes', function (): void {
+it('serves no aria-controls or aria-labelledby relationships', function (): void {
     $html = renderTabs();
 
-    expect($html)->not->toMatch('/\sid=/')
-        ->and($html)->not->toContain('aria-controls=')
+    expect($html)->not->toContain('aria-controls=')
         ->and($html)->not->toContain('aria-labelledby=');
+});
+
+it('never duplicates ids across two instances on one page', function (): void {
+    $html = renderTabs().renderTabs();
+    preg_match_all('/\sid="([^"]+)"/', $html, $matches);
+
+    expect($matches[1])->toHaveCount(10)
+        ->and(array_unique($matches[1]))->toHaveCount(10);
 });
 
 it('moves model attributes to the modelable root and leaves passthrough on the tablist', function (): void {
@@ -314,7 +324,6 @@ it('seeds the active Livewire tab and places wire model on the structural root',
         ->and($rootTag)->toContain('x-modelable="active"')
         ->and($rootTag)->toContain('wire:model="active"')
         ->and($listTag)->not->toContain('wire:model')
-        ->and($activity)->toContain('aria-selected="true"')
-        ->and($activity)->toContain('tabindex="0"')
-        ->and($activity)->toContain('class="lyra-tab lyra-tab--active"');
+        ->and($activity)->toContain('class="lyra-tab"')
+        ->and($html)->toContain('data-lyra-tabs-fallback');
 });

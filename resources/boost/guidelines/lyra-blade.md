@@ -805,6 +805,7 @@ Props:
 - `items` — required; no fixture examples (fixtures do not constrain this prop).
 - `active` — required; no fixture examples (fixtures do not constrain this prop).
 - `variant` — default: `"line"`; class-selector values evidenced by defaults and fixtures: `"line"`, `"pills"`.
+- `label` — default: `"Tabs"`; no fixture examples (fixtures do not constrain this prop).
 
 ### tag
 
