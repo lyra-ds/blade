@@ -1,5 +1,39 @@
 # Changelog
 
+## [0.11.0](https://github.com/lyra-ds/blade/compare/v0.10.0...v0.11.0) (2026-09-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* **file-upload:** adopt the controlled upload lifecycle of Alpine 1.x ([#54](https://github.com/lyra-ds/blade/issues/54))
+* **navigation:** navigation items that have an `href` now render `<a>` instead of `<button>` (sidebar-group / app-sidebar `.lyra-sbgroup__item`, bottom-nav `.lyra-bottomnav__item`); breadcrumb non-final items without `href` render `<span>` instead of `<a href="#">`. Migration: CSS and JS selectors that targeted `button.lyra-sbgroup__item` or `button.lyra-bottomnav__item` must use the class alone (or `:is(a, button)`); rely on class selectors rather than `a[href="#"]` for breadcrumb items; items without `href` are unchanged and still render buttons. Reset styles for `a` (text-decoration, color) may need review if you override the item classes.
+* **tabs:** the public `id` passthrough now lands on the Tabs root (`div[data-lyra-tabs]`) instead of the tablist, and the markup requires `@lyra-ds/alpine` ^1.1 and `@lyra-ds/styles` ^1.1. Markup and selectors changed: root has `data-lyra-tabs`; a fallback `nav[data-lyra-tabs-fallback]` of anchors is added; the tablist is `[data-lyra-tabs-enhanced]` and starts `hidden` with no static `role`, `aria-selected`, `tabindex` or `lyra-tab--active` (Alpine sets them at runtime); panels are `section[data-value]` with an `h2` heading instead of `div[role=tabpanel]`; tab and panel ids derive from the root id (`<id>-tab-N`, `<id>-panel-N`). To migrate: move any test or CSS selector that targeted `#your-id` as the tablist to `#your-id [data-lyra-tabs-enhanced]` (or `.lyra-tabs`), select tabs with `[data-lyra-tabs] button[data-value]` and panels with `section[data-value]`, rely on `[role=tab][aria-selected=true]` only after Alpine is ready, and upgrade `@lyra-ds/alpine` and `@lyra-ds/styles` to ^1.1.
+* **shell,workspace-switcher:** WorkspaceSwitcher markup has migrated from a listbox pattern to a disclosure pattern, requiring `@lyra-ds/alpine` ^1.1 and `@lyra-ds/styles` ^1.1.
+    - Popover container (`.lyra-wssw__pop`) now emits `role="group"` with IDs `{id}-popover` and `{id}-popover-label` (previously `role="listbox"` with `{id}-listbox` and `{id}-listbox-label`). The trigger button no longer emits `aria-haspopup="listbox"`, and `aria-controls` now points to `{id}-popover`.
+    - Items (`.lyra-wssw__item[data-id]`) no longer emit `role="option"` or `aria-selected`. The active workspace item is marked with `aria-current="true"`.
+    - Workspaces with an `href` now render as native anchor links (`<a class="lyra-wssw__item" href data-id>`) that navigate natively on click instead of emitting events. Button items (`<button type="button" class="lyra-wssw__item">`) and the create action continue to dispatch `lyra:change` events with `{ value: dataId }`.
+    - Shell markup adjustment: When `sidebar-as="div"`, `aria-label` is no longer emitted on the sidebar container (to avoid invalid landmark labeling on generic `div` elements). When `skipLink` is supplied, `<main>` receives `tabindex="-1"` and a generated or provided `id`, and a skip link is rendered as the first child of the shell.
+    - Migration: Update any tests, CSS selectors, or client-side scripts targeting old listbox selectors (`[role="listbox"]`, `[role="option"]`, `[aria-selected]`, or `#*-listbox`) to query `.lyra-wssw__pop`, `.lyra-wssw__item[data-id]`, and `[aria-current]`. If tests or integrations relied on anchor-based workspace items emitting `lyra:change`, note that links now navigate natively.
+
+### Features
+
+* add Blade OTP input component ([#45](https://github.com/lyra-ds/blade/issues/45)) ([e3bbee7](https://github.com/lyra-ds/blade/commit/e3bbee774a4f8419ed50bcede7045182c535c043))
+* **data-table,date-range-picker:** data-table and date-range-picker accessibility (lyra[#275](https://github.com/lyra-ds/blade/issues/275), lyra[#274](https://github.com/lyra-ds/blade/issues/274)) ([#55](https://github.com/lyra-ds/blade/issues/55)) ([56763b5](https://github.com/lyra-ds/blade/commit/56763b53e696ec02b8d0f056ae4674f975b9634e))
+* **dropdown,tooltip:** item ids, Button-styled trigger, focusable tooltip description ([#49](https://github.com/lyra-ds/blade/issues/49)) ([4745185](https://github.com/lyra-ds/blade/commit/4745185d498d8081e57518ac372df49d090565a1))
+* **file-upload:** adopt the controlled upload lifecycle of Alpine 1.x ([#54](https://github.com/lyra-ds/blade/issues/54)) ([ff9bc43](https://github.com/lyra-ds/blade/commit/ff9bc437b2056e9a361ee68f190cdd063abc82cc))
+* restore focus for dialog, drawer, bottom-sheet, command-palette and date-picker overlays ([#52](https://github.com/lyra-ds/blade/issues/52)) ([03a0aec](https://github.com/lyra-ds/blade/commit/03a0aecde1c37baf2e8dbaa9a5928aebc369c359))
+* **shell,workspace-switcher:** banner/skip link; disclosure semantics ([#50](https://github.com/lyra-ds/blade/issues/50)) ([2c75860](https://github.com/lyra-ds/blade/commit/2c758600a2fac90d4c26b2efb961e3e7ff1a31fd))
+
+
+### Bug Fixes
+
+* **brand:** fall back to aria-label for the initial ([#24](https://github.com/lyra-ds/blade/issues/24)) ([f6348e3](https://github.com/lyra-ds/blade/commit/f6348e35ee64cdeec4bf363fcc0f052d6e367c44))
+* container max validation parity and app-chrome icons ([#47](https://github.com/lyra-ds/blade/issues/47)) ([c97c33a](https://github.com/lyra-ds/blade/commit/c97c33a1e104b7e12ea3a22f0a726eca82fae95d))
+* make brand mark optional ([#22](https://github.com/lyra-ds/blade/issues/22)) ([6936205](https://github.com/lyra-ds/blade/commit/693620521fd66cab3aa54b8d099a15fb9b66209a))
+* map container max keywords to pixel widths ([#21](https://github.com/lyra-ds/blade/issues/21)) ([08a19aa](https://github.com/lyra-ds/blade/commit/08a19aab7e32a3001fcaa2c29960898729b1d4f2))
+* **navigation:** render real links in app-sidebar, bottom-nav and breadcrumb ([#48](https://github.com/lyra-ds/blade/issues/48)) ([425cddc](https://github.com/lyra-ds/blade/commit/425cddc36cd1a92e1bfe7e649446bcd535b6f0eb))
+* **tabs:** emit Alpine 1.x progressive-enhancement markup ([#46](https://github.com/lyra-ds/blade/issues/46)) ([287c241](https://github.com/lyra-ds/blade/commit/287c2418b6e65a2d98ef6fc76d16bc2dff97cc34))
+
 ## [0.10.0](https://github.com/lyra-ds/blade/compare/v0.9.0...v0.10.0) (2026-08-11)
 
 
