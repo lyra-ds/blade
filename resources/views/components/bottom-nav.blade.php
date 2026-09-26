@@ -5,7 +5,8 @@
 {{--
     Items with an href render as native anchors; the rest stay buttons. Items with an id dispatch a
     bubbling lyra:select event ({ id }) through an inline Alpine handler and carry data-id. The
-    nav only serves x-data when at least one item has an id, so the markup stays inert without
+    nav only serves x-data when at least one item has an id and the consumer supplies none (a
+    consumer x-data always wins; a duplicate attribute would be dropped by the parser), so the markup stays inert without
     Alpine and no scope is added when there is nothing to dispatch.
 --}}
 @php
@@ -14,7 +15,7 @@
 @endphp
 
 <nav
-    @if ($hasIds)
+    @if ($hasIds && ! $attributes->has('x-data'))
         x-data
     @endif
     {{ $attributes->class('lyra-bottomnav') }}

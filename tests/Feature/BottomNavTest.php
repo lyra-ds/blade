@@ -146,3 +146,24 @@ it('serves no Alpine scope when no item has an id and passes aria-label through'
         ->and(bottomNavOpeningTag($html))->toContain('aria-label="Primary"')
         ->and($html)->not->toContain('x-on:click');
 });
+
+it('keeps the consumer x-data and does not emit a second empty one', function (): void {
+    $html = renderBottomNav([
+        'items' => [
+            ['id' => 'h', 'icon' => 'H', 'label' => 'Home', 'href' => '/home'],
+        ],
+        'x-data' => "{ selected: 'initial' }",
+    ]);
+    $tag = bottomNavOpeningTag($html);
+
+    expect(substr_count($tag, 'x-data'))->toBe(1)
+        ->and($tag)->toContain('x-data="{ selected: &#039;initial&#039; }"');
+});
+
+it('still serves an empty x-data when items have ids and the consumer gives none', function (): void {
+    $tag = bottomNavOpeningTag(renderBottomNav([
+        'items' => [['id' => 'h', 'icon' => 'H', 'label' => 'Home']],
+    ]));
+
+    expect($tag)->toMatch('/\bx-data(?!=)/');
+});
