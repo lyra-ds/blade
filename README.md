@@ -87,13 +87,14 @@ Nothing in it is written by hand. The props come from each `@props` directive, t
 
 ```jsonc
 {
-  "version": "0.9.0",
+  "version": "1.0.0",
   "components": [
     {
       "slug": "dropdown",
       "usage": "<lyra:dropdown align=\"end\" :items=\"[…]\">…</lyra:dropdown>",
       "html": "<span x-data=\"lyraDropdown({ … })\" class=\"lyra-dropdown\">…</span>",
       "binding": "lyraDropdown",
+      "rootXData": "owned",
       "props": [
         { "name": "align", "default": "'start'", "required": false, "values": ["end", "start"] }
       ]
@@ -102,7 +103,7 @@ Nothing in it is written by hand. The props come from each `@props` directive, t
 }
 ```
 
-`components` is sorted by `slug`, `binding` is `null` for static components, and `default` is `null` when the prop is required. Ids that the components derive from `uniqid()` are replaced by stable `id1`, `id2`… placeholders so the artifact is byte-identical across runs.
+`components` is sorted by `slug`, `binding` is `null` for static components, `rootXData` is `owned` for interactive Alpine components (`passthrough` otherwise), and `default` is `null` when the prop is required. Ids that the components derive from `uniqid()` are replaced by stable `id1`, `id2`… placeholders so the artifact is byte-identical across runs.
 
 ## Class parity with React
 
@@ -117,19 +118,24 @@ React's `ThemeProvider` and `ToastProvider` also have no matching tag, because a
 
 ## Compatibility
 
-| `lyra-ds/blade` | Laravel 12 | Laravel 13 | PHP 8.3 | PHP 8.4 | `@lyra-ds/styles` | `@lyra-ds/alpine` |
-| --- | --- | --- | --- | --- | --- | --- |
-| `0.x` (unreleased/dev) | Supported | Supported | Supported | Supported | `^0.4.2` | `^0.4.0` |
+| `lyra-ds/blade` | Laravel 12 | Laravel 13 | PHP 8.3 | PHP 8.4 | `@lyra-ds/styles` | `@lyra-ds/alpine` | `alpinejs` |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `1.0.x` | `^12.41.1` | `^13.24` | Supported | Supported | `^1.1` | `^1.1` | `>=3.13 <4` |
+| `0.10.x` | Supported | Supported | Supported | Supported | `^0.4.2` | `^0.4.0` | `>=3.13 <4` |
 
-These are the versions the current `main` branch was tested against.
+These are the versions the respective `lyra-ds/blade` releases were tested against.
 
 Laravel 11 is not supported because it reached security end-of-life in March 2026.
 
-Package versions are independent from the React, `@lyra-ds/styles`, and `@lyra-ds/alpine` package versions. This matrix will grow as versions are released.
+Upgrading from `0.10.x`? See the [Migration Guide](docs/migration-1-0.md) *(coming soon with the 1.0.0 release)*.
+
+## Versioning
+
+`lyra-ds/blade` follows [Semantic Versioning](https://semver.org/) with independent SemVer from `@lyra-ds/styles`, `@lyra-ds/react`, and `@lyra-ds/alpine`. See [VERSIONING.md](VERSIONING.md) for the complete versioning policy, declared public API surface, deprecation process, and migration guarantees.
 
 ## Releasing
 
-Conventional commits drive the changelog in the bot-maintained release PR. Merge that PR to cut a release; the resulting tag triggers Packagist through its GitHub webhook. Review the compatibility matrix above for every release.
+Conventional commits drive the changelog in the bot-maintained release PR. Merge that PR to cut a release; the resulting tag triggers Packagist through its GitHub webhook. Review the compatibility matrix above for every release. See [VERSIONING.md](VERSIONING.md) for details on release coordination and breaking change requirements.
 
 ## Interactivity
 
