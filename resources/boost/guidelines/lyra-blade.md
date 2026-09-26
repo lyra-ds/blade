@@ -313,6 +313,7 @@ Props:
 - `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
 - `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
 - `name` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `returnFocusTo` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### date-range-picker
 

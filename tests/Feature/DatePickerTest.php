@@ -475,3 +475,14 @@ it('wires the mobile sheet to return focus to its own trigger with a unique titl
         ->and($b)->toContain('b-sheet-title')
         ->and($b)->not->toContain('a-sheet-title');
 });
+
+it('forwards return-focus-to to the mobile sheet and keeps the local trigger as default', function (): void {
+    $custom = renderDatePicker(['id' => 'a', 'return-focus-to' => '#after']);
+    $default = renderDatePicker(['id' => 'a']);
+    $root = strtok($custom, '>');
+
+    expect($custom)->toContain('returnFocusTo: () =&gt; document.querySelector(&quot;#after&quot;)')
+        ->and($custom)->not->toContain('.lyra-datepicker-root')
+        ->and($root)->not->toContain('return-focus-to')
+        ->and($default)->toContain('.lyra-datepicker-root');
+});

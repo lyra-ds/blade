@@ -8,11 +8,13 @@
     'labelId' => null,
 ])
 
+{{-- Public contract (frozen at 1.0): return-focus-to takes a CSS selector (e.g. "#open-dialog") resolved with document.querySelector when the overlay closes; empty falls back to the previously focused element. --}}
+
 {{-- closable maps React's onClose-provided condition to rendering the plugin-owned close control. --}}
 @php
     $hasTitle = $title !== null;
     $defaultOpenLiteral = $defaultOpen ? 'true' : 'false';
-    $titleId = $hasTitle ? ($labelId ?? 'lyra-bottom-sheet-title-'.substr(hash('xxh3', (string) $title), 0, 12)) : null;
+    $titleId = $hasTitle ? ($labelId ?? 'lyra-bottom-sheet-title-'.uniqid()) : null;
     $modelAttributes = $attributes->whereStartsWith(['wire:model', 'x-model']);
     $panelAttributes = $attributes->whereDoesntStartWith(['wire:model', 'x-model']);
     $returnFocusResolver = \LyraDs\Blade\FocusResolver::selector($returnFocusTo);

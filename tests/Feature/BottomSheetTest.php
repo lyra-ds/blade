@@ -276,12 +276,16 @@ it('resolves only whitelisted named return-focus targets', function (): void {
         ->and($overlay)->not->toContain('document.querySelector');
 });
 
-it('renders a deterministic title id and honours an explicit label id', function (): void {
-    $first = renderBottomSheet(['title' => 'Filters']);
-    $second = renderBottomSheet(['title' => 'Filters']);
+it('generates a unique title id per instance and honours an explicit label id', function (): void {
+    $first = renderBottomSheet(['title' => 'Same']);
+    $second = renderBottomSheet(['title' => 'Same']);
     $explicit = renderBottomSheet(['title' => 'Filters', 'labelId' => 'my-title']);
+    preg_match('/id="(lyra-bottom-sheet-title-[^"]+)"/', $first, $a);
+    preg_match('/id="(lyra-bottom-sheet-title-[^"]+)"/', $second, $b);
 
-    expect($first)->toBe($second)
+    expect($a[1])->not->toBe($b[1])
+        ->and($first)->toContain('aria-labelledby="'.$a[1].'"')
+        ->and($second)->toContain('aria-labelledby="'.$b[1].'"')
         ->and($explicit)->toContain('id="my-title"')
         ->and($explicit)->toContain('aria-labelledby="my-title"');
 });
