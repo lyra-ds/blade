@@ -1450,6 +1450,80 @@
             ]
         },
         {
+            "slug": "otp-input",
+            "usage": "<lyra:otp-input\n    name=\"verification_code\"\n    label=\"Verification code\"\n    hint=\"Enter the six-digit code we sent you.\"\n    :length=\"6\"\n/>",
+            "html": "<div class=\"lyra-field\" x-data=\"lyraOtpInput({&quot;length&quot;:6,&quot;defaultValue&quot;:&quot;&quot;,&quot;invalid&quot;:false,&quot;digitLabel&quot;:&quot;Digit&quot;})\" x-modelable=\"code\" >\n        <span id=\"lyra-otp-id1-label\" class=\"lyra-label\">Verification code</span>\n        <div\n        class=\"lyra-otp\"\n        id=\"lyra-otp-id1\"\n        role=\"group\"\n                    aria-labelledby=\"lyra-otp-id1-label\"\n                            aria-describedby=\"lyra-otp-id1-message\"\n            >\n        <template x-for=\"index in positions\" :key=\"index\">\n            <input\n                type=\"text\"\n                class=\"lyra-input lyra-otp__digit\"\n                :data-index=\"index\"\n                inputmode=\"numeric\"\n                pattern=\"[0-9]*\"\n                maxlength=\"6\"\n                :autocomplete=\"index === 0 ? 'one-time-code' : 'off'\"\n                                                                x-bind=\"digit\"\n            >\n        </template>\n    </div>\n        <input type=\"hidden\" name=\"verification_code\" value=\"\" x-bind:value=\"code\" >\n            <span id=\"lyra-otp-id1-message\" class=\"lyra-hint\">Enter the six-digit code we sent you.</span>\n    </div>",
+            "binding": "lyraOtpInput",
+            "props": [
+                {
+                    "name": "label",
+                    "default": "null",
+                    "required": false,
+                    "values": [
+                        "Verification code"
+                    ]
+                },
+                {
+                    "name": "hint",
+                    "default": "null",
+                    "required": false,
+                    "values": [
+                        "Check your phone"
+                    ]
+                },
+                {
+                    "name": "error",
+                    "default": "null",
+                    "required": false,
+                    "values": [
+                        "Invalid code"
+                    ]
+                },
+                {
+                    "name": "length",
+                    "default": "6",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "name",
+                    "default": "null",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "value",
+                    "default": "null",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "defaultValue",
+                    "default": "null",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "invalid",
+                    "default": "false",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "digitLabel",
+                    "default": "'Digit'",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "disabled",
+                    "default": "false",
+                    "required": false,
+                    "values": []
+                }
+            ]
+        },
+        {
             "slug": "page-header",
             "usage": "<lyra:page-header title=\"Website redesign\" title-as=\"h1\">\n    <lyra:button variant=\"primary\">New issue</lyra:button>\n</lyra:page-header>",
             "html": "<header class=\"lyra-pageheader\">\n    <div class=\"lyra-pageheader__row\">\n        <div class=\"lyra-pageheader__text\">\n                        <h1 class=\"lyra-pageheader__title\">Website redesign</h1>\n                    </div>\n            </div>\n        <button class=\"lyra-btn lyra-btn--primary lyra-btn--md\"  >\n                    <span class=\"lyra-btn__label\">New issue</span>\n        </button>\n    </header>",
