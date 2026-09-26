@@ -1026,8 +1026,8 @@
         },
         {
             "slug": "dialog",
-            "usage": "<lyra:dialog title=\"Delete project\" close-label=\"Close\">\n    This permanently deletes the project and every issue attached to it.\n</lyra:dialog>",
-            "html": "<div\n    class=\"lyra-dialog-overlay\"\n    x-data=\"lyraDialog({ defaultOpen: false, closeOnEsc: true, closeOnOverlayClick: true })\"\n    x-modelable=\"open\"\n    x-bind=\"overlay\"\n            x-cloak\n        \n>\n    <div\n        role=\"dialog\"\n        aria-modal=\"true\"\n        tabindex=\"-1\"\n                x-bind=\"panel\"\n        class=\"lyra-dialog\"\n    >\n        <div class=\"lyra-dialog__header\">\n            <h2\n                class=\"lyra-dialog__title\"\n                                x-bind=\"title\"\n            >Delete project</h2>\n                            <button\n                    type=\"button\"\n                    class=\"lyra-dialog__close\"\n                    aria-label=\"Close\"\n                    x-bind=\"close\"\n                >\n                    <svg\n                        width=\"14\"\n                        height=\"14\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2.5\"\n                        stroke-linecap=\"round\"\n                    >\n                        <path d=\"M18 6 6 18M6 6l12 12\" />\n                    </svg>\n                </button>\n                    </div>\n        <div class=\"lyra-dialog__body\">This permanently deletes the project and every issue attached to it.</div>\n            </div>\n</div>",
+            "usage": "<lyra:dialog title=\"Delete project\" close-label=\"Close\" return-focus-to=\"#open-dialog\">\n    This permanently deletes the project and every issue attached to it.\n</lyra:dialog>",
+            "html": "<div\n    class=\"lyra-dialog-overlay\"\n    x-data=\"lyraDialog({ defaultOpen: false, closeOnEsc: true, closeOnOverlayClick: true, returnFocusTo: () =&gt; document.querySelector(&quot;#open-dialog&quot;) })\"\n    x-modelable=\"open\"\n    x-bind=\"overlay\"\n            x-cloak\n        \n>\n    <div\n        role=\"dialog\"\n        aria-modal=\"true\"\n        tabindex=\"-1\"\n                x-bind=\"panel\"\n        class=\"lyra-dialog\"\n    >\n        <div class=\"lyra-dialog__header\">\n            <h2\n                class=\"lyra-dialog__title\"\n                                x-bind=\"title\"\n            >Delete project</h2>\n                            <button\n                    type=\"button\"\n                    class=\"lyra-dialog__close\"\n                    aria-label=\"Close\"\n                    x-bind=\"close\"\n                    :aria-label=\"&quot;Close&quot;\"\n                >\n                    <svg\n                        width=\"14\"\n                        height=\"14\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2.5\"\n                        stroke-linecap=\"round\"\n                    >\n                        <path d=\"M18 6 6 18M6 6l12 12\" />\n                    </svg>\n                </button>\n                    </div>\n        <div class=\"lyra-dialog__body\">This permanently deletes the project and every issue attached to it.</div>\n            </div>\n</div>",
             "binding": "lyraDialog",
             "props": [
                 {
@@ -1068,6 +1068,12 @@
                 },
                 {
                     "name": "labelId",
+                    "default": "null",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "returnFocusTo",
                     "default": "null",
                     "required": false,
                     "values": []

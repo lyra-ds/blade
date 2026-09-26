@@ -344,6 +344,7 @@ Props:
 - `closeOnEsc` — default: `true`; no fixture examples (fixtures do not constrain this prop).
 - `closeOnOverlayClick` — default: `true`; no fixture examples (fixtures do not constrain this prop).
 - `labelId` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `returnFocusTo` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### drawer
 
