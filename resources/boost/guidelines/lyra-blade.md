@@ -657,6 +657,8 @@ Props:
 - `sidebarWidth` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `asideWidth` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `top` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `skipLink` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `mainId` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### sidebar-group
 

@@ -210,3 +210,51 @@ it('passes attributes through to the root and keeps user classes last', function
         ->and($openingTag)->toContain('data-track="shell"')
         ->and($openingTag)->toContain('aria-describedby="shell-note"');
 });
+
+it('renders a banner header before the sidebar and outside main', function (): void {
+    $html = renderShell(slots: ['banner' => 'Notice', 'sidebar' => 'Menu']);
+
+    expect(shellClass($html))->toBe('lyra-shell lyra-shell--page lyra-shell--has-sidebar lyra-shell--has-banner')
+        ->and($html)->toContain('<header class="lyra-shell__banner">Notice</header>')
+        ->and(strpos($html, 'lyra-shell__banner'))->toBeLessThan(strpos($html, 'lyra-shell__sidebar'))
+        ->and(strpos($html, '</header>'))->toBeLessThan(strpos($html, '<main'));
+    expect(shellClass(renderShell(slots: ['banner' => " \n"])))->toBe('lyra-shell lyra-shell--page');
+});
+
+it('renders a skip link first and makes main its focusable target', function (): void {
+    $html = Blade::render(<<<'BLADE'
+        <x-lyra::shell :skip-link="['label' => 'Skip']" main-id="m">Body<x-slot:banner>B</x-slot:banner></x-lyra::shell>
+        BLADE);
+
+    expect($html)->toMatch('/<div[^>]*>\s*<a\s[^>]*class="lyra-shell__skip-link"[^>]*href="#m"/s')
+        ->and($html)->toContain('>Skip</a>')
+        ->and($html)->toContain('<main class="lyra-shell__main" id="m" tabindex="-1">')
+        ->and(strpos($html, 'lyra-shell__skip-link'))->toBeLessThan(strpos($html, 'lyra-shell__banner'));
+});
+
+it('generates a matching unique main id for the skip link', function (): void {
+    $render = fn (): string => Blade::render(
+        '<x-lyra::shell :skip-link="[\'label\' => \'Skip\']">Body</x-lyra::shell>',
+    );
+    $first = $render();
+    $second = $render();
+
+    preg_match('/href="#([^"]+)"/', $first, $href);
+    preg_match('/<main[^>]*\bid="([^"]+)"/', $first, $id);
+    preg_match('/<main[^>]*\bid="([^"]+)"/', $second, $otherId);
+
+    expect($href[1])->toBe($id[1])
+        ->and($id[1])->not->toBe($otherId[1]);
+});
+
+it('omits main id and tabindex without a skip link', function (): void {
+    expect(renderShell())->toContain('<main class="lyra-shell__main">')
+        ->and(renderShell())->not->toContain('skip-link');
+});
+
+it('does not label a role-less div sidebar', function (): void {
+    $html = renderShell(['sidebarAs' => 'div', 'sidebarLabel' => 'Nav'], ['sidebar' => 'Menu']);
+
+    expect($html)->toContain('<div class="lyra-shell__sidebar">Menu</div>')
+        ->and($html)->not->toContain('aria-label');
+});

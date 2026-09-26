@@ -1851,8 +1851,8 @@
         },
         {
             "slug": "shell",
-            "usage": "<lyra:shell sidebar-label=\"Workspace navigation\" main-as=\"main\" scroll=\"page\">\n    <x-slot:topbar>\n        <lyra:navbar>\n            <lyra:nav-link href=\"/overview\" active>Overview</lyra:nav-link>\n            <lyra:nav-link href=\"/projects\">Projects</lyra:nav-link>\n        </lyra:navbar>\n    </x-slot:topbar>\n    <x-slot:sidebar>\n        <lyra:nav-link href=\"/overview\" active>Overview</lyra:nav-link>\n        <lyra:nav-link href=\"/projects\">Projects</lyra:nav-link>\n    </x-slot:sidebar>\n    <lyra:page-header title=\"Overview\" />\n</lyra:shell>",
-            "html": "<div class=\"lyra-shell lyra-shell--page lyra-shell--has-sidebar\">\n                    <aside class=\"lyra-shell__sidebar\" aria-label=\"Workspace navigation\"><a\n    class=\"lyra-navlink lyra-navlink--active\" href=\"/overview\"\n            aria-current=\"page\"\n    >Overview</a>\n        <a\n    class=\"lyra-navlink\" href=\"/projects\"\n    >Projects</a></aside>\n                <main class=\"lyra-shell__main\">\n                <div class=\"lyra-shell__topbar\"><header class=\"lyra-navbar\">\n    <div class=\"lyra-container lyra-navbar__inner\"></div>\n</header></div>\n                <div class=\"lyra-shell__content\"><header class=\"lyra-pageheader\">\n    <div class=\"lyra-pageheader__row\">\n        <div class=\"lyra-pageheader__text\">\n                        <h1 class=\"lyra-pageheader__title\">Overview</h1>\n                    </div>\n            </div>\n    </header></div>\n    </main>\n    </div>",
+            "usage": "<lyra:shell sidebar-label=\"Workspace navigation\" main-as=\"main\" scroll=\"page\" :skip-link=\"['label' => 'Skip to content']\" main-id=\"main-content\">\n    <x-slot:banner>\n        <lyra:alert tone=\"info\">Scheduled maintenance tonight</lyra:alert>\n    </x-slot:banner>\n    <x-slot:topbar>\n        <lyra:navbar>\n            <lyra:nav-link href=\"/overview\" active>Overview</lyra:nav-link>\n            <lyra:nav-link href=\"/projects\">Projects</lyra:nav-link>\n        </lyra:navbar>\n    </x-slot:topbar>\n    <x-slot:sidebar>\n        <lyra:nav-link href=\"/overview\" active>Overview</lyra:nav-link>\n        <lyra:nav-link href=\"/projects\">Projects</lyra:nav-link>\n    </x-slot:sidebar>\n    <lyra:page-header title=\"Overview\" />\n</lyra:shell>",
+            "html": "<div class=\"lyra-shell lyra-shell--page lyra-shell--has-sidebar lyra-shell--has-banner\">\n            <a\n            class=\"lyra-shell__skip-link\"\n            href=\"#main-content\"\n            x-data\n            @click=\"if ($event.defaultPrevented || $event.button !== 0 || $event.metaKey || $event.ctrlKey || $event.shiftKey || $event.altKey || !$el.hash) return; const url = new URL($el.href); if (url.origin !== location.origin || url.pathname !== location.pathname || url.search !== location.search) return; $el.ownerDocument.getElementById(decodeURIComponent($el.hash.slice(1)))?.focus()\"\n        >Skip to content</a>\n                <header class=\"lyra-shell__banner\"><div role=\"status\" class=\"lyra-alert lyra-alert--info\">\n        <div>\n                <p class=\"lyra-alert__body\">Scheduled maintenance tonight</p>\n    </div>\n</div></header>\n                        <aside class=\"lyra-shell__sidebar\" aria-label=\"Workspace navigation\"><a\n    class=\"lyra-navlink lyra-navlink--active\" href=\"/overview\"\n            aria-current=\"page\"\n    >Overview</a>\n        <a\n    class=\"lyra-navlink\" href=\"/projects\"\n    >Projects</a></aside>\n                <main class=\"lyra-shell__main\" id=\"main-content\" tabindex=\"-1\">\n                <div class=\"lyra-shell__topbar\"><header class=\"lyra-navbar\">\n    <div class=\"lyra-container lyra-navbar__inner\"></div>\n</header></div>\n                <div class=\"lyra-shell__content\"><header class=\"lyra-pageheader\">\n    <div class=\"lyra-pageheader__row\">\n        <div class=\"lyra-pageheader__text\">\n                        <h1 class=\"lyra-pageheader__title\">Overview</h1>\n                    </div>\n            </div>\n    </header></div>\n    </main>\n    </div>",
             "binding": null,
             "props": [
                 {
@@ -1907,6 +1907,18 @@
                 },
                 {
                     "name": "top",
+                    "default": "null",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "skipLink",
+                    "default": "null",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "mainId",
                     "default": "null",
                     "required": false,
                     "values": []
