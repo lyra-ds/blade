@@ -358,6 +358,7 @@ Props:
 - `closeLabel` — default: `"Close"`; no fixture examples (fixtures do not constrain this prop).
 - `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
 - `labelId` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `returnFocusTo` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### dropdown
 

@@ -1082,8 +1082,8 @@
         },
         {
             "slug": "drawer",
-            "usage": "<lyra:drawer title=\"Project settings\" close-label=\"Close\">\n    Rename the project, change its visibility or archive it.\n</lyra:drawer>",
-            "html": "<div\n    class=\"lyra-drawer-overlay\"\n    x-data=\"lyraDrawer({ defaultOpen: false })\"\n    x-modelable=\"open\"\n    x-bind=\"overlay\"\n            x-cloak\n        \n>\n    <div\n        role=\"dialog\"\n        aria-modal=\"true\"\n        tabindex=\"-1\"\n                x-bind=\"panel\"\n        class=\"lyra-drawer\"\n    >\n        <div class=\"lyra-drawer__header\">\n            <h2\n                class=\"lyra-drawer__title\"\n                                x-bind=\"title\"\n            >Project settings</h2>\n                            <button\n                    type=\"button\"\n                    class=\"lyra-drawer__close\"\n                    aria-label=\"Close\"\n                    x-bind=\"close\"\n                >\n                    <svg\n                        width=\"14\"\n                        height=\"14\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2.5\"\n                        stroke-linecap=\"round\"\n                    >\n                        <path d=\"M18 6 6 18M6 6l12 12\" />\n                    </svg>\n                </button>\n                    </div>\n        <div class=\"lyra-drawer__body\">Rename the project, change its visibility or archive it.</div>\n            </div>\n</div>",
+            "usage": "<lyra:drawer title=\"Project settings\" close-label=\"Close\" return-focus-to=\"#open-drawer\">\n    Rename the project, change its visibility or archive it.\n</lyra:drawer>",
+            "html": "<div\n    class=\"lyra-drawer-overlay\"\n    x-data=\"lyraDrawer({ defaultOpen: false, returnFocusTo: () =&gt; document.querySelector(&quot;#open-drawer&quot;) })\"\n    x-modelable=\"open\"\n    x-bind=\"overlay\"\n            x-cloak\n        \n>\n    <div\n        role=\"dialog\"\n        aria-modal=\"true\"\n        tabindex=\"-1\"\n                x-bind=\"panel\"\n        class=\"lyra-drawer\"\n    >\n        <div class=\"lyra-drawer__header\">\n            <h2\n                class=\"lyra-drawer__title\"\n                                x-bind=\"title\"\n            >Project settings</h2>\n                            <button\n                    type=\"button\"\n                    class=\"lyra-drawer__close\"\n                    aria-label=\"Close\"\n                    x-bind=\"close\"\n                    :aria-label=\"&quot;Close&quot;\"\n                >\n                    <svg\n                        width=\"14\"\n                        height=\"14\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2.5\"\n                        stroke-linecap=\"round\"\n                    >\n                        <path d=\"M18 6 6 18M6 6l12 12\" />\n                    </svg>\n                </button>\n                    </div>\n        <div class=\"lyra-drawer__body\">Rename the project, change its visibility or archive it.</div>\n            </div>\n</div>",
             "binding": "lyraDrawer",
             "props": [
                 {
@@ -1112,6 +1112,12 @@
                 },
                 {
                     "name": "labelId",
+                    "default": "null",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "returnFocusTo",
                     "default": "null",
                     "required": false,
                     "values": []
