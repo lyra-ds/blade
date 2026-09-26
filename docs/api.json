@@ -2725,8 +2725,8 @@
         },
         {
             "slug": "tooltip",
-            "usage": "<lyra:tooltip tip=\"Deploys the current branch to production\" placement=\"top\">\n    <lyra:button variant=\"primary\" size=\"sm\">Deploy</lyra:button>\n</lyra:tooltip>",
-            "html": "<span\n    x-data=\"lyraTooltip({ tip: 'Deploys the current branch to production', placement: 'top' })\"\n    x-bind=\"root\"\n    data-tip=\"Deploys the current branch to production\"\n    data-state=\"closed\"\n    class=\"lyra-tooltip\"\n>\n    <span x-bind=\"target\"><button class=\"lyra-btn lyra-btn--primary lyra-btn--sm\"  >\n                    <span class=\"lyra-btn__label\">Deploy</span>\n        </button></span>\n    <span role=\"tooltip\" hidden x-bind=\"bubble\">Deploys the current branch to production</span>\n</span>",
+            "usage": "<lyra:tooltip tip=\"Deploys the current branch to production\" placement=\"top\" bubble-id=\"tip-deploy\">\n    <lyra:button variant=\"primary\" size=\"sm\" aria-describedby=\"tip-deploy\">Deploy</lyra:button>\n</lyra:tooltip>",
+            "html": "<span\n    x-data=\"lyraTooltip({ tip: 'Deploys the current branch to production', placement: 'top' })\"\n    x-bind=\"root\"\n    data-tip=\"Deploys the current branch to production\"\n    data-state=\"closed\"\n    class=\"lyra-tooltip\"\n>\n        <button class=\"lyra-btn lyra-btn--primary lyra-btn--sm\" aria-describedby=\"tip-deploy\"  >\n                    <span class=\"lyra-btn__label\">Deploy</span>\n        </button>\n    <span id=\"tip-deploy\" role=\"tooltip\" hidden>Deploys the current branch to production</span>\n    </span>",
             "binding": "lyraTooltip",
             "props": [
                 {
@@ -2742,6 +2742,12 @@
                     "values": [
                         "bottom"
                     ]
+                },
+                {
+                    "name": "bubbleId",
+                    "default": "null",
+                    "required": false,
+                    "values": []
                 }
             ]
         },
