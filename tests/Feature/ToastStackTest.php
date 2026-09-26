@@ -20,21 +20,37 @@ function dynamicToastStackRoot(string $html): string
     return $matches[0];
 }
 
-it('always emits the Alpine toast stack wiring while keeping consumer attributes last', function (): void {
+it('emits the Alpine toast stack wiring once and keeps consumer attributes last', function (): void {
     $root = dynamicToastStackRoot(renderDynamicToastStack(
-        'class="first second" id="notifications" data-track="stack" x-data="consumerState"',
+        'class="first second" id="notifications" data-track="stack"',
     ));
-    $bindingPosition = strpos($root, 'x-data="lyraToastStack()"');
-    $classPosition = strpos($root, 'class="lyra-toast-stack first second"');
-    $consumerPosition = strpos($root, 'x-data="consumerState"');
 
-    expect($bindingPosition)->toBeInt()
-        ->and($classPosition)->toBeInt()
-        ->and($consumerPosition)->toBeInt()
-        ->and($bindingPosition)->toBeLessThan($classPosition)
-        ->and($classPosition)->toBeLessThan($consumerPosition)
+    expect(substr_count($root, 'x-data='))->toBe(1)
+        ->and($root)->toContain('x-data="lyraToastStack()"')
+        ->and(strpos($root, 'x-data='))->toBeLessThan(strpos($root, 'class='))
+        ->and($root)->toContain('class="lyra-toast-stack first second"')
         ->and($root)->toContain('id="notifications"')
         ->and($root)->toContain('data-track="stack"');
+});
+
+it('merges consumer x-data into the stack scope instead of emitting a duplicate attribute', function (): void {
+    $root = dynamicToastStackRoot(renderDynamicToastStack(
+        'x-data="{ extra: 1 }" x-bind:data-extra="extra"',
+    ));
+
+    expect(substr_count($root, 'x-data='))->toBe(1)
+        ->and($root)->toContain('lyraToastStack()')
+        ->and($root)->toContain('{ extra: 1 }')
+        ->and($root)->toContain('Object.getOwnPropertyDescriptors(')
+        ->and($root)->toContain('x-bind:data-extra="extra"');
+});
+
+it('leaves a named consumer x-data untouched so it wins over the stack default', function (): void {
+    $root = dynamicToastStackRoot(renderDynamicToastStack('x-data="consumerState"'));
+
+    expect(substr_count($root, 'x-data='))->toBe(1)
+        ->and($root)->toContain('x-data="consumerState"')
+        ->and($root)->not->toContain('lyraToastStack');
 });
 
 it('serves two persistent live regions before any toast exists', function (): void {
