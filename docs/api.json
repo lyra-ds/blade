@@ -286,8 +286,8 @@
         },
         {
             "slug": "breadcrumb",
-            "usage": "<lyra:breadcrumb :items=\"[\n    ['label' => 'Workspace', 'href' => '/workspace'],\n    ['label' => 'Projects', 'href' => '/workspace/projects'],\n    ['label' => 'Website redesign'],\n]\" />",
-            "html": "<nav aria-label=\"Breadcrumb\" class=\"lyra-breadcrumb\">\n                            <a href=\"/workspace\">Workspace</a>\n                            <span class=\"lyra-breadcrumb__sep\" aria-hidden=\"true\"></span>\n                        <a href=\"/workspace/projects\">Projects</a>\n                            <span class=\"lyra-breadcrumb__sep\" aria-hidden=\"true\"></span>\n                        <span class=\"lyra-breadcrumb__current\" aria-current=\"page\">Website redesign</span>\n            </nav>",
+            "usage": "<lyra:breadcrumb :items=\"[\n    ['label' => 'Workspace', 'href' => '/workspace'],\n    ['label' => 'Projects'],\n    ['label' => 'Docs', 'href' => 'https://docs.example.com', 'target' => '_blank', 'rel' => 'noopener noreferrer'],\n    ['label' => 'Website redesign'],\n]\" />",
+            "html": "<nav aria-label=\"Breadcrumb\" class=\"lyra-breadcrumb\">\n                                    <a href=\"/workspace\">Workspace</a>\n                                    <span class=\"lyra-breadcrumb__sep\" aria-hidden=\"true\"></span>\n                                <span>Projects</span>\n                                    <span class=\"lyra-breadcrumb__sep\" aria-hidden=\"true\"></span>\n                                <a href=\"https://docs.example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Docs</a>\n                                    <span class=\"lyra-breadcrumb__sep\" aria-hidden=\"true\"></span>\n                        <span class=\"lyra-breadcrumb__current\" aria-current=\"page\">Website redesign</span>\n            </nav>",
             "binding": null,
             "props": [
                 {
