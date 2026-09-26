@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Blade;
+use LyraDs\Blade\BladeServiceProvider;
+use Orchestra\Testbench\Foundation\Application;
 
 $root = dirname(__DIR__);
 require $root.'/vendor/autoload.php';
@@ -10,9 +12,9 @@ require $root.'/vendor/autoload.php';
 $_ENV['APP_KEY'] = $_SERVER['APP_KEY'] = 'base64:'.base64_encode(random_bytes(32));
 putenv('APP_KEY='.$_ENV['APP_KEY']);
 
-Orchestra\Testbench\Foundation\Application::create(
+Application::create(
     basePath: $root.'/vendor/orchestra/testbench-core/laravel',
-    options: ['extra' => ['providers' => [LyraDs\Blade\BladeServiceProvider::class]]],
+    options: ['extra' => ['providers' => [BladeServiceProvider::class]]],
 );
 app()->detectEnvironment(fn () => 'local');
 
