@@ -3,30 +3,18 @@
     $staticToasts = new Illuminate\Support\HtmlString(
         (string) preg_replace('/(<div\b)\s+role="status"(?=[^>]*\bclass="lyra-toast\b)/', '$1', (string) $slot)
     );
-
-    // A duplicate x-data would be dropped by the parser, so the consumer's state is merged into the stack's
-    // (descriptors keep the getters intact) instead of being emitted after it. A bare identifier resolves an
-    // Alpine.data() registration and cannot be merged in an expression, so it is left untouched and wins.
-    $consumerData = trim((string) $attributes->get('x-data', ''));
-    $stackData = match (true) {
-        $consumerData === '' => 'lyraToastStack()',
-        (bool) preg_match('/^[A-Za-z_$][\w$]*(?:\(.*\))?$/s', $consumerData) => null,
-        default => 'Object.defineProperties(lyraToastStack(), Object.getOwnPropertyDescriptors('.$consumerData.'))',
-    };
-    $rootAttributes = $stackData === null ? $attributes : $attributes->except('x-data');
 @endphp
 
 {{--
+    The stack owns its x-data: a consumer x-data is not forwarded. Compose state with a wrapper element instead.
     The stack root is not a live region: the two persistent regions below announce each added toast
     (danger goes assertive, everything else polite) and rows carry no role of their own.
     Statically served <x-lyra::toast> children render inside the polite region and drop their default role="status".
     The close button label comes from Alpine.store('lyraToasts').closeLabel (default 'Close notification').
 --}}
 <div
-    @if ($stackData !== null)
-        x-data="{{ $stackData }}"
-    @endif
-    {{ $rootAttributes->class(['lyra-toast-stack']) }}
+    x-data="lyraToastStack()"
+    {{ $attributes->except('x-data')->class(['lyra-toast-stack']) }}
 >
     <div data-lyra-toast-region="polite" aria-live="polite" aria-relevant="additions" style="display: contents">
         <template x-for="toast in politeToasts" :key="toast.id">
