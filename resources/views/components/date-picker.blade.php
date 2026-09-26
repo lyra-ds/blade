@@ -42,9 +42,7 @@
         ->whereDoesntStartWith(['wire:model', 'x-model'])
         ->except('id');
 
-    if ($hasField) {
-        $rootAttributes = $rootAttributes->class('lyra-field');
-    }
+    $rootAttributes = $rootAttributes->class(['lyra-datepicker-root', 'lyra-field' => $hasField]);
 
     $options = [
         'locale' => $locale,
@@ -194,6 +192,8 @@
                 <x-lyra::bottom-sheet
                     :title="$sheetTitle"
                     :close-label="$closeLabel"
+                    :label-id="$triggerId.'-sheet-title'"
+                    return-focus-to="datepicker-trigger"
                     x-model="pickerOpen"
                 >
                     <div class="lyra-cal--sheet">

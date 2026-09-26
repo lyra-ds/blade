@@ -298,7 +298,7 @@ Props:
 
 Tags: `<x-lyra::date-picker>...</x-lyra::date-picker>` or `<lyra:date-picker>...</lyra:date-picker>`.
 
-Root class alternatives observed in fixtures: `` | `lyra-field`.
+Root class alternatives observed in fixtures: `lyra-datepicker-root` | `lyra-datepicker-root lyra-field`.
 
 Props:
 - `label` — default: `null`; fixture examples (not constraints): `"0"`, `"Date"`.
