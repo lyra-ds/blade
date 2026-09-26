@@ -278,3 +278,24 @@ it('passes consumer attributes through the root without overriding the state con
         ->and($root)->toContain('data-track="sidebar"')
         ->and(strpos($root, 'x-data="lyraSidebarGroup({ defaultCollapsed: false })"'))->toBeLessThan(strpos($root, 'x-data="consumerState"'));
 });
+
+it('renders items with an href as native anchors and items without as buttons', function (): void {
+    $html = renderSidebarGroup([
+        'items' => [
+            ['id' => 'a', 'label' => 'A', 'href' => '/a', 'active' => true, 'title' => 'A'],
+            ['id' => 'x', 'label' => 'X', 'href' => 'https://example.com', 'target' => '_blank', 'rel' => 'noopener noreferrer'],
+            ['id' => 'b', 'label' => 'B'],
+        ],
+    ]);
+
+    expect($html)->toMatch('/<a\s+class="lyra-sbgroup__item lyra-sbgroup__item--active"\s+href="\/a"\s+data-id="a"/')
+        ->and($html)->toContain('aria-current="page"')
+        ->and($html)->toContain('title="A"')
+        ->and($html)->toContain('target="_blank"')
+        ->and($html)->toContain('rel="noopener noreferrer"')
+        ->and($html)->toContain("x-on:click=\"\$dispatch('lyra:select', { id: \$el.dataset.id ?? '' })\"")
+        ->and(substr_count($html, '<a'))->toBe(2)
+        ->and(substr_count($html, 'x-bind="item"'))->toBe(1)
+        ->and(substr_count($html, '<button'))->toBe(1)
+        ->and($html)->toMatch('/<button\s+type="button"\s+class="lyra-sbgroup__item"/');
+});
