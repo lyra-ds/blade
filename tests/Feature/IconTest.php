@@ -150,9 +150,18 @@ it('defines the exact curated React registry', function (): void {
         'download', 'ellipsis', 'external-link', 'eye', 'file', 'file-archive', 'file-plus',
         'file-spreadsheet', 'file-text', 'film', 'filter', 'folder', 'folder-open', 'github',
         'globe', 'hard-drive', 'heart', 'house', 'image', 'inbox', 'info', 'layout-dashboard',
-        'layout-grid', 'link', 'list', 'lock', 'log-out', 'mail', 'message-circle', 'minus',
-        'moon', 'music', 'package', 'pencil', 'plus', 'rocket', 'scale', 'search', 'send',
+        'layout-grid', 'link', 'list', 'lock', 'log-out', 'mail', 'menu', 'message-circle', 'minus',
+        'moon', 'music', 'package', 'panel-left', 'panel-left-close', 'panel-left-open', 'panel-right',
+        'panel-right-close', 'panel-right-open', 'pencil', 'plus', 'rocket', 'scale', 'search', 'send',
         'settings', 'shield', 'sliders-horizontal', 'sparkles', 'star', 'sun', 'terminal',
         'timer', 'trash-2', 'triangle-alert', 'upload', 'user', 'user-plus', 'users', 'x', 'zap',
     ]);
 });
+
+it('renders the app-chrome icons from the bundled set', function (string $name): void {
+    $html = renderIcon(['name' => $name]);
+
+    expect(IconRegistry::contains($name))->toBeTrue()
+        ->and(iconOpeningTag($html))->toContain('<svg')
+        ->and($html)->toContain('</svg>');
+})->with(['menu', 'panel-left', 'panel-left-close', 'panel-left-open', 'panel-right', 'panel-right-close', 'panel-right-open']);
