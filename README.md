@@ -139,6 +139,16 @@ Static components continue to work without Alpine. Alpine-backed components are 
 
 Some repeated content is intentionally runtime-rendered because filtering, locale-aware generation, queue state, or user-added rows belong to the Alpine binding. `calendar`, `combobox`, `command-palette`, `file-upload`, `time-picker`, `toast-stack`, and `weekly-schedule-editor` stamp those grids, options, items, toasts, or rows through `x-for`; those repeated regions do not exist in the served DOM until Alpine boots.
 
+### FileUpload controlled lifecycle (breaking change)
+
+`file-upload` follows the controlled upload lifecycle of `@lyra-ds/alpine` 1.x and `@lyra-ds/styles` 1.x (Alpine 0.6/1.0 contract). Your application owns `items` and the transport; the component never simulates progress or completion.
+
+- Root gets a unique `id` (yours, or a generated `lyra-upload-…`) and the dropzone is a `<label>` for a sibling `<input type="file">`.
+- Selection is proposed through the bubbling `lyra:file-upload:select` event. Echo `proposedItem` into your `items`, upload, and commit `uploading`/`success`/`error`. Retry, cancel and remove are the `lyra:file-upload:retry|cancel|remove` events. Forward them with `x-on:` on the component and bind `x-model` to your items array.
+- Statuses: `selected`, `uploading`, `canceling`, `success`, `canceled`, `error`; `progress` is `{kind: 'indeterminate'}` or `{kind: 'determinate', value}`.
+- New props: `id`, `name`, `disabled`, `required`, `items`, `messages` (Alpine message overrides with `{name}`, `{percent}`, `{accept}`, `{maxSizeMB}`), `statusLabels`, `cancelLabel`, `retryLabel`.
+- Removed props: `defaultItems` (use `items`), `uploadDuration`, `doneLabel`; status `done` (use `success`), numeric `item.progress`, `remove(id)`, and `.lyra-upload__bar-fill`/`.lyra-upload__check`. `removeLabel` is replaced by `messages.remove`.
+
 `data-table` keeps sorting server-side by default: its header controls emit `lyra:sort`, and the application returns the rows in the requested order. Set `clientSort` to opt into in-browser sorting; sortable cells then provide their comparison value through `data-sort-value`.
 
 After installing `@lyra-ds/styles` as described in the Quickstart, install Alpine.js and the Lyra plugin:
