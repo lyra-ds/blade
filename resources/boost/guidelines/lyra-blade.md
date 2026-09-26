@@ -374,6 +374,8 @@ Props:
 - `items` — required; no fixture examples (fixtures do not constrain this prop).
 - `align` — default: `"start"`; no fixture examples (fixtures do not constrain this prop).
 - `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `triggerVariant` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `triggerSize` — default: `"md"`; no fixture examples (fixtures do not constrain this prop).
 
 ### empty-state
 
@@ -920,6 +922,7 @@ Root class alternatives observed in fixtures: `lyra-tooltip` | `lyra-tooltip lyr
 Props:
 - `tip` — required; no fixture examples (fixtures do not constrain this prop).
 - `placement` — default: `"top"`; fixture examples (not constraints): `"bottom"`.
+- `bubbleId` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### weekly-schedule-editor
 

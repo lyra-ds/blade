@@ -1,9 +1,11 @@
 @props([
     'tip',
     'placement' => 'top',
+    'bubbleId' => null,
 ])
 
-{{-- For full keyboard/screen-reader support, the slot content should be focusable; the wrapper carries the plugin's target binding, so aria-describedby lands on the wrapper instead of the child as a Blade limitation. --}}
+{{-- Slot content should be one focusable element. Without bubble-id the wrapper carries the plugin's target binding, so aria-describedby lands on the (non-focusable) wrapper. --}}
+{{-- With bubble-id the wrapper is dropped: the bubble renders that id and the child carries aria-describedby="<bubble-id>" itself, as in the Alpine docs. The plugin only adds hover/focus behavior on the root. --}}
 @php
     $resolvedPlacement = in_array($placement, ['top', 'bottom', 'left', 'right'], true)
         ? $placement
@@ -22,6 +24,11 @@
         "lyra-tooltip--{$resolvedPlacement}" => $resolvedPlacement !== 'top',
     ]) }}
 >
+    @if ($bubbleId !== null && $bubbleId !== '')
+    {{ $slot }}
+    <span id="{{ $bubbleId }}" role="tooltip" hidden>{{ $tip }}</span>
+    @else
     <span x-bind="target">{{ $slot }}</span>
     <span role="tooltip" hidden x-bind="bubble">{{ $tip }}</span>
+    @endif
 </span>

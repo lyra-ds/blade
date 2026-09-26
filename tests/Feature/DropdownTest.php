@@ -45,7 +45,7 @@ function dropdownOpeningTag(string $html, string $target): string
 {
     $pattern = match ($target) {
         'root' => '/<span\b(?=[^>]*\bclass="lyra-dropdown(?: [^"]*)?")[^>]*>/',
-        'trigger' => '/<span\b(?=[^>]*\bclass="lyra-dropdown__trigger")[^>]*>/',
+        'trigger' => '/<span\b(?=[^>]*\bclass="(?:[^"]* )?lyra-dropdown__trigger")[^>]*>/',
         'menu' => '/<div\b(?=[^>]*\bclass="lyra-menu(?: [^"]*)?")[^>]*>/',
     };
     $matched = preg_match($pattern, $html, $matches);
@@ -156,7 +156,7 @@ it('renders the menu binding and cloaks only the closed initial state', function
 it('preserves item order and emits each item type contract', function (): void {
     $html = renderDropdown([
         'items' => [
-            ['label' => 'Edit', 'id' => 'ignored-command-id'],
+            ['label' => 'Edit'],
             ['type' => 'separator'],
             ['type' => 'label', 'label' => 'Danger zone'],
             ['label' => 'Delete', 'danger' => true],
@@ -167,11 +167,10 @@ it('preserves item order and emits each item type contract', function (): void {
     $labelPosition = strpos($html, '<span class="lyra-menu__label">Danger zone</span>');
     $deletePosition = strpos($html, '>Delete</button>');
 
-    expect($html)->toMatch('/<button\s+type="button"\s+role="menuitem"\s+class="lyra-menu__item"\s+x-bind="item"\s*>Edit<\/button>/s')
+    expect($html)->toMatch('/<button\s+type="button"\s+role="menuitem"\s+class="lyra-menu__item"\s+x-bind="item"\s+x-on:click="[^"]*"\s*>Edit<\/button>/s')
         ->and($html)->toContain('<hr class="lyra-menu__sep">')
         ->and($html)->toContain('<span class="lyra-menu__label">Danger zone</span>')
-        ->and($html)->toMatch('/<button\s+type="button"\s+role="menuitem"\s+class="lyra-menu__item lyra-menu__item--danger"\s+x-bind="item"\s*>Delete<\/button>/s')
-        ->and($html)->not->toContain('ignored-command-id')
+        ->and($html)->toMatch('/<button\s+type="button"\s+role="menuitem"\s+class="lyra-menu__item lyra-menu__item--danger"\s+x-bind="item"\s+x-on:click="[^"]*"\s*>Delete<\/button>/s')
         ->and($editPosition)->toBeInt()
         ->and($separatorPosition)->toBeInt()
         ->and($labelPosition)->toBeInt()
@@ -179,6 +178,43 @@ it('preserves item order and emits each item type contract', function (): void {
         ->and($editPosition)->toBeLessThan($separatorPosition)
         ->and($separatorPosition)->toBeLessThan($labelPosition)
         ->and($labelPosition)->toBeLessThan($deletePosition);
+});
+
+it('renders data-id on items with an id and omits it otherwise', function (): void {
+    $html = renderDropdown([
+        'items' => [
+            ['label' => 'Edit', 'id' => 'edit-item'],
+            ['label' => 'Plain'],
+            ['label' => 'Quote', 'id' => 'a"b'],
+        ],
+    ]);
+
+    expect($html)->toMatch('/<button\b[^>]*\bdata-id="edit-item"[^>]*>Edit<\/button>/s')
+        ->and($html)->toMatch('/<button\b[^>]*\bdata-id="a&quot;b"[^>]*>Quote<\/button>/s')
+        ->and($html)->not->toMatch('/<button\b[^>]*\bdata-id=[^>]*>Plain<\/button>/s')
+        ->and(substr_count($html, 'data-id='))->toBe(2);
+});
+
+it('dispatches lyra:select with the item id from every item', function (): void {
+    $html = renderDropdown([
+        'items' => [
+            ['label' => 'Edit', 'id' => 'edit-item'],
+            ['label' => 'Docs', 'href' => '/docs', 'id' => 'docs'],
+        ],
+    ]);
+
+    expect(substr_count($html, "x-on:click=\"\$dispatch('lyra:select', { id: \$el.dataset.id ?? '' })\""))->toBe(2);
+});
+
+it('renders an anchor menuitem for items with an href', function (): void {
+    $html = renderDropdown([
+        'items' => [
+            ['label' => 'Docs', 'href' => '/docs?a=1&b=2', 'id' => 'docs', 'danger' => true],
+        ],
+    ]);
+
+    expect($html)->toMatch('/<a\s+href="\/docs\?a=1&amp;b=2"\s+role="menuitem"\s+class="lyra-menu__item lyra-menu__item--danger"\s+data-id="docs"\s+x-bind="item"[^>]*>Docs<\/a>/s')
+        ->and($html)->not->toContain('<button');
 });
 
 it('renders item icons before labels with Htmlable-aware escaping', function (): void {
@@ -195,10 +231,47 @@ it('renders item icons before labels with Htmlable-aware escaping', function ():
         ],
     ]);
 
-    expect($html)->toContain('<svg data-icon="raw"></svg><strong>Raw</strong>')
-        ->and($html)->toContain('&lt;svg data-icon=&quot;escaped&quot;&gt;&lt;/svg&gt;&lt;strong&gt;Escaped&lt;/strong&gt;')
+    expect($html)->toContain('<span aria-hidden="true"><svg data-icon="raw"></svg></span><strong>Raw</strong>')
+        ->and($html)->toContain('<span aria-hidden="true">&lt;svg data-icon=&quot;escaped&quot;&gt;&lt;/svg&gt;</span>&lt;strong&gt;Escaped&lt;/strong&gt;')
         ->and(strpos($html, '<svg data-icon="raw"></svg>'))->toBeLessThan(strpos($html, '<strong>Raw</strong>'))
         ->and(strpos($html, '&lt;svg data-icon=&quot;escaped&quot;&gt;'))->toBeLessThan(strpos($html, '&lt;strong&gt;Escaped&lt;/strong&gt;'));
+});
+
+it('hides item icons from the accessible name and omits the wrapper without an icon', function (): void {
+    $html = renderDropdown([
+        'items' => [
+            ['icon' => new HtmlString('<svg></svg>'), 'label' => 'With icon'],
+            ['label' => 'No icon'],
+        ],
+    ]);
+
+    expect($html)->toContain('<span aria-hidden="true"><svg></svg></span>With icon</button>')
+        ->and($html)->toContain('>No icon</button>')
+        ->and(substr_count($html, 'aria-hidden="true"'))->toBe(1);
+});
+
+it('styles the single trigger like a button without adding a tab stop', function (): void {
+    $html = renderDropdown([
+        'trigger-variant' => 'secondary',
+        'trigger-size' => 'sm',
+    ]);
+    $triggerTag = dropdownOpeningTag($html, 'trigger');
+
+    expect($triggerTag)->toContain('class="lyra-btn lyra-btn--secondary lyra-btn--sm lyra-dropdown__trigger"')
+        ->and($triggerTag)->toContain('role="button"')
+        ->and($triggerTag)->toContain('aria-haspopup="menu"')
+        ->and($triggerTag)->toContain('x-bind="trigger"')
+        ->and(substr_count($html, 'tabindex='))->toBe(1)
+        ->and($html)->not->toContain('<button type="button" class="lyra-btn');
+});
+
+it('defaults the button-styled trigger size to md and keeps the plain trigger unstyled', function (): void {
+    $styled = dropdownOpeningTag(renderDropdown(['trigger-variant' => 'primary']), 'trigger');
+    $plain = dropdownOpeningTag(renderDropdown(), 'trigger');
+
+    expect($styled)->toContain('class="lyra-btn lyra-btn--primary lyra-btn--md lyra-dropdown__trigger"')
+        ->and($plain)->toContain('class="lyra-dropdown__trigger"')
+        ->and($plain)->not->toContain('lyra-btn');
 });
 
 it('renders an open wire-modelled dropdown through Livewire', function (): void {
@@ -225,4 +298,18 @@ it('renders an open wire-modelled dropdown through Livewire', function (): void 
 
     expect($rootOpeningTag)->toContain('wire:model="open"')
         ->and($html)->toContain('aria-expanded="true"');
+});
+
+it('renders disabled items as aria-disabled with click blocked and no href', function () {
+    $html = renderDropdown(['items' => [
+        ['label' => 'Off', 'id' => 'off', 'disabled' => true],
+        ['label' => 'Link off', 'id' => 'link', 'href' => '/x', 'disabled' => true],
+        ['label' => 'On', 'id' => 'on'],
+    ]]);
+
+    expect(substr_count($html, 'aria-disabled="true"'))->toBe(2)
+        ->and($html)->not->toContain('href="/x"')->toContain('tabindex="-1"')
+        ->and($html)->toContain('x-on:click.capture="$event.preventDefault(); $event.stopImmediatePropagation()"')
+        ->and(preg_match('/<button[^>]*data-id="on"[^>]*>/s', $html, $m))->toBe(1)
+        ->and($m[0])->not->toContain('aria-disabled');
 });
