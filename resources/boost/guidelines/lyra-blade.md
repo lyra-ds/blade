@@ -498,6 +498,25 @@ Props:
 - `sticky` — default: `true`; fixture examples (not constraints): `false`.
 - `navLabel` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
+### otp-input
+
+Tags: `<x-lyra::otp-input>...</x-lyra::otp-input>` or `<lyra:otp-input>...</lyra:otp-input>`.
+
+Root class alternatives observed in fixtures: `lyra-field` | `lyra-otp` | `lyra-input lyra-otp__digit` | `lyra-input lyra-otp__digit lyra-input--error` | `lyra-label` | `lyra-hint` | `lyra-hint lyra-hint--error`.
+
+Props:
+- `label` — default: `null`; fixture examples (not constraints): `"Verification code"`.
+- `hint` — default: `null`; fixture examples (not constraints): `"Check your phone"`.
+- `error` — default: `null`; fixture examples (not constraints): `"Invalid code"`.
+- `length` — default: `6`; no fixture examples (fixtures do not constrain this prop).
+- `name` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `value` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `defaultValue` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `invalid` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `digitLabel` — default: `"Digit"`; no fixture examples (fixtures do not constrain this prop).
+- `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `required` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+
 ### page-header
 
 Tags: `<x-lyra::page-header>...</x-lyra::page-header>` or `<lyra:page-header>...</lyra:page-header>`.
