@@ -127,7 +127,7 @@ These are the versions the respective `lyra-ds/blade` releases were tested again
 
 Laravel 11 is not supported because it reached security end-of-life in March 2026.
 
-Upgrading from `0.10.x`? See the [Migration Guide](docs/migration-1-0.md) *(coming soon with the 1.0.0 release)*.
+Upgrading from `0.10.x`? See the [Migration Guide](docs/migration-1-0.md).
 
 ## Versioning
 
