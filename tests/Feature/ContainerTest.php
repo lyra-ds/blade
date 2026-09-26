@@ -88,7 +88,7 @@ it('accepts a numeric string as pixels', function (): void {
     expect($openingTag)->toContain('style="--container-max: 480px"');
 });
 
-it('accepts decimal and padded-keyword max values', function (mixed $max, string $expected): void {
+it('accepts decimal, padded numeric and numeric max values', function (mixed $max, string $expected): void {
     $openingTag = containerOpeningTag(
         Blade::render('<x-lyra::container :max="$max">C</x-lyra::container>', ['max' => $max]),
     );
@@ -99,7 +99,14 @@ it('accepts decimal and padded-keyword max values', function (mixed $max, string
     ['480.5', '480.5px'],
     [480, '480px'],
     [480.5, '480.5px'],
-    [' md ', '768px'],
+    [' 5', '5px'],
+    ['5 ', '5px'],
+    [' 12.5 ', '12.5px'],
+    ["5\n", '5px'],
+    [-5, '-5px'],
+    [12.5, '12.5px'],
+    [0, '0px'],
+    ['0', '0px'],
 ]);
 
 it('emits no style for non-finite, signed, exponent or malformed max values', function (mixed $max): void {
@@ -113,7 +120,8 @@ it('emits no style for non-finite, signed, exponent or malformed max values', fu
     '-5' => ['-5'],
     '1e3' => ['1e3'],
     '1e400' => ['1e400'],
-    'padded 5' => [' 5'],
+    'padded md' => [' md '],
+    'md with newline' => ["md\n"],
     '+5' => ['+5'],
     '.5' => ['.5'],
     'empty' => [''],

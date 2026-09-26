@@ -4,13 +4,14 @@
 
 @php
     $sizes = ['sm' => 640, 'md' => 768, 'lg' => 1024, 'xl' => 1280];
-    $maxKey = is_string($max) ? trim($max) : $max;
+    // Mirrors the React resolveMax: keywords match the raw value, numeric strings are trimmed first.
+    $trimmed = is_string($max) ? preg_replace('/^[\s\p{Z}\x{FEFF}]+|[\s\p{Z}\x{FEFF}]+$/u', '', $max) : null;
 
     $maxPixels = match (true) {
-        is_string($maxKey) && array_key_exists($maxKey, $sizes) => $sizes[$maxKey],
-        is_int($maxKey) => $maxKey,
-        is_float($maxKey) && is_finite($maxKey) => $maxKey,
-        is_string($maxKey) && preg_match('/^\d+(\.\d+)?$/D', $max) === 1 => $maxKey,
+        is_string($max) && array_key_exists($max, $sizes) => $sizes[$max],
+        is_int($max) => $max,
+        is_float($max) && is_finite($max) => $max,
+        is_string($trimmed) && preg_match('/^\d+(\.\d+)?$/D', $trimmed) === 1 => $trimmed,
         default => null,
     };
 
