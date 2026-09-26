@@ -142,6 +142,9 @@ it('renders toast stack attributes and nested toast content', function (): void 
         ->and($openingTag)->toContain('id="notifications"')
         ->and($openingTag)->toContain('data-track="stack"')
         ->and($html)->toContain('class="lyra-toast"')
-        ->and($html)->toContain('role="status"')
+        ->and($html)->not->toContain('role="status"')
         ->and($html)->toContain('<span>Hi</span>');
+
+    // A standalone toast keeps its own status role; only stack children rely on the region.
+    expect(renderToast())->toContain('role="status"');
 });
