@@ -119,3 +119,67 @@ it('covers every guarded component in the owned roots dataset', function (): voi
         }
     }
 });
+
+/**
+ * Behavioral discovery: a component owns x-data when the HTML it emits binds a
+ * Lyra Alpine factory, regardless of how the source assembles the attribute.
+ *
+ * @return array<string, bool> slug => emits a Lyra x-data binding
+ */
+function discoverOwnedRoots(): array
+{
+    $owners = [];
+
+    foreach (glob(dirname(__DIR__, 2).'/resources/docs-examples/*.blade.php') as $file) {
+        $slug = basename($file, '.blade.php');
+        $html = Blade::render(file_get_contents($file));
+        $owners[$slug] = preg_match('/\bx-data="lyra/', $html) === 1
+            && preg_match('/<lyra:'.preg_quote($slug, '/').'[\s>\/]/', file_get_contents($file)) === 1;
+    }
+
+    return $owners;
+}
+
+it('enforces the owned-root policy on every component whose rendered HTML binds x-data', function (): void {
+    $owners = discoverOwnedRoots();
+    expect(array_filter($owners))->not->toBeEmpty();
+
+    $previous = app()->environment();
+
+    try {
+        foreach ($owners as $slug => $owns) {
+            $source = ownedRootExample($slug);
+
+            app()->detectEnvironment(fn () => 'testing');
+
+            if ($owns) {
+                $thrown = null;
+                try {
+                    Blade::render($source);
+                } catch (Throwable $e) {
+                    $thrown = $e;
+                }
+                expect(str_contains((string) $thrown?->getMessage(), "<lyra:{$slug}> owns x-data"))
+                    ->toBeTrue("{$slug} emits x-data=\"lyra…\" but does not guard consumer x-data");
+
+                app()->detectEnvironment(fn () => 'production');
+                $html = Blade::render($source);
+                expect(str_contains($html, 'consumerState'))->toBeFalse("{$slug} leaks consumer x-data in production");
+                expect(preg_match('/<[^>]*\bx-data="lyra[^>]*>/s', $html, $root))->toBe(1);
+                expect(substr_count($root[0], 'x-data='))->toBe(1, "{$slug} root carries duplicate x-data");
+            } else {
+                expect(str_contains(Blade::render($source), 'x-data="consumerState"'))
+                    ->toBeTrue("{$slug} has no binding and must pass consumer x-data");
+            }
+        }
+    } finally {
+        app()->detectEnvironment(fn () => $previous);
+    }
+});
+
+it('covers every discovered owner in the owned roots dataset', function (): void {
+    $discovered = array_keys(array_filter(discoverOwnedRoots()));
+    $missing = array_diff($discovered, dataset_owned_roots(), ['code-block']);
+
+    expect($missing)->toBe([], 'owners missing from dataset: '.implode(', ', $missing));
+});
