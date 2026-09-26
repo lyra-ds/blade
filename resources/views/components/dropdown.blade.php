@@ -5,7 +5,7 @@
 ])
 
 {{-- trigger: pass non-interactive content (text or icon), never a button or link. --}}
-{{-- items: onSelect is not ported; consumer Alpine/Livewire code owns selection, and the plugin closes the menu. --}}
+{{-- items: each item may carry `id` (rendered as data-id) and `href` (renders a link menuitem). Selecting an item dispatches lyra:select with { id } on the root (bubbles), and the plugin closes the menu. --}}
 {{-- root: do not pass x-data on the root; wrap the component instead. --}}
 @php
     $resolvedAlign = $align === 'end' ? 'end' : 'start';
@@ -41,16 +41,32 @@
             @else
             @php
                 $itemContent = e($item['icon'] ?? '').e($item['label']);
+                $itemId = $item['id'] ?? null;
+                $itemHref = $item['href'] ?? null;
+                $itemClasses = [
+                    'lyra-menu__item',
+                    'lyra-menu__item--danger' => $item['danger'] ?? false,
+                ];
             @endphp
+            @if ($itemHref !== null && $itemHref !== '')
+            <a
+                href="{{ $itemHref }}"
+                role="menuitem"
+                @class($itemClasses)
+                @if ($itemId !== null && $itemId !== '') data-id="{{ $itemId }}" @endif
+                x-bind="item"
+                x-on:click="$dispatch('lyra:select', { id: $el.dataset.id ?? '' })"
+            >{!! $itemContent !!}</a>
+            @else
             <button
                 type="button"
                 role="menuitem"
-                @class([
-                    'lyra-menu__item',
-                    'lyra-menu__item--danger' => $item['danger'] ?? false,
-                ])
+                @class($itemClasses)
+                @if ($itemId !== null && $itemId !== '') data-id="{{ $itemId }}" @endif
                 x-bind="item"
+                x-on:click="$dispatch('lyra:select', { id: $el.dataset.id ?? '' })"
             >{!! $itemContent !!}</button>
+            @endif
             @endif
         @endforeach
     </div>

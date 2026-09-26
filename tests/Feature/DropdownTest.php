@@ -156,7 +156,7 @@ it('renders the menu binding and cloaks only the closed initial state', function
 it('preserves item order and emits each item type contract', function (): void {
     $html = renderDropdown([
         'items' => [
-            ['label' => 'Edit', 'id' => 'ignored-command-id'],
+            ['label' => 'Edit'],
             ['type' => 'separator'],
             ['type' => 'label', 'label' => 'Danger zone'],
             ['label' => 'Delete', 'danger' => true],
@@ -167,11 +167,10 @@ it('preserves item order and emits each item type contract', function (): void {
     $labelPosition = strpos($html, '<span class="lyra-menu__label">Danger zone</span>');
     $deletePosition = strpos($html, '>Delete</button>');
 
-    expect($html)->toMatch('/<button\s+type="button"\s+role="menuitem"\s+class="lyra-menu__item"\s+x-bind="item"\s*>Edit<\/button>/s')
+    expect($html)->toMatch('/<button\s+type="button"\s+role="menuitem"\s+class="lyra-menu__item"\s+x-bind="item"\s+x-on:click="[^"]*"\s*>Edit<\/button>/s')
         ->and($html)->toContain('<hr class="lyra-menu__sep">')
         ->and($html)->toContain('<span class="lyra-menu__label">Danger zone</span>')
-        ->and($html)->toMatch('/<button\s+type="button"\s+role="menuitem"\s+class="lyra-menu__item lyra-menu__item--danger"\s+x-bind="item"\s*>Delete<\/button>/s')
-        ->and($html)->not->toContain('ignored-command-id')
+        ->and($html)->toMatch('/<button\s+type="button"\s+role="menuitem"\s+class="lyra-menu__item lyra-menu__item--danger"\s+x-bind="item"\s+x-on:click="[^"]*"\s*>Delete<\/button>/s')
         ->and($editPosition)->toBeInt()
         ->and($separatorPosition)->toBeInt()
         ->and($labelPosition)->toBeInt()
@@ -179,6 +178,43 @@ it('preserves item order and emits each item type contract', function (): void {
         ->and($editPosition)->toBeLessThan($separatorPosition)
         ->and($separatorPosition)->toBeLessThan($labelPosition)
         ->and($labelPosition)->toBeLessThan($deletePosition);
+});
+
+it('renders data-id on items with an id and omits it otherwise', function (): void {
+    $html = renderDropdown([
+        'items' => [
+            ['label' => 'Edit', 'id' => 'edit-item'],
+            ['label' => 'Plain'],
+            ['label' => 'Quote', 'id' => 'a"b'],
+        ],
+    ]);
+
+    expect($html)->toMatch('/<button\b[^>]*\bdata-id="edit-item"[^>]*>Edit<\/button>/s')
+        ->and($html)->toMatch('/<button\b[^>]*\bdata-id="a&quot;b"[^>]*>Quote<\/button>/s')
+        ->and($html)->not->toMatch('/<button\b[^>]*\bdata-id=[^>]*>Plain<\/button>/s')
+        ->and(substr_count($html, 'data-id='))->toBe(2);
+});
+
+it('dispatches lyra:select with the item id from every item', function (): void {
+    $html = renderDropdown([
+        'items' => [
+            ['label' => 'Edit', 'id' => 'edit-item'],
+            ['label' => 'Docs', 'href' => '/docs', 'id' => 'docs'],
+        ],
+    ]);
+
+    expect(substr_count($html, "x-on:click=\"\$dispatch('lyra:select', { id: \$el.dataset.id ?? '' })\""))->toBe(2);
+});
+
+it('renders an anchor menuitem for items with an href', function (): void {
+    $html = renderDropdown([
+        'items' => [
+            ['label' => 'Docs', 'href' => '/docs?a=1&b=2', 'id' => 'docs', 'danger' => true],
+        ],
+    ]);
+
+    expect($html)->toMatch('/<a\s+href="\/docs\?a=1&amp;b=2"\s+role="menuitem"\s+class="lyra-menu__item lyra-menu__item--danger"\s+data-id="docs"\s+x-bind="item"[^>]*>Docs<\/a>/s')
+        ->and($html)->not->toContain('<button');
 });
 
 it('renders item icons before labels with Htmlable-aware escaping', function (): void {
