@@ -105,6 +105,8 @@ Props:
 - `closable` — default: `true`; no fixture examples (fixtures do not constrain this prop).
 - `closeLabel` — default: `"Close"`; no fixture examples (fixtures do not constrain this prop).
 - `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `returnFocusTo` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `labelId` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### brand
 
@@ -245,6 +247,7 @@ Props:
 - `hotkey` — default: `"k"`; no fixture examples (fixtures do not constrain this prop).
 - `inline` — default: `false`; fixture examples (not constraints): `true`.
 - `label` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `returnFocusTo` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### container
 
@@ -296,7 +299,7 @@ Props:
 
 Tags: `<x-lyra::date-picker>...</x-lyra::date-picker>` or `<lyra:date-picker>...</lyra:date-picker>`.
 
-Root class alternatives observed in fixtures: `` | `lyra-field`.
+Root class alternatives observed in fixtures: `lyra-datepicker-root` | `lyra-datepicker-root lyra-field`.
 
 Props:
 - `label` — default: `null`; fixture examples (not constraints): `"0"`, `"Date"`.
@@ -310,6 +313,7 @@ Props:
 - `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
 - `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
 - `name` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `returnFocusTo` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### date-range-picker
 
@@ -344,6 +348,7 @@ Props:
 - `closeOnEsc` — default: `true`; no fixture examples (fixtures do not constrain this prop).
 - `closeOnOverlayClick` — default: `true`; no fixture examples (fixtures do not constrain this prop).
 - `labelId` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `returnFocusTo` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### drawer
 
@@ -357,6 +362,7 @@ Props:
 - `closeLabel` — default: `"Close"`; no fixture examples (fixtures do not constrain this prop).
 - `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
 - `labelId` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `returnFocusTo` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### dropdown
 

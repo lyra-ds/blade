@@ -505,3 +505,19 @@ it('renders namespaced and short syntax identically', function (): void {
     expect($short)->toBe($namespaced)
         ->and($short)->toContain('lyraCommandPalette(');
 });
+
+it('compiles return-focus-to into a CSS selector resolver kept inert against hostile values', function (): void {
+    $html = renderCommandPalette(['return-focus-to' => '#open-cmdk']);
+    $hostile = Blade::render('<x-lyra::command-palette :return-focus-to="$target" />', ['target' => "x'\"</script>\\"]);
+
+    expect($html)->toContain('&quot;returnFocusTo&quot;:() =&gt; document.querySelector(&quot;#open-cmdk&quot;)}')
+        ->and($html)->not->toContain('return-focus-to=')
+        ->and($hostile)->not->toContain('</script>')
+        ->and($hostile)->toContain('\\u0027');
+});
+
+it('omits the return focus resolver when inline, null or empty', function (): void {
+    expect(renderCommandPalette(['return-focus-to' => 'open-cmdk', 'inline' => true]))->not->toContain('returnFocusTo')
+        ->and(renderCommandPalette(['return-focus-to' => '']))->not->toContain('returnFocusTo')
+        ->and(renderCommandPalette())->not->toContain('returnFocusTo');
+});

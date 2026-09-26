@@ -6,4 +6,5 @@
     min="2026-01-01"
     max="2026-12-31"
     locale="en-US"
+    return-focus-to="#open-date"
 />
