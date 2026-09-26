@@ -161,7 +161,7 @@
                         <progress
                             class="lyra-upload__bar"
                             x-bind="progressBindings(item)"
-                            x-bind:value="item.progress.kind === 'determinate' ? item.progress.value : null"
+                            x-effect="item.progress.kind === 'determinate' ? $el.setAttribute('value', item.progress.value) : $el.removeAttribute('value')"
                         ></progress>
                     </template>
                 </span>

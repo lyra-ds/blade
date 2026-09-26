@@ -214,7 +214,7 @@ it('serves the runtime item template with binding objects and actions inside x-i
         ->and(fileUploadOpeningTag($html, 'item_meta'))->toContain('item.error.message')
         ->and($html)->toContain('<template x-if="item.status === \'uploading\' || item.status === \'canceling\'">')
         ->and(fileUploadOpeningTag($html, 'bar'))->toContain('x-bind="progressBindings(item)"')
-        ->and(fileUploadOpeningTag($html, 'bar'))->toContain('x-bind:value="item.progress.kind === \'determinate\' ? item.progress.value : null"')
+        ->and(fileUploadOpeningTag($html, 'bar'))->toContain('x-effect="item.progress.kind === \'determinate\' ? $el.setAttribute(\'value\', item.progress.value) : $el.removeAttribute(\'value\')"')
         ->and($html)->toMatch('#<template x-if="item.status === \'uploading\'">\s*<button[^>]*lyra-upload__cancel#')
         ->and(fileUploadOpeningTag($html, 'cancel'))->toContain("x-bind=\"actionBindings('cancel', item)\"")
         ->and($html)->toMatch('#<template x-if="item.status === \'canceled\' \|\| \(item.status === \'error\' && item.error.retryable\)">\s*<button[^>]*lyra-upload__retry#')
