@@ -6,6 +6,7 @@ Thank you for contributing to Lyra Blade Components.
 
 ```bash
 composer install
+npm ci
 ```
 
 Do not run `php artisan boost:install`: Laravel Boost is included only as development tooling, and its installer targets full applications.
@@ -47,7 +48,15 @@ Before submitting a pull request, ensure all checks pass:
 composer validate --strict
 vendor/bin/pint --test
 vendor/bin/pest
-npm run test:browser # see browser CI
+npx playwright install chromium
+npm run test:browser
 ```
+
+The browser suite loads each rendered fixture from `docs/api.json` with locally bundled
+`@lyra-ds/alpine` and `@lyra-ds/styles`. It checks Alpine hydration and key interactions.
+Pull requests run Chromium; pushes to `main` also run Firefox and WebKit. To run all
+three locally, install them with `npx playwright install chromium firefox webkit` and
+run `npx playwright test`. All three projects are always registered; `--project=<name>`
+selects one.
 
 By participating, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).

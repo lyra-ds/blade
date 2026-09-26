@@ -15,3 +15,4 @@ Thumbs.db
 /node_modules/
 /browser/.generated/
 /test-results/
+/playwright-report/
