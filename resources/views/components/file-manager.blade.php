@@ -15,7 +15,9 @@
     deliberately preserves server order. Use the breadcrumb slot when navigation needs links or
     forms. The actions prop mirrors React's actions(file) callback and returns dropdown items.
 --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'file-manager', ['x-modelable']);
     $files = array_values($files);
     $path = array_values($path);
     $resolvedView = $defaultView === 'grid' ? 'grid' : 'list';

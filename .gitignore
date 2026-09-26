@@ -12,3 +12,6 @@ Thumbs.db
 *.swo
 /.compozy/
 /.playwright-mcp/
+/node_modules/
+/browser/.generated/
+/test-results/

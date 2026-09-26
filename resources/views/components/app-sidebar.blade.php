@@ -13,7 +13,9 @@
     hide them as the rail changes without Alpine rebuilding markup. Unlike React's addRailLinkLabels,
     composition-slot links are not inspected; consumers must serve their own title and aria-label.
 --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'app-sidebar', ['x-modelable', 'x-bind']);
     $groups = array_values($groups);
     $numericWidth = is_numeric($width) ? (float) $width : 260.0;
     $resolvedWidth = is_finite($numericWidth) ? $numericWidth : 260.0;

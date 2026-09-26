@@ -14,7 +14,9 @@
     The buttons deliberately serve type="button" even though the Alpine binding also provides it:
     this prevents accidental form submission before Alpine initializes.
 --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'cookie-banner', ['x-modelable']);
     $escapedStorageKey = str_replace(['\\', "'", "\r", "\n"], ['\\\\', "\\'", '\\r', '\\n'], (string) $storageKey);
     $escapedStorageKey = htmlspecialchars($escapedStorageKey, ENT_COMPAT | ENT_SUBSTITUTE, 'UTF-8');
 @endphp

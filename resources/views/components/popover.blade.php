@@ -12,7 +12,9 @@
     the component supplies the interactive wrapper. With wrapTrigger=false, pass an interactive
     element carrying x-bind="trigger"; the slot is rendered directly without a wrapper.
 --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'popover', ['x-modelable']);
     $resolvedSide = in_array($side, ['auto', 'bottom', 'top'], true)
         ? $side
         : 'auto';

@@ -27,7 +27,9 @@
     instead of injecting an arbitrary x-data expression. extraOptions are merged into the same
     safely encoded options object, and component-owned combobox keys always take precedence.
 --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'combobox', ['x-modelable']);
     $hasLabel = $label !== null && $label !== '';
     $hasError = $error !== null && $error !== '';
     $hasHint = ! $hasError && $hint !== null && $hint !== '';

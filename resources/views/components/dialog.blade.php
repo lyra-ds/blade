@@ -12,7 +12,9 @@
 {{-- Public contract (frozen at 1.0): return-focus-to takes a CSS selector (e.g. "#open-dialog") resolved with document.querySelector when the overlay closes; empty falls back to the previously focused element. --}}
 
 {{-- closable maps React's onClose-provided condition to rendering the plugin-owned close control. --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'dialog', ['x-modelable', 'x-bind']);
     $defaultOpenLiteral = $defaultOpen ? 'true' : 'false';
     $closeOnEscLiteral = $closeOnEsc ? 'true' : 'false';
     $closeOnOverlayClickLiteral = $closeOnOverlayClick ? 'true' : 'false';

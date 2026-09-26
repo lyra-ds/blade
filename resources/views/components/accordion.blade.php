@@ -5,7 +5,9 @@
 ])
 
 {{-- State changes are owned by the Alpine plugin and may be consumed through x-model or wire:model. --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'accordion', ['x-modelable']);
     $items = array_values($items);
     $multipleLiteral = $multiple ? 'true' : 'false';
     $defaultOpenOption = '';

@@ -480,6 +480,7 @@ it('keeps every hostile binding value inside the encoded JSON literal', function
 });
 
 it('rejects a consumer x-data override and always emits exactly one binding root', function (): void {
+    app()->detectEnvironment(fn () => 'production');
     foreach ([false, true] as $inline) {
         $html = renderCommandPalette([
             'inline' => $inline,

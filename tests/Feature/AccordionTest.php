@@ -161,21 +161,16 @@ it('JavaScript-escapes quotes, slashes, and line breaks in the Alpine defaultOpe
 });
 
 it('keeps component model bindings ahead of consumer duplicate attributes', function (): void {
+    app()->detectEnvironment(fn () => 'production');
     $root = accordionOpeningTag(renderAccordion([
         'x-data' => 'consumerState',
         'x-modelable' => 'consumerModel',
     ]), 'root');
-    $componentDataPosition = strpos($root, 'x-data="lyraAccordion({ multiple: false })"');
-    $consumerDataPosition = strpos($root, 'x-data="consumerState"');
-    $componentModelPosition = strpos($root, 'x-modelable="openItems"');
-    $consumerModelPosition = strpos($root, 'x-modelable="consumerModel"');
-
-    expect($componentDataPosition)->toBeInt()
-        ->and($consumerDataPosition)->toBeInt()
-        ->and($componentDataPosition)->toBeLessThan($consumerDataPosition)
-        ->and($componentModelPosition)->toBeInt()
-        ->and($consumerModelPosition)->toBeInt()
-        ->and($componentModelPosition)->toBeLessThan($consumerModelPosition);
+    expect(substr_count($root, 'x-data='))->toBe(1)
+        ->and($root)->not->toContain('consumerState')
+        ->and(substr_count($root, 'x-modelable='))->toBe(1)
+        ->and($root)->toContain('x-modelable="openItems"')
+        ->and($root)->not->toContain('consumerModel');
 });
 
 it('renders the complete open and closed item contracts', function (): void {

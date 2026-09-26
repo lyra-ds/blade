@@ -22,7 +22,9 @@
     scope aliases add classless divs that React does not need; they prevent nested modelables from
     resolving open/selected back to themselves.
 --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'date-picker', ['x-modelable']);
     $hasLabel = $label !== null && $label !== '';
     $hasError = $error !== null && $error !== '';
     $hasHint = ! $hasError && $hint !== null && $hint !== '';

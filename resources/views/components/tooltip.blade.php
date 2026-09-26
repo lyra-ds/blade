@@ -6,7 +6,9 @@
 
 {{-- Slot content should be one focusable element. Without bubble-id the wrapper carries the plugin's target binding, so aria-describedby lands on the (non-focusable) wrapper. --}}
 {{-- With bubble-id the wrapper is dropped: the bubble renders that id and the child carries aria-describedby="<bubble-id>" itself, as in the Alpine docs. The plugin only adds hover/focus behavior on the root. --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'tooltip', ['x-bind']);
     $resolvedPlacement = in_array($placement, ['top', 'bottom', 'left', 'right'], true)
         ? $placement
         : 'top';

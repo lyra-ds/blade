@@ -10,8 +10,10 @@
 {{-- trigger-variant/trigger-size: style the one trigger element like a Button (lyra-btn classes on the span[role=button]), so there is a single tab stop; never nest a button component in the slot. --}}
 {{-- items: each item may carry `id` (rendered as data-id) and `href` (renders a link menuitem). Selecting an item dispatches lyra:select with { id } on the root (bubbles), and the plugin closes the menu. --}}
 {{-- disabled: item renders aria-disabled="true" (stays focusable so Alpine 1.1.0 arrow-key roving never stalls), click/Enter/Space are swallowed before lyra:select or navigation, and a disabled link drops its href (tabindex=-1 keeps it programmatically focusable). Upstream tracking: https://github.com/lyra-ds/lyra/issues/289 --}}
-{{-- root: do not pass x-data on the root; wrap the component instead. --}}
+{{-- Root state is owned by Lyra. Put consumer x-data on a parent wrapper. --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'dropdown', ['x-modelable']);
     $resolvedAlign = $align === 'end' ? 'end' : 'start';
     $defaultOpenLiteral = $defaultOpen ? 'true' : 'false';
     $triggerClasses = ['lyra-dropdown__trigger'];

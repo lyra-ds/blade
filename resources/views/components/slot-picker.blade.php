@@ -28,6 +28,7 @@
     matches React hydration. The hold text is served from the server clock and ticks in Alpine; an
     inherent one-second boundary drift is expected and the value is never hidden for that reason.
 --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
     $jsonFlags = JSON_THROW_ON_ERROR
         | JSON_HEX_TAG
@@ -272,6 +273,7 @@
     ];
     $visibleTimezone = $zoneLabels[$serverTimezone] ?? $serverTimezone;
     $requestedModelable = $attributes->get('x-modelable');
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'slot-picker', ['x-modelable']);
     $resolvedModelable = is_string($requestedModelable)
         && in_array($requestedModelable, ['date', 'timezone'], true)
             ? $requestedModelable

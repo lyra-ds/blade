@@ -20,7 +20,9 @@
     React's defaultValue and onChange props have no server prop: value seeds the modelable binding,
     which owns subsequent changes and dispatches its standard lyra:change event.
 --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'time-zone-picker', ['x-modelable']);
     $resolvedLabels = array_merge([
         'placeholder' => 'Select time zone',
         'searchPlaceholder' => 'Search city, country, or abbreviation…',

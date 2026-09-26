@@ -266,17 +266,18 @@ it('keeps items served and applies visibility attributes only to collapsible sta
 });
 
 it('passes consumer attributes through the root without overriding the state contract', function (): void {
+    app()->detectEnvironment(fn () => 'production');
     $root = sidebarGroupOpeningTag(renderSidebarGroup([
         'class' => 'consumer',
         'id' => 'primary-navigation',
         'data-track' => 'sidebar',
         'x-data' => 'consumerState',
     ]), 'root');
-
-    expect($root)->toContain('class="lyra-sbgroup consumer"')
+    expect(substr_count($root, 'x-data='))->toBe(1)
+        ->and($root)->not->toContain('consumerState')
+        ->and($root)->toContain('class="lyra-sbgroup consumer"')
         ->and($root)->toContain('id="primary-navigation"')
-        ->and($root)->toContain('data-track="sidebar"')
-        ->and(strpos($root, 'x-data="lyraSidebarGroup({ defaultCollapsed: false })"'))->toBeLessThan(strpos($root, 'x-data="consumerState"'));
+        ->and($root)->toContain('data-track="sidebar"');
 });
 
 it('renders items with an href as native anchors and items without as buttons', function (): void {

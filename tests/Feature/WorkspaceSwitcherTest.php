@@ -155,15 +155,12 @@ it('serves generated and consumer ids with the modelable Alpine root contract', 
 });
 
 it('keeps component-owned Alpine state ahead of consumer attributes', function (): void {
+    app()->detectEnvironment(fn () => 'production');
     $root = workspaceSwitcherOpeningTag(renderWorkspaceSwitcher([
         'x-data' => 'consumerState',
     ]), 'root');
-    $componentPosition = strpos($root, 'x-data="lyraWorkspaceSwitcher({ defaultOpen: false })"');
-    $consumerPosition = strpos($root, 'x-data="consumerState"');
-
-    expect($componentPosition)->toBeInt()
-        ->and($consumerPosition)->toBeInt()
-        ->and($componentPosition)->toBeLessThan($consumerPosition);
+    expect(substr_count($root, 'x-data='))->toBe(1)
+        ->and($root)->not->toContain('consumerState');
 });
 
 it('renders the empty trigger and complete served trigger contract', function (): void {

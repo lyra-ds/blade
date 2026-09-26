@@ -23,7 +23,9 @@
     consumer locale, which PHP cannot reproduce without ext-intl. The list's accessible name is
     served in the HTML and passed to the binding so both sides agree before and after Alpine boots.
 --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'time-picker', ['x-modelable']);
     $hasLabel = $label !== null && $label !== '';
     $hasError = $error !== null && $error !== '';
     $hasHint = ! $hasError && $hint !== null && $hint !== '';

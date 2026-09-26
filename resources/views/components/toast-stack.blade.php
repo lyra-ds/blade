@@ -1,4 +1,6 @@
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'toast-stack', []);
     // Slot toasts render before the stack view, so they cannot see it; the region announces them instead.
     $staticToasts = new Illuminate\Support\HtmlString(
         (string) preg_replace('/(<div\b)\s+role="status"(?=[^>]*\bclass="lyra-toast\b)/', '$1', (string) $slot)
@@ -14,7 +16,7 @@
 --}}
 <div
     x-data="lyraToastStack()"
-    {{ $attributes->except('x-data')->class(['lyra-toast-stack']) }}
+    {{ $attributes->class(['lyra-toast-stack']) }}
 >
     <div data-lyra-toast-region="polite" aria-live="polite" aria-relevant="additions" style="display: contents">
         <template x-for="toast in politeToasts" :key="toast.id">

@@ -4,7 +4,9 @@
     'label',
 ])
 
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'segmented-control', ['x-modelable']);
     $options = array_values($options);
     $selectedIndex = array_search($value, array_column($options, 'value'), true);
     $firstEnabledIndex = false;

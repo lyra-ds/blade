@@ -27,6 +27,7 @@
     When name is present, POST contains name[value] and name[exceptions], each as JSON for the app
     to json_decode. Two JSON hiddens avoid duplicating dynamic range names between SSR and x-for.
 --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
     $jsonFlags = JSON_THROW_ON_ERROR
         | JSON_HEX_TAG
@@ -189,6 +190,7 @@
     );
     $today = now()->toDateString();
     $requestedModelable = $attributes->get('x-modelable');
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'weekly-schedule-editor', ['x-modelable']);
     $resolvedModelable = is_string($requestedModelable)
         && in_array($requestedModelable, ['value', 'exceptions'], true)
             ? $requestedModelable

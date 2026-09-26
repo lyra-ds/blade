@@ -93,15 +93,12 @@ it('emits default Alpine state and passes attributes through on the root', funct
 });
 
 it('keeps the component Alpine binding ahead of a consumer x-data attribute', function (): void {
+    app()->detectEnvironment(fn () => 'production');
     $openingTag = dropdownOpeningTag(renderDropdown([
         'x-data' => 'consumerState',
     ]), 'root');
-    $componentBindingPosition = strpos($openingTag, 'x-data="lyraDropdown({ defaultOpen: false, align: \'start\' })"');
-    $consumerBindingPosition = strpos($openingTag, 'x-data="consumerState"');
-
-    expect($componentBindingPosition)->toBeInt()
-        ->and($consumerBindingPosition)->toBeInt()
-        ->and($componentBindingPosition)->toBeLessThan($consumerBindingPosition);
+    expect(substr_count($openingTag, 'x-data='))->toBe(1)
+        ->and($openingTag)->not->toContain('consumerState');
 });
 
 it('seeds an open end-aligned Alpine state with an exact JavaScript literal', function (): void {

@@ -36,7 +36,9 @@
     The unstyled binding root remains necessary in inline mode so the binding can find and focus
     its descendant panel; inline deliberately omits the overlay and modelable modal state.
 --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'command-palette', ['x-modelable', 'x-bind']);
     $resolvedGroups = [];
 
     if (is_array($groups)) {

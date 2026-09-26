@@ -14,7 +14,9 @@
 ])
 
 {{-- Parsing and interaction stay in lyraTimeInput; this template serves the complete first render. --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'time-input', ['x-modelable']);
     $hasLabel = (bool) $label;
     $hasError = (bool) $error;
     $hasHint = ! $hasError && (bool) $hint;

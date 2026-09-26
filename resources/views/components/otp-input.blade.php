@@ -12,7 +12,9 @@
     'required' => false,
 ])
 
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'otp-input', ['x-modelable']);
     $count = max(1, (int) $length);
     $validationError = $name && isset($errors) && $errors->has($name)
         ? $errors->first($name)
