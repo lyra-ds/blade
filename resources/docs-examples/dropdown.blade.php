@@ -1,4 +1,4 @@
-<lyra:dropdown align="end" :items="[
+<lyra:dropdown align="end" trigger-variant="secondary" :items="[
     ['type' => 'label', 'label' => 'Project'],
     ['label' => 'Rename project', 'id' => 'rename'],
     ['label' => 'Open in browser', 'id' => 'open', 'href' => '/project'],

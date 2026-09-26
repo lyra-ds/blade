@@ -45,7 +45,7 @@ function dropdownOpeningTag(string $html, string $target): string
 {
     $pattern = match ($target) {
         'root' => '/<span\b(?=[^>]*\bclass="lyra-dropdown(?: [^"]*)?")[^>]*>/',
-        'trigger' => '/<span\b(?=[^>]*\bclass="lyra-dropdown__trigger")[^>]*>/',
+        'trigger' => '/<span\b(?=[^>]*\bclass="(?:[^"]* )?lyra-dropdown__trigger")[^>]*>/',
         'menu' => '/<div\b(?=[^>]*\bclass="lyra-menu(?: [^"]*)?")[^>]*>/',
     };
     $matched = preg_match($pattern, $html, $matches);
@@ -231,10 +231,47 @@ it('renders item icons before labels with Htmlable-aware escaping', function ():
         ],
     ]);
 
-    expect($html)->toContain('<svg data-icon="raw"></svg><strong>Raw</strong>')
-        ->and($html)->toContain('&lt;svg data-icon=&quot;escaped&quot;&gt;&lt;/svg&gt;&lt;strong&gt;Escaped&lt;/strong&gt;')
+    expect($html)->toContain('<span aria-hidden="true"><svg data-icon="raw"></svg></span><strong>Raw</strong>')
+        ->and($html)->toContain('<span aria-hidden="true">&lt;svg data-icon=&quot;escaped&quot;&gt;&lt;/svg&gt;</span>&lt;strong&gt;Escaped&lt;/strong&gt;')
         ->and(strpos($html, '<svg data-icon="raw"></svg>'))->toBeLessThan(strpos($html, '<strong>Raw</strong>'))
         ->and(strpos($html, '&lt;svg data-icon=&quot;escaped&quot;&gt;'))->toBeLessThan(strpos($html, '&lt;strong&gt;Escaped&lt;/strong&gt;'));
+});
+
+it('hides item icons from the accessible name and omits the wrapper without an icon', function (): void {
+    $html = renderDropdown([
+        'items' => [
+            ['icon' => new HtmlString('<svg></svg>'), 'label' => 'With icon'],
+            ['label' => 'No icon'],
+        ],
+    ]);
+
+    expect($html)->toContain('<span aria-hidden="true"><svg></svg></span>With icon</button>')
+        ->and($html)->toContain('>No icon</button>')
+        ->and(substr_count($html, 'aria-hidden="true"'))->toBe(1);
+});
+
+it('styles the single trigger like a button without adding a tab stop', function (): void {
+    $html = renderDropdown([
+        'trigger-variant' => 'secondary',
+        'trigger-size' => 'sm',
+    ]);
+    $triggerTag = dropdownOpeningTag($html, 'trigger');
+
+    expect($triggerTag)->toContain('class="lyra-btn lyra-btn--secondary lyra-btn--sm lyra-dropdown__trigger"')
+        ->and($triggerTag)->toContain('role="button"')
+        ->and($triggerTag)->toContain('aria-haspopup="menu"')
+        ->and($triggerTag)->toContain('x-bind="trigger"')
+        ->and(substr_count($html, 'tabindex='))->toBe(1)
+        ->and($html)->not->toContain('<button type="button" class="lyra-btn');
+});
+
+it('defaults the button-styled trigger size to md and keeps the plain trigger unstyled', function (): void {
+    $styled = dropdownOpeningTag(renderDropdown(['trigger-variant' => 'primary']), 'trigger');
+    $plain = dropdownOpeningTag(renderDropdown(), 'trigger');
+
+    expect($styled)->toContain('class="lyra-btn lyra-btn--primary lyra-btn--md lyra-dropdown__trigger"')
+        ->and($plain)->toContain('class="lyra-dropdown__trigger"')
+        ->and($plain)->not->toContain('lyra-btn');
 });
 
 it('renders an open wire-modelled dropdown through Livewire', function (): void {

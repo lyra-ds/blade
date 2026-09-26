@@ -2,14 +2,22 @@
     'items',
     'align' => 'start',
     'defaultOpen' => false,
+    'triggerVariant' => null,
+    'triggerSize' => 'md',
 ])
 
 {{-- trigger: pass non-interactive content (text or icon), never a button or link. --}}
+{{-- trigger-variant/trigger-size: style the one trigger element like a Button (lyra-btn classes on the span[role=button]), so there is a single tab stop; never nest a button component in the slot. --}}
 {{-- items: each item may carry `id` (rendered as data-id) and `href` (renders a link menuitem). Selecting an item dispatches lyra:select with { id } on the root (bubbles), and the plugin closes the menu. --}}
 {{-- root: do not pass x-data on the root; wrap the component instead. --}}
 @php
     $resolvedAlign = $align === 'end' ? 'end' : 'start';
     $defaultOpenLiteral = $defaultOpen ? 'true' : 'false';
+    $triggerClasses = ['lyra-dropdown__trigger'];
+
+    if ($triggerVariant !== null && $triggerVariant !== '') {
+        array_unshift($triggerClasses, 'lyra-btn', "lyra-btn--{$triggerVariant}", "lyra-btn--{$triggerSize}");
+    }
 @endphp
 
 <span
@@ -18,7 +26,7 @@
     {{ $attributes->class('lyra-dropdown') }}
 >
     <span
-        class="lyra-dropdown__trigger"
+        class="{{ implode(' ', $triggerClasses) }}"
         role="button"
         tabindex="0"
         aria-haspopup="menu"
@@ -40,7 +48,8 @@
             <span class="lyra-menu__label">{{ $item['label'] }}</span>
             @else
             @php
-                $itemContent = e($item['icon'] ?? '').e($item['label']);
+                $itemIcon = ($item['icon'] ?? '') === '' ? '' : '<span aria-hidden="true">'.e($item['icon']).'</span>';
+                $itemContent = $itemIcon.e($item['label']);
                 $itemId = $item['id'] ?? null;
                 $itemHref = $item['href'] ?? null;
                 $itemClasses = [

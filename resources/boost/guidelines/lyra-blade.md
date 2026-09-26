@@ -374,6 +374,8 @@ Props:
 - `items` — required; no fixture examples (fixtures do not constrain this prop).
 - `align` — default: `"start"`; no fixture examples (fixtures do not constrain this prop).
 - `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `triggerVariant` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `triggerSize` — default: `"md"`; no fixture examples (fixtures do not constrain this prop).
 
 ### empty-state
 
