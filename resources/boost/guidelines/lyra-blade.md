@@ -920,3 +920,4 @@ Props:
 - `createLabel` — default: `"Create workspace"`; no fixture examples (fixtures do not constrain this prop).
 - `createId` — default: `"create"`; no fixture examples (fixtures do not constrain this prop).
 - `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
