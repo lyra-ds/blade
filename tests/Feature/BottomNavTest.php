@@ -107,3 +107,42 @@ it('passes root attributes through and keeps user classes last', function (): vo
         ->and($openingTag)->toContain('id="primary-nav"')
         ->and($openingTag)->toContain('data-track="bottom-nav"');
 });
+
+it('renders items with an href as anchors and items without as buttons', function (): void {
+    $html = renderBottomNav([
+        'items' => [
+            ['id' => 'h', 'icon' => '⌂', 'label' => 'Home', 'href' => '/home', 'active' => true],
+            ['id' => 'e', 'icon' => 'E', 'label' => 'Ext', 'href' => 'https://example.com', 'target' => '_blank', 'rel' => 'noopener noreferrer'],
+            ['id' => 'a', 'icon' => 'A', 'label' => 'Act'],
+        ],
+    ]);
+
+    expect($html)->toMatch('/<a\s+class="lyra-bottomnav__item lyra-bottomnav__item--active"\s+href="\/home"/')
+        ->and($html)->toContain('aria-current="page"')
+        ->and($html)->toContain('target="_blank"')
+        ->and($html)->toContain('rel="noopener noreferrer"')
+        ->and(substr_count($html, '<a'))->toBe(2)
+        ->and(substr_count($html, '<button type="button"'))->toBe(1);
+});
+
+it('serves data-id and a guarded lyra:select dispatcher for items with an id', function (): void {
+    $html = renderBottomNav([
+        'items' => [
+            ['id' => 'h', 'icon' => 'H', 'label' => 'Home', 'href' => '/home'],
+            ['id' => 'a', 'icon' => 'A', 'label' => 'Act'],
+            ['icon' => 'N', 'label' => 'No id'],
+        ],
+    ]);
+
+    expect(substr_count($html, 'data-id='))->toBe(2)
+        ->and(substr_count($html, "x-on:click=\"\$dispatch('lyra:select', { id: \$el.dataset.id })\""))->toBe(2)
+        ->and(bottomNavOpeningTag($html))->toContain('x-data');
+});
+
+it('serves no Alpine scope when no item has an id and passes aria-label through', function (): void {
+    $html = renderBottomNav(['aria-label' => 'Primary']);
+
+    expect(bottomNavOpeningTag($html))->not->toContain('x-data')
+        ->and(bottomNavOpeningTag($html))->toContain('aria-label="Primary"')
+        ->and($html)->not->toContain('x-on:click');
+});

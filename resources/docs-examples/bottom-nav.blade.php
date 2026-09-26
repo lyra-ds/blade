@@ -1,5 +1,5 @@
-<lyra:bottom-nav :items="[
-    ['label' => 'Home', 'icon' => '🏠', 'active' => true],
-    ['label' => 'Search', 'icon' => '🔍'],
-    ['label' => 'Profile', 'icon' => '👤'],
+<lyra:bottom-nav aria-label="Primary navigation" :items="[
+    ['id' => 'home', 'label' => 'Home', 'icon' => '🏠', 'href' => '/home', 'active' => true],
+    ['id' => 'search', 'label' => 'Search', 'icon' => '🔍', 'href' => '/search'],
+    ['id' => 'profile', 'label' => 'Profile', 'icon' => '👤'],
 ]" />
