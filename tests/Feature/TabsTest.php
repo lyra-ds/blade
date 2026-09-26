@@ -78,6 +78,22 @@ it('emits the exact React tablist class string', function (array $case): void {
     expect(tabsClass($html))->toBe($case['expected_class']);
 })->with('tabs class emission');
 
+it('emits native disabled only on disabled items', function (): void {
+    $html = renderTabs([
+        'items' => [
+            ['id' => 'a', 'label' => 'A', 'panel' => 'A panel'],
+            ['id' => 'b', 'label' => 'B', 'disabled' => true, 'panel' => 'B panel'],
+            ['id' => 'c', 'label' => 'C', 'disabled' => false, 'panel' => 'C panel'],
+        ],
+        'active' => 'a',
+    ]);
+
+    expect(tabsOpeningTag($html, 'tab', 'a'))->not->toContain('disabled')
+        ->and(tabsOpeningTag($html, 'tab', 'b'))->toMatch('/\sdisabled(\s|>|=)/')
+        ->and(tabsOpeningTag($html, 'tab', 'c'))->not->toContain('disabled')
+        ->and($html)->toContain('<h2>B</h2>');
+});
+
 it('renders a structural root with the exact Alpine state contract', function (): void {
     $html = renderTabs([
         'active' => 'activity',

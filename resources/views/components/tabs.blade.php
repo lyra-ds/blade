@@ -49,6 +49,7 @@
                 class="lyra-tab"
                 id="{{ $rootId }}-tab-{{ $index }}"
                 data-value="{{ $item['id'] }}"
+                @disabled(! empty($item['disabled']))
                 x-bind="tab"
             >{{ $item['icon'] ?? '' }}{{ $item['label'] }}@if (($item['count'] ?? null) !== null)<span class="lyra-tab__count">{{ $item['count'] }}</span>@endif</button>
         @endforeach

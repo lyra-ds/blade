@@ -802,7 +802,7 @@ Tags: `<x-lyra::tabs>...</x-lyra::tabs>` or `<lyra:tabs>...</lyra:tabs>`.
 Root class alternatives observed in fixtures: `lyra-tabs` | `lyra-tabs lyra-tabs--pills`.
 
 Props:
-- `items` — required; no fixture examples (fixtures do not constrain this prop).
+- `items` — required; fixture examples (not constraints): `[{"id":"a","label":"A","panel":"A"},{"id":"b","label":"B","disabled":true,"panel":"B"}]`.
 - `active` — required; no fixture examples (fixtures do not constrain this prop).
 - `variant` — default: `"line"`; class-selector values evidenced by defaults and fixtures: `"line"`, `"pills"`.
 - `label` — default: `"Tabs"`; no fixture examples (fixtures do not constrain this prop).
