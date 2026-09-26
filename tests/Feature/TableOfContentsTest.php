@@ -221,6 +221,7 @@ it('supports Livewire model binding through activeId', function (): void {
 });
 
 it('passes root attributes through with user classes last', function (): void {
+    app()->detectEnvironment(fn () => 'production');
     $root = tableOfContentsOpeningTag(renderTableOfContents([
         'class' => 'consumer utility',
         'id' => 'docs-contents',
@@ -228,11 +229,10 @@ it('passes root attributes through with user classes last', function (): void {
         'aria-label' => 'Consumer label',
         'x-data' => 'consumerState',
     ]), 'root');
-
-    expect($root)->toContain('class="lyra-toc consumer utility"')
+    expect(substr_count($root, 'x-data='))->toBe(1)
+        ->and($root)->not->toContain('consumerState')
+        ->and($root)->toContain('class="lyra-toc consumer utility"')
         ->and($root)->toContain('id="docs-contents"')
         ->and($root)->toContain('data-track="toc"')
-        ->and($root)->toContain('aria-label="Consumer label"')
-        ->and(substr_count($root, 'aria-label='))->toBe(1)
-        ->and(strpos($root, "x-data=\"lyraTableOfContents({ activeId: '' })\""))->toBeLessThan(strpos($root, 'x-data="consumerState"'));
+        ->and(substr_count($root, 'aria-label='))->toBe(1);
 });

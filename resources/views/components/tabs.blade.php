@@ -8,7 +8,9 @@
 {{-- Emits the complete progressive-enhancement markup required by @lyra-ds/alpine >=1.0 lyraTabs: root data-lyra-tabs with an id, a labelled fallback nav of anchors, the enhanced list, and headed sections. --}}
 {{-- panel is a Blade extension because React supplies labelled empty panels while the Alpine canonical markup carries panel content. --}}
 {{-- onChange is not ported; consumer state flows through x-model or wire:model, or the lyra:tabs-before-change and lyra:tabs-change events. --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'tabs', ['x-modelable', 'x-bind']);
     $items = array_values($items);
     $resolvedVariant = $variant === 'pills' ? 'pills' : 'line';
     $activeIndex = array_search($active, array_column($items, 'id'), true);

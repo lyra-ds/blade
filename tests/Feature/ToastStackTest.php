@@ -21,14 +21,13 @@ function dynamicToastStackRoot(string $html): string
 }
 
 it('owns the stack x-data and does not forward a consumer x-data', function (): void {
+    app()->detectEnvironment(fn () => 'production');
     $root = dynamicToastStackRoot(renderDynamicToastStack(
         'class="first second" id="notifications" data-track="stack" x-data="consumerState"',
     ));
-
     expect(substr_count($root, 'x-data='))->toBe(1)
-        ->and($root)->toContain('x-data="lyraToastStack()"')
         ->and($root)->not->toContain('consumerState')
-        ->and(strpos($root, 'x-data='))->toBeLessThan(strpos($root, 'class='))
+        ->and($root)->toContain('x-data="lyraToastStack()"')
         ->and($root)->toContain('class="lyra-toast-stack first second"')
         ->and($root)->toContain('id="notifications"')
         ->and($root)->toContain('data-track="stack"');

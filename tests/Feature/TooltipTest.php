@@ -120,24 +120,15 @@ it('JavaScript-escapes quotes, slashes, and line breaks in the Alpine tip litera
 });
 
 it('keeps component-owned root attributes ahead of a consumer x-data attribute', function (): void {
+    app()->detectEnvironment(fn () => 'production');
     $root = tooltipOpeningTag(renderTooltip(props: [
         'x-data' => 'consumerState',
     ]), 'root');
-    $componentDataPosition = strpos($root, "x-data=\"lyraTooltip({ tip: 'Helpful context', placement: 'top' })\"");
-    $rootBindingPosition = strpos($root, 'x-bind="root"');
-    $tipPosition = strpos($root, 'data-tip="Helpful context"');
-    $statePosition = strpos($root, 'data-state="closed"');
-    $consumerDataPosition = strpos($root, 'x-data="consumerState"');
-
-    expect($componentDataPosition)->toBeInt()
-        ->and($rootBindingPosition)->toBeInt()
-        ->and($tipPosition)->toBeInt()
-        ->and($statePosition)->toBeInt()
-        ->and($consumerDataPosition)->toBeInt()
-        ->and($componentDataPosition)->toBeLessThan($consumerDataPosition)
-        ->and($rootBindingPosition)->toBeLessThan($consumerDataPosition)
-        ->and($tipPosition)->toBeLessThan($consumerDataPosition)
-        ->and($statePosition)->toBeLessThan($consumerDataPosition);
+    expect(substr_count($root, 'x-data='))->toBe(1)
+        ->and($root)->not->toContain('consumerState')
+        ->and($root)->toContain('x-bind="root"')
+        ->and($root)->toContain('data-tip="Helpful context"')
+        ->and($root)->toContain('data-state="closed"');
 });
 
 it('coerces an unknown placement to top without a placement modifier', function (): void {

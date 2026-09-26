@@ -167,12 +167,9 @@ it('defaults the accessible label and applies it to both the nav and the list', 
 
 it('keeps fixed attributes ahead of passthrough duplicates on the list', function (): void {
     $listTag = tabsOpeningTag(renderTabs(['x-bind' => 'consumer']), 'list');
-    $componentBindingPosition = strpos($listTag, 'x-bind="list"');
-    $consumerBindingPosition = strpos($listTag, 'x-bind="consumer"');
-
-    expect($componentBindingPosition)->toBeInt()
-        ->and($consumerBindingPosition)->toBeInt()
-        ->and($componentBindingPosition)->toBeLessThan($consumerBindingPosition);
+    expect(substr_count($listTag, 'x-bind='))->toBe(1)
+        ->and($listTag)->toContain('x-bind="list"')
+        ->and($listTag)->not->toContain('consumer');
 });
 
 it('renders tabs without static role, selection, tabindex or active class', function (): void {

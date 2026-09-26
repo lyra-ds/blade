@@ -16,7 +16,9 @@
 ])
 
 {{-- Upload rows are the documented runtime-rendered exception: Alpine stamps this served x-for. --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'file-upload', ['x-modelable']);
     $rootId = $id ?? $attributes->get('id') ?? 'lyra-upload-'.uniqid();
     $inputId = $rootId.'-input';
     $generatedHint = implode(' · ', array_filter([

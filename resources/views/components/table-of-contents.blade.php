@@ -5,7 +5,9 @@
 ])
 
 {{-- The Alpine binding owns scroll-spy updates; this template always serves the complete link list. --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'table-of-contents', ['x-modelable']);
     $items = array_values($items);
     $resolvedActiveId = $activeId === null ? '' : (string) $activeId;
     $escapedActiveId = str_replace(['\\', "'", "\r", "\n"], ['\\\\', "\\'", '\\r', '\\n'], $resolvedActiveId);

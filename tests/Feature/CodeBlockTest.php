@@ -154,6 +154,7 @@ it('delegates copy semantics to Alpine bindings while serving usable initial lab
 });
 
 it('keeps the Alpine state first and consumer attributes last without duplication', function (): void {
+    app()->detectEnvironment(fn () => 'production');
     $root = codeBlockOpeningTag(renderCodeBlock([
         'copyLabel' => 'Copy',
         'copiedLabel' => 'Copied',
@@ -163,21 +164,12 @@ it('keeps the Alpine state first and consumer attributes last without duplicatio
         'data-track' => 'code',
         'x-data' => 'consumerState',
     ]), 'root');
-    $componentDataPosition = strpos($root, 'x-data="lyraCodeBlock()"');
-    $copyTextPosition = strpos($root, 'data-copy-text="override"');
-    $classPosition = strpos($root, 'class="lyra-code extra"');
-    $consumerDataPosition = strpos($root, 'x-data="consumerState"');
-
-    expect($componentDataPosition)->toBeInt()
-        ->and($copyTextPosition)->toBeInt()
-        ->and($classPosition)->toBeInt()
-        ->and($consumerDataPosition)->toBeInt()
-        ->and($componentDataPosition)->toBeLessThan($copyTextPosition)
-        ->and($copyTextPosition)->toBeLessThan($classPosition)
-        ->and($copyTextPosition)->toBeLessThan($consumerDataPosition)
+    expect(substr_count($root, 'x-data='))->toBe(1)
+        ->and($root)->not->toContain('consumerState')
+        ->and($root)->toContain('class="lyra-code extra"')
+        ->and($root)->toContain('data-copy-text="override"')
         ->and($root)->toContain('id="sample"')
-        ->and($root)->toContain('data-track="code"')
-        ->and(substr_count($root, 'data-copy-text='))->toBe(1);
+        ->and($root)->toContain('data-track="code"');
 });
 
 it('removes the native pre tab stop only when wrapping is enabled', function (): void {

@@ -53,12 +53,14 @@ final class DocsApiGenerator
             $fixture = $this->readFixture($fixturesDirectory."/{$slug}.json");
 
             $html = $this->stabilizeIds(trim($render($usage)));
+            $binding = $this->bindingName($html);
 
             $components[] = [
                 'slug' => $slug,
                 'usage' => $usage,
                 'html' => $html,
-                'binding' => $this->bindingName($html),
+                'binding' => $binding,
+                'rootXData' => $binding === null ? 'passthrough' : 'owned',
                 'props' => array_map(
                     fn (array $prop): array => [
                         'name' => $prop['name'],

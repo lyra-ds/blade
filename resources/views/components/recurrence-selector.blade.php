@@ -12,7 +12,9 @@
     custom formatter locales remain an upstream concern. conflictsOne/conflictsMany are the
     binding's JSON-safe replacement for React's conflicts(count) function.
 --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'recurrence-selector', ['x-modelable']);
     $jsonFlags = JSON_THROW_ON_ERROR
         | JSON_HEX_TAG
         | JSON_HEX_AMP

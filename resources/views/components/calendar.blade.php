@@ -21,7 +21,9 @@
     package-owned names to expressions; unsupported names are omitted instead of injecting a
     consumer-provided x-data expression.
 --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'calendar', ['x-modelable']);
     $options = [];
     $allowedDateDisabledPredicates = [
         'slot-picker' => '(date) => !hasSlots(date)',

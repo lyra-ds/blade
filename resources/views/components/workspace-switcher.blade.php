@@ -14,7 +14,9 @@
     (and so joins arrow-key cycling); consumers distinguish it with create-id (default: "create").
     labels: listLabel, placeholder and members (['one' => ..., 'other' => ...], ":count" replaced).
 --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'workspace-switcher', ['x-modelable']);
     $workspaces = array_values($workspaces);
     $selected = null;
 

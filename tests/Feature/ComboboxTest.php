@@ -385,6 +385,7 @@ it('keeps hostile specialized options inside the encoded JSON literal', function
 });
 
 it('always serves exactly one x-data attribute', function (): void {
+    app()->detectEnvironment(fn () => 'production');
     $combinations = [
         [],
         ['factory' => 'lyraTimeZonePicker'],

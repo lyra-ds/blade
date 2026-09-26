@@ -407,6 +407,7 @@ it('emits exactly two JSON hidden inputs only for a consumer name prefix', funct
 });
 
 it('defaults value modelability and whitelists exceptions as the only opt-in alternative', function (): void {
+    app()->detectEnvironment(fn () => 'production');
     $default = renderWeeklyScheduleEditor(['wire:model.live' => 'schedule']);
     $exceptions = renderWeeklyScheduleEditor([
         'x-modelable' => 'exceptions',

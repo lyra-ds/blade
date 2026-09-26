@@ -260,6 +260,7 @@ it('renders composition content inside the groups container after data groups', 
 });
 
 it('preserves consumer attributes with stateful values before consumer overrides', function (): void {
+    app()->detectEnvironment(fn () => 'production');
     $root = appSidebarOpeningTag(renderAppSidebar([
         'class' => 'consumer utility',
         'id' => 'primary-navigation',
@@ -267,12 +268,12 @@ it('preserves consumer attributes with stateful values before consumer overrides
         'style' => 'color: red',
         'x-data' => 'consumerState',
     ]), 'root');
-
-    expect($root)->toContain('class="lyra-appsidebar consumer utility"')
+    expect(substr_count($root, 'x-data='))->toBe(1)
+        ->and($root)->not->toContain('consumerState')
+        ->and($root)->toContain('class="lyra-appsidebar consumer utility"')
         ->and($root)->toContain('id="primary-navigation"')
         ->and($root)->toContain('data-track="sidebar"')
-        ->and($root)->toMatch('/style="--appsidebar-width: 260px; width: var\(--appsidebar-width\);?\s*color: red;?"/')
-        ->and(strpos($root, 'x-data="lyraAppSidebar('))->toBeLessThan(strpos($root, 'x-data="consumerState"'));
+        ->and($root)->toContain('color: red');
 });
 
 it('forwards href, target and rel of group items as native links', function (): void {

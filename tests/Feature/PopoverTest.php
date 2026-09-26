@@ -143,15 +143,12 @@ it('splits model attributes onto the root before passthrough attributes', functi
 });
 
 it('keeps component-owned Alpine state ahead of a consumer x-data attribute', function (): void {
+    app()->detectEnvironment(fn () => 'production');
     $root = popoverOpeningTag(renderPopover([
         'x-data' => 'consumerState',
     ]), 'root');
-    $componentDataPosition = strpos($root, "x-data=\"lyraPopover({ defaultOpen: false, side: 'auto', ariaLabel: 'Popover' })\"");
-    $consumerDataPosition = strpos($root, 'x-data="consumerState"');
-
-    expect($componentDataPosition)->toBeInt()
-        ->and($consumerDataPosition)->toBeInt()
-        ->and($componentDataPosition)->toBeLessThan($consumerDataPosition);
+    expect(substr_count($root, 'x-data='))->toBe(1)
+        ->and($root)->not->toContain('consumerState');
 });
 
 it('keeps passthrough on the root and appends the user class last', function (): void {

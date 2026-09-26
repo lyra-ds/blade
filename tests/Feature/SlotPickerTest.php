@@ -461,6 +461,7 @@ it('composes calendar and timezone picker through predicate, marker, and alias s
 });
 
 it('defaults date modelability and whitelists timezone as the only alternative', function (): void {
+    app()->detectEnvironment(fn () => 'production');
     $date = renderSlotPicker(['wire:model.live' => 'bookingDate']);
     $timezone = renderSlotPicker([
         'x-modelable' => 'timezone',

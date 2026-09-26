@@ -614,6 +614,7 @@ it('hardens binding JSON sort expressions labels ids and values against markup b
 });
 
 it('always emits one hardened binding root and allows either public state to be modelable', function (): void {
+    app()->detectEnvironment(fn () => 'production');
     $selected = renderDataTable(['wire:model.live' => 'selectedRows']);
     $sorting = renderDataTable([
         'x-modelable' => 'sorting',

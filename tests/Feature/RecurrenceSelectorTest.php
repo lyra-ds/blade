@@ -549,6 +549,7 @@ it('preserves a sparse none rule while deriving the binding fallbacks for served
 });
 
 it('hardens every binding option against markup breakout while preserving decoded values', function (): void {
+    app()->detectEnvironment(fn () => 'production');
     $payload = "'); window.pwned=1; //\"\\</script><img src=x onerror=alert(1)>";
     $html = renderRecurrenceSelector([
         'value' => [

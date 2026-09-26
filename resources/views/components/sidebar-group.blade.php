@@ -17,7 +17,9 @@
     native anchors (href/target/rel, aria-current) and dispatch the same lyra:select event through an
     inline handler, since the item binding would force type="button" onto an anchor.
 --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'sidebar-group', ['x-bind']);
     $items = array_values($items);
     $startsCollapsed = $collapsible && $defaultCollapsed;
     $defaultCollapsedLiteral = $startsCollapsed ? 'true' : 'false';

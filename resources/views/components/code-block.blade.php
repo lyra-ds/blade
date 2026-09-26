@@ -7,8 +7,12 @@
     'copyText' => null,
 ])
 
+{{-- The copy control owns this root x-data; without copy, consumer x-data passes through. --}}
 @php
     $canCopy = $copyLabel !== null && $copiedLabel !== null;
+    if ($canCopy) {
+        $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'code-block');
+    }
     $escapedCopyLabel = str_replace(['\\', "'", "\r", "\n"], ['\\\\', "\\'", '\\r', '\\n'], (string) $copyLabel);
     $escapedCopyLabel = htmlspecialchars($escapedCopyLabel, ENT_COMPAT | ENT_SUBSTITUTE, 'UTF-8');
     $escapedCopiedLabel = str_replace(['\\', "'", "\r", "\n"], ['\\\\', "\\'", '\\r', '\\n'], (string) $copiedLabel);

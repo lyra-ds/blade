@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:browser": "npm run build:browser && playwright test --project=chromium",
+    "build:browser": "esbuild browser/runtime.js --bundle --format=iife --outfile=browser/.generated/runtime.js"
+  },
+  "devDependencies": {
+    "@lyra-ds/alpine": "^1.1.0",
+    "@lyra-ds/styles": "^1.1.0",
+    "@playwright/test": "^1.63.0",
+    "alpinejs": ">=3.13 <4",
+    "esbuild": "^0.28.2"
+  }
+}

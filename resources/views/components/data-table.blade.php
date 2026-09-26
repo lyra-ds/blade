@@ -36,6 +36,7 @@
     {key} interpolation over scalar row values. Named empty and footer slots provide rich content;
     the empty slot takes the place of the empty prop or labels.empty string.
 --}}
+{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
     $jsonFlags = JSON_THROW_ON_ERROR
         | JSON_HEX_TAG
@@ -283,6 +284,7 @@
 
     $optionsLiteral = json_encode($bindingOptions, $jsonFlags);
     $requestedModelable = $attributes->get('x-modelable');
+    $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'data-table', ['x-modelable']);
     $resolvedModelable = is_string($requestedModelable)
         && in_array($requestedModelable, ['selected', 'sorting'], true)
             ? $requestedModelable

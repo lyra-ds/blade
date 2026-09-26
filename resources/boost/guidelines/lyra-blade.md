@@ -6,7 +6,7 @@
 - The React component contracts are the source of truth and API parity is mandatory. Do not introduce a Blade-only prop.
 - Both tag syntaxes are supported and are exact aliases: `<x-lyra::button>Save</x-lyra::button>` and `<lyra:button>Save</lyra:button>`.
 - This package never ships CSS. All appearance comes from the npm package `@lyra-ds/styles`; never write or override `.lyra-*` CSS for these components.
-- Phase 1 components are static-only. Do not attribute interactivity, JavaScript behavior, or Alpine directives such as `x-data` and `x-on` to them.
+- Components with a `lyra*` Alpine binding own their root `x-data`. Put consumer state on a parent wrapper (for example `<div x-data="{ n: 0 }"><lyra:tabs ... /></div>`), or use `x-init`, `$store`, `x-model`, or `wire:model`. A consumer `x-data` on the component throws in local/testing and is silently stripped in production. Components without a Lyra binding pass through consumer `x-data`.
 
 ## Generated component reference
 
