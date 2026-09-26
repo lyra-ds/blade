@@ -118,8 +118,8 @@ Blade `file-upload` adopts the controlled upload lifecycle of `@lyra-ds/alpine` 
 - **New Props**: `id`, `name`, `disabled`, `required`, `items`, `messages`, `statusLabels`, `cancelLabel`, `retryLabel`.
 - **Root ID Requirement**: The component root requires an `id` (`$id ?? $attributes->get('id') ?? 'lyra-upload-'.uniqid()`). The dropzone is a `<label class="lyra-upload__zone" for="...">` referencing a sibling hidden `<input type="file">`.
 - **Bubbling Custom Events**:
-  - `lyra:file-upload:select`: Dispatched on file drop or input selection. Detail: `{ selections: [{ id, file, proposedAttemptId, proposedItem }] }`. Echo each `proposedItem` into your `items` array to begin.
-  - `lyra:file-upload:retry`: Dispatched on retry button click. Detail: `{ id, proposedAttemptId }`.
+  - `lyra:file-upload:select`: Dispatched on file drop or input selection. Detail: `{ selections: [{ id, file, name, size, type, proposedItem, proposedAttemptId? }] }`. Echo each `proposedItem` into your `items` array. A valid file has `proposedItem.status === 'selected'` and a `proposedAttemptId`: start its transport with that id. An invalid file (wrong type or too large) has a `proposedItem` with `status: 'error'` and a `validation` error, and **no** `proposedAttemptId`: show it, but do not upload it.
+  - `lyra:file-upload:retry`: Dispatched on retry button click (for `canceled` items and retryable `error` items). Detail: `{ id, previousAttemptId, proposedAttemptId }`. Start a new transport with `proposedAttemptId`; `previousAttemptId` identifies the failed or canceled attempt.
   - `lyra:file-upload:cancel`: Dispatched on cancel button click. Detail: `{ id, attemptId }`.
   - `lyra:file-upload:remove`: Dispatched on remove button click. Detail: `{ id }`.
 
@@ -137,17 +137,44 @@ Blade `file-upload` adopts the controlled upload lifecycle of `@lyra-ds/alpine` 
 />
 ```
 
+#### Item Shape (1.0.x)
+Every item carries `id`, `name`, `size` (bytes), and `type` (MIME type), plus fields that depend on `status`:
+
+| `status` | Extra fields |
+| --- | --- |
+| `selected` | none |
+| `uploading`, `canceling` | `attemptId`, `progress` (`{ kind: 'indeterminate' }` or `{ kind: 'determinate', value }`) |
+| `success`, `canceled` | `attemptId` |
+| `error` (transport) | `attemptId`, `error: { kind: 'transport', code?, message, retryable }` |
+| `error` (validation) | `error: { kind: 'validation', code: 'accept' \| 'max-size', message, retryable: false }` (no `attemptId`) |
+
+`progress` is only valid on `uploading` and `canceling` items. Transport states (`uploading`, `canceling`, `success`, `canceled`, transport `error`) need the `attemptId` of the upload attempt that produced them.
+
+To migrate a 0.10 `default-items` entry, rewrite it in this shape and pass it as the initial `items` (or the initial value of the `x-model` state). The 0.10 entry `['id' => '1', 'name' => 'guide.pdf', 'status' => 'done', 'progress' => 100]` becomes:
+
+```php
+['id' => '1', 'name' => 'guide.pdf', 'size' => 482133, 'type' => 'application/pdf', 'status' => 'success', 'attemptId' => 'guide-1']
+```
+
 #### After (1.0.x)
+The example below shows the wiring. For a complete controller with a simulated transport, progress, cancel, and retry, see [`resources/docs-examples/file-upload.blade.php`](../resources/docs-examples/file-upload.blade.php).
+
 ```blade
 {{-- 1.0: Controlled lifecycle; application owns items and transport --}}
 <div
     x-data="{
-        uploadItems: [],
+        uploadItems: [
+            { id: '1', name: 'guide.pdf', size: 482133, type: 'application/pdf', status: 'success', attemptId: 'guide-1' },
+        ],
         handleSelect({ selections }) {
             this.uploadItems = [...this.uploadItems, ...selections.map(s => s.proposedItem)];
-            // Initiate your real transport (fetch / XHR) here
+            for (const { id, proposedAttemptId } of selections) {
+                // Invalid selections have no proposedAttemptId: nothing to upload.
+                if (typeof proposedAttemptId !== 'string') continue;
+                // Start your real transport (fetch / XHR) for id with proposedAttemptId here.
+            }
         },
-        handleRetry({ id, proposedAttemptId }) { /* restart transport */ },
+        handleRetry({ id, previousAttemptId, proposedAttemptId }) { /* start a new transport with proposedAttemptId */ },
         handleCancel({ id, attemptId }) { /* abort transport */ },
         handleRemove({ id }) {
             this.uploadItems = this.uploadItems.filter(item => item.id !== id);
@@ -267,7 +294,13 @@ Update test and CSS selectors:
     </x-slot:banner>
 
     <x-slot:sidebar>
-        <lyra:app-sidebar ... />
+        <lyra:app-sidebar
+            :groups="[
+                ['heading' => 'Workspace', 'items' => [
+                    ['id' => 'overview', 'label' => 'Overview', 'href' => '/overview', 'active' => true],
+                ]],
+            ]"
+        />
     </x-slot:sidebar>
 
     <h1>Dashboard</h1>
@@ -305,25 +338,29 @@ Update test and CSS selectors:
 All overlay components now support the standard focus-restoration contract of `@lyra-ds/alpine` `1.1.0`.
 
 #### Key Changes
-- **`return-focus-to` Prop**: Pass a CSS selector string (e.g. `return-focus-to="#open-button"` or `return-focus-to="[data-trigger='edit']"`). When the overlay closes, Alpine queries the selector and restores focus to that element.
-- **CommandPalette**: Supports `return-focus-to` accepting the trigger element ID (e.g. `return-focus-to="open-cmdk"`).
-- **DatePicker**: The mobile sheet automatically configures `return-focus-to="datepicker-trigger"`, targeting the nearest `.lyra-datepicker__btn` without manual configuration.
-- **BottomSheet**: Generates a deterministic title ID based on the title content or explicit `label-id`, eliminating unstable `uniqid()` differences between renders.
+- **`return-focus-to` Prop**: On every overlay (`dialog`, `drawer`, `bottom-sheet`, `command-palette`, `date-picker`), the value is a CSS selector, not a bare element id. Blade compiles it to `document.querySelector(<selector>)` (`LyraDs\Blade\FocusResolver::selector()`), and Alpine focuses the match when the overlay closes. Use `return-focus-to="#open-button"` or `return-focus-to="[data-trigger='edit']"`; a bare `open-button` matches an `<open-button>` element and focus is not restored. An empty value falls back to the element that was focused before the overlay opened.
+- **CommandPalette**: Same selector contract. Write `return-focus-to="#open-cmdk"` for a trigger with `id="open-cmdk"`.
+- **DatePicker**: `return-focus-to` applies to the mobile bottom sheet (the desktop popover already returns focus to its trigger). Without a value, the sheet returns focus to the picker's own `.lyra-datepicker__btn` trigger.
+- **BottomSheet**: The title id is `label-id` when you pass it; otherwise it is `lyra-bottom-sheet-title-<uniqid>`, unique per instance and different on every render. Pass an explicit `label-id` when tests, CSS, or `aria-labelledby` references need a stable id.
 - **Translated `closeLabel`**: Preserved after Alpine hydration.
+- **Open state**: `dialog`, `drawer`, `bottom-sheet`, and `command-palette` roots are `x-modelable="open"` (`date-picker` models its `selected` value instead). Bind `x-model` to state owned by a parent wrapper to open and close the overlay.
 
 #### Example (1.0.x)
 ```blade
-<button id="open-settings-dialog" type="button" @click="$dispatch('open-dialog')">
-    Open Settings
-</button>
+<div x-data="{ settingsOpen: false }">
+    <button id="open-settings-dialog" type="button" @click="settingsOpen = true">
+        Open Settings
+    </button>
 
-<lyra:dialog
-    title="Account Settings"
-    return-focus-to="#open-settings-dialog"
-    close-label="Close settings"
->
-    <p>User profile and settings form.</p>
-</lyra:dialog>
+    <lyra:dialog
+        title="Account Settings"
+        x-model="settingsOpen"
+        return-focus-to="#open-settings-dialog"
+        close-label="Close settings"
+    >
+        <p>User profile and settings form.</p>
+    </lyra:dialog>
+</div>
 ```
 
 ---
@@ -334,10 +371,16 @@ All overlay components now support the standard focus-restoration contract of `@
 - **Item IDs & Events**: Items accept `id` (emitted as `data-id`) and `href` (renders as anchor `menuitem`). Selecting an item dispatches `lyra:select` with `{ id }`.
 - **Button-Styled Trigger**: New `trigger-variant` (e.g. `'primary'`, `'secondary'`) and `trigger-size` props style the trigger element (`span[role=button]`) with `.lyra-btn` classes, ensuring exactly one tab stop without nested button anti-patterns.
 - **Accessible Icons**: Icons in menu items are wrapped with `aria-hidden="true"`, preventing icon text from corrupting accessible names or typeahead search.
-- **Disabled Items**: Disabled items render `aria-disabled="true"`. Clicks and key presses are intercepted to prevent navigation while preserving arrow-key roving focus. *(Note: Upstream `@lyra-ds/alpine` issue [lyra#289](https://github.com/lyra-ds/lyra/issues/289) is mitigated in Blade by dispatching `lyra:select` via `x-on:click` on each item).*
+- **Selection Event**: The `@lyra-ds/alpine` 1.1.0 dropdown plugin does not emit `lyra:select`. Blade adds `x-on:click="$dispatch('lyra:select', { id })"` on each item so the event bubbles from the item with its `data-id`. This is independent of disabled items.
+- **Disabled Items** (upstream [lyra#289](https://github.com/lyra-ds/lyra/issues/289)): Alpine 1.1.0 and Styles 1.1.0 have no disabled menu item contract. Until upstream ships one, Blade mitigates it:
+  - Disabled items render `aria-disabled="true"` and stay focusable, so arrow-key roving does not stall (arrow keys still visit them).
+  - A capture-phase click handler calls `preventDefault()` and `stopImmediatePropagation()`, so activation (click, Enter, Space) does not dispatch `lyra:select` and does not navigate.
+  - A disabled link item drops its `href` and gets `tabindex="-1"`.
+  - An inline style (`opacity:.4;cursor:not-allowed`) marks it as disabled, until `@lyra-ds/styles` styles `.lyra-menu__item[aria-disabled="true"]`.
 
 #### Tooltip
-- **`bubble-id` Prop**: Eliminates the outer wrapper `<span>`. Renders `id="<bubble-id>"` on the bubble element so consumers can bind their focusable trigger element directly via `aria-describedby="<bubble-id>"` with zero extra tab stops.
+- **Required `tip`**: The tooltip text is the required `tip` prop. The default slot is the trigger (one focusable element); there is no `trigger` slot.
+- **`bubble-id` Prop**: Removes the inner `<span x-bind="target">` wrapper around the trigger. The root `<span class="lyra-tooltip">` stays, because the plugin binds hover and focus behavior to it. The bubble renders `id="<bubble-id>"`, so your focusable trigger carries `aria-describedby="<bubble-id>"` itself, with no extra tab stop. Without `bubble-id`, `aria-describedby` lands on the non-focusable inner wrapper.
 
 #### Example (1.0.x)
 ```blade
@@ -355,11 +398,8 @@ All overlay components now support the standard focus-restoration contract of `@
 </lyra:dropdown>
 
 {{-- Tooltip with bubble-id and direct describedby --}}
-<lyra:tooltip bubble-id="help-tooltip">
-    <x-slot:trigger>
-        <button type="button" aria-describedby="help-tooltip">Help</button>
-    </x-slot:trigger>
-    Additional instructions for the user.
+<lyra:tooltip tip="Additional instructions for the user." bubble-id="help-tooltip">
+    <button type="button" aria-describedby="help-tooltip">Help</button>
 </lyra:tooltip>
 ```
 
@@ -370,17 +410,30 @@ All overlay components now support the standard focus-restoration contract of `@
 `container` aligns its `max` prop validation with React's `resolveMax`.
 
 #### Key Changes
-- **Keyword Mapping**: Keywords are mapped to specific maximum widths: `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px).
-- **Strict Numeric Validation**: Integers, finite floats, and untrimmed pure-digit strings (matching `/^\d+(\.\d+)?$/D`) emit `--container-max: <value>px`.
-- **Invalid Values Suppressed**: Unrecognized strings (`" 5"`, `"+5"`, `"-5"`, `"1e3"`) emit no inline style, preventing broken CSS outputs.
+- **Keyword Mapping**: Keywords map to fixed maximum widths: `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px). A keyword must match exactly: `" lg"`, `"lg "`, and `"LG"` are not keywords and emit no style.
+- **Numeric Values**: Integers and finite floats emit `--container-max: <value>px`. A numeric string is trimmed first (ASCII and Unicode whitespace, including the BOM), then it must match `/^\d+(\.\d+)?$/D`. So `" 5"` and `"960 "` are accepted and emit `5px` and `960px`.
+- **Invalid Values Suppressed**: Other values emit no inline style, which prevents broken CSS: `"+5"`, `"-5"`, `"1e3"`, `".5"`, `"5."`, `"5px"`, `"lg "`, `INF`, `NAN`, and non-scalar values.
+
+| `max` value | Output |
+| --- | --- |
+| `"lg"` | `--container-max: 1024px` |
+| `960` / `960.5` | `--container-max: 960px` / `960.5px` |
+| `" 5"` / `"960 "` | `--container-max: 5px` / `960px` (trimmed) |
+| `" lg"`, `"LG"`, `"+5"`, `"-5"`, `"1e3"`, `"5px"` | no `style` attribute |
 
 #### Example (1.0.x)
 ```blade
-{{-- Valid keywords --}}
+{{-- Keyword --}}
 <lyra:container max="lg">...</lyra:container> {{-- style="--container-max: 1024px" --}}
 
-{{-- Valid numeric pixel value --}}
+{{-- Numeric pixel value --}}
 <lyra:container :max="960">...</lyra:container> {{-- style="--container-max: 960px" --}}
+
+{{-- Numeric string: trimmed before validation --}}
+<lyra:container max=" 5">...</lyra:container> {{-- style="--container-max: 5px" --}}
+
+{{-- Rejected: keywords are not trimmed --}}
+<lyra:container max=" lg">...</lyra:container> {{-- no style attribute --}}
 ```
 
 ---
@@ -407,7 +460,7 @@ All overlay components now support the standard focus-restoration contract of `@
 
 ## 4. Owned-Root `x-data` Policy
 
-Blade 1.0 enforces the **Owned-Root Policy** on all interactive components that emit a `lyra*` Alpine binding (30 components in total, including `tabs`, `dropdown`, `toast-stack`, `accordion`, `dialog`, `file-upload`, etc.).
+Blade 1.0 enforces the **Owned-Root Policy** on all interactive components that emit a `lyra*` Alpine binding (for example `tabs`, `dropdown`, `toast-stack`, `accordion`, `dialog`, `file-upload`, and `otp-input`). Every component whose template calls `LyraDs\Blade\OwnedRoot::guard()` is covered.
 
 ### Why This Policy Exists
 
@@ -477,7 +530,16 @@ A quick reference for new features introduced in `1.0.0`:
   ```
 - **`data-table` Accessibility**:
   - `caption` and `captionHidden` props emit `<caption>` as the first child of `<table>`.
-  - `scrollLabel` for naming the scrollable table region (`role="region"`, `tabindex="0"`).
+  - **`aria-label` / `aria-labelledby` move to `<table>`**: These attributes now name the table itself. Blade no longer puts them on the `.lyra-table-wrap` wrapper; every other attribute still lands on the wrapper. Update selectors such as `.lyra-table-wrap[aria-label="Invoices"]` to `.lyra-table-wrap table[aria-label="Invoices"]` (or `getByRole('table', { name: 'Invoices' })`).
+  - **`scroll-label` names the scroll region**: The focusable scroll container `.lyra-table-scroll` (`role="region"`, `tabindex="0"`) takes its name from `scroll-label`. Without it, the region falls back to the caption (`aria-labelledby` = caption id), then the table's `aria-labelledby`, then the table's `aria-label`, then `"Data table"`. Pass `scroll-label` when the region needs a different name from the table, for example `scroll-label="Invoices, scrollable"`.
+    ```blade
+    <lyra:data-table
+        aria-label="Invoices"
+        scroll-label="Invoices, scrollable"
+        :columns="[['key' => 'number', 'label' => 'Number', 'rowHeader' => true], ['key' => 'total', 'label' => 'Total']]"
+        :rows="[['id' => 1, 'number' => 'INV-001', 'total' => '$120.00']]"
+    />
+    ```
   - Column definition `rowHeader: true` renders body cells as `<th scope="row">`.
   - `loading` prop sets `aria-busy="true"` and announces via visually hidden `role="status"`.
 - **`date-range-picker` Announcements**:
