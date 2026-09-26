@@ -8,8 +8,9 @@
 
     $maxPixels = match (true) {
         is_string($maxKey) && array_key_exists($maxKey, $sizes) => $sizes[$maxKey],
-        is_int($maxKey) || is_float($maxKey) => $maxKey,
-        is_string($maxKey) && is_numeric($maxKey) => $maxKey,
+        is_int($maxKey) => $maxKey,
+        is_float($maxKey) && is_finite($maxKey) => $maxKey,
+        is_string($maxKey) && preg_match('/^\d+(\.\d+)?$/D', $max) === 1 => $maxKey,
         default => null,
     };
 
