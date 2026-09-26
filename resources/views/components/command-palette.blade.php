@@ -12,6 +12,7 @@
     'hotkey' => 'k',
     'inline' => false,
     'label' => null,
+    'returnFocusTo' => null,
 ])
 
 {{--
@@ -135,6 +136,12 @@
             | JSON_UNESCAPED_SLASHES
             | JSON_UNESCAPED_UNICODE,
     );
+    $returnFocusResolver = $resolvedInline ? null : \LyraDs\Blade\FocusResolver::id($returnFocusTo);
+
+    if ($returnFocusResolver !== null) {
+        $optionsLiteral = substr($optionsLiteral, 0, -1).',"returnFocusTo":'.$returnFocusResolver.'}';
+    }
+
     $modelAttributes = $attributes
         ->whereStartsWith(['wire:model', 'x-model'])
         ->except(['x-modelable']);

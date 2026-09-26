@@ -247,6 +247,7 @@ Props:
 - `hotkey` — default: `"k"`; no fixture examples (fixtures do not constrain this prop).
 - `inline` — default: `false`; fixture examples (not constraints): `true`.
 - `label` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `returnFocusTo` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### container
 
