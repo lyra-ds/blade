@@ -5,7 +5,8 @@ namespace LyraDs\Blade;
 final class IconRegistry
 {
     /**
-     * Curated icon names mirrored from the React package registry.
+     * Curated icon names mirrored from the React package registry, plus the app-chrome
+     * additions (menu and panel-* sidebar affordances) rendered from the bundled Lucide set.
      *
      * @var list<string>
      */
@@ -62,11 +63,18 @@ final class IconRegistry
         'lock',
         'log-out',
         'mail',
+        'menu',
         'message-circle',
         'minus',
         'moon',
         'music',
         'package',
+        'panel-left',
+        'panel-left-close',
+        'panel-left-open',
+        'panel-right',
+        'panel-right-close',
+        'panel-right-open',
         'pencil',
         'plus',
         'rocket',
