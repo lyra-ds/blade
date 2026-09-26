@@ -1,6 +1,7 @@
 <lyra:data-table
+    caption="Projects"
     :columns="[
-        ['key' => 'name', 'label' => 'Project', 'sortable' => true],
+        ['key' => 'name', 'label' => 'Project', 'sortable' => true, 'rowHeader' => true],
         ['key' => 'owner', 'label' => 'Owner'],
         ['key' => 'issues', 'label' => 'Open issues', 'align' => 'end'],
     ]"

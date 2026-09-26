@@ -1,0 +1,10 @@
+[
+    {"target": "field", "props": {}, "expected_class": "lyra-field"},
+    {"target": "group", "props": {}, "expected_class": "lyra-otp"},
+    {"target": "group", "props": {"class": "extra"}, "expected_class": "lyra-otp extra"},
+    {"target": "digit", "props": {}, "expected_class": "lyra-input lyra-otp__digit"},
+    {"target": "digit", "props": {"error": "Invalid code"}, "expected_class": "lyra-input lyra-otp__digit lyra-input--error"},
+    {"target": "label", "props": {"label": "Verification code"}, "expected_class": "lyra-label"},
+    {"target": "hint", "props": {"hint": "Check your phone"}, "expected_class": "lyra-hint"},
+    {"target": "hint", "props": {"error": "Invalid code"}, "expected_class": "lyra-hint lyra-hint--error"}
+]

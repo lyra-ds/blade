@@ -12,7 +12,10 @@
     'hotkey' => 'k',
     'inline' => false,
     'label' => null,
+    'returnFocusTo' => null,
 ])
+
+{{-- Public contract (frozen at 1.0): return-focus-to takes a CSS selector (e.g. "#open-dialog") resolved with document.querySelector when the overlay closes; empty falls back to the previously focused element. --}}
 
 {{--
     APG keyboard, focus, modal presence, hotkey, and axe coverage live in the upstream
@@ -135,6 +138,12 @@
             | JSON_UNESCAPED_SLASHES
             | JSON_UNESCAPED_UNICODE,
     );
+    $returnFocusResolver = $resolvedInline ? null : \LyraDs\Blade\FocusResolver::selector($returnFocusTo);
+
+    if ($returnFocusResolver !== null) {
+        $optionsLiteral = substr($optionsLiteral, 0, -1).',"returnFocusTo":'.$returnFocusResolver.'}';
+    }
+
     $modelAttributes = $attributes
         ->whereStartsWith(['wire:model', 'x-model'])
         ->except(['x-modelable']);

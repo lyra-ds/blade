@@ -10,7 +10,10 @@
     'labels' => [],
     'disabled' => false,
     'name' => null,
+    'returnFocusTo' => null,
 ])
+
+{{-- Public contract (frozen at 1.0): return-focus-to takes a CSS selector (e.g. "#open-dialog") resolved with document.querySelector when the overlay closes; empty falls back to the local trigger; applies to the mobile bottom sheet (the desktop popover already returns to its trigger). --}}
 
 {{--
     The responsive controls are served in x-if templates because matchMedia is the only
@@ -37,14 +40,13 @@
     $popoverLabel = $resolvedLabels['popover'];
     $closeLabel = $resolvedLabels['close'];
     $triggerId = $attributes->get('id') ?? 'lyra-date-picker-'.uniqid();
+    $sheetReturnFocusTo = is_string($returnFocusTo) && trim($returnFocusTo) !== '' ? $returnFocusTo : 'datepicker-trigger';
     $modelAttributes = $attributes->whereStartsWith(['wire:model', 'x-model']);
     $rootAttributes = $attributes
         ->whereDoesntStartWith(['wire:model', 'x-model'])
-        ->except('id');
+        ->except(['id', 'x-data', 'return-focus-to', 'returnFocusTo']);
 
-    if ($hasField) {
-        $rootAttributes = $rootAttributes->class('lyra-field');
-    }
+    $rootAttributes = $rootAttributes->class(['lyra-datepicker-root', 'lyra-field' => $hasField]);
 
     $options = [
         'locale' => $locale,
@@ -194,6 +196,8 @@
                 <x-lyra::bottom-sheet
                     :title="$sheetTitle"
                     :close-label="$closeLabel"
+                    :label-id="$triggerId.'-sheet-title'"
+                    :return-focus-to="$sheetReturnFocusTo"
                     x-model="pickerOpen"
                 >
                     <div class="lyra-cal--sheet">

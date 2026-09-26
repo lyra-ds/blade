@@ -5,4 +5,5 @@
     min="2026-01-01"
     max="2026-12-31"
     locale="en-US"
+    :labels="['rangeAnnouncement' => '{start} to {end}']"
 />

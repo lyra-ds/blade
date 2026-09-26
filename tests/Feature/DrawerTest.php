@@ -267,3 +267,28 @@ it('seeds an open Livewire drawer and places wire model on the modelable overlay
         ->and($panelTag)->not->toContain('wire:model')
         ->and($panelTag)->toContain('data-track="drawer"');
 });
+
+it('compiles return-focus-to into an escaped resolver option', function (): void {
+    $overlay = drawerOpeningTag(renderDrawer(['return-focus-to' => '#after']), 'overlay');
+
+    expect($overlay)->toContain('returnFocusTo: () =&gt; document.querySelector(&quot;#after&quot;)')
+        ->and(drawerOpeningTag(renderDrawer(), 'overlay'))->not->toContain('returnFocusTo');
+});
+
+it('reapplies the translated close label after Alpine binds the close control', function (): void {
+    $tag = drawerOpeningTag(renderDrawer(['closeLabel' => 'Fechar']), 'close');
+
+    expect($tag)->toContain('aria-label="Fechar"')
+        ->and($tag)->toContain(':aria-label="&quot;Fechar&quot;"')
+        ->and(strpos($tag, 'x-bind="close"'))->toBeLessThan(strpos($tag, ':aria-label='));
+});
+
+it('keeps a hostile return-focus-to value inert inside the drawer options', function (): void {
+    $html = Blade::render('<x-lyra::drawer title="T" :return-focus-to="$target">Body</x-lyra::drawer>', [
+        'target' => "a'b\"</script>\\",
+    ]);
+
+    expect($html)->not->toContain('</script>')
+        ->and($html)->not->toContain("a'b")
+        ->and($html)->toContain('\\u0027');
+});

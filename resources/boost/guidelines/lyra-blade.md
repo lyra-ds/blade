@@ -105,6 +105,8 @@ Props:
 - `closable` — default: `true`; no fixture examples (fixtures do not constrain this prop).
 - `closeLabel` — default: `"Close"`; no fixture examples (fixtures do not constrain this prop).
 - `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `returnFocusTo` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `labelId` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### brand
 
@@ -245,6 +247,7 @@ Props:
 - `hotkey` — default: `"k"`; no fixture examples (fixtures do not constrain this prop).
 - `inline` — default: `false`; fixture examples (not constraints): `true`.
 - `label` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `returnFocusTo` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### container
 
@@ -272,7 +275,7 @@ Props:
 
 Tags: `<x-lyra::data-table>...</x-lyra::data-table>` or `<lyra:data-table>...</lyra:data-table>`.
 
-Root class alternatives observed in fixtures: `lyra-table-wrap` | `lyra-table-scroll` | `lyra-table` | `lyra-table lyra-table--hover` | `lyra-table lyra-table--compact` | `lyra-table lyra-table--sticky` | `lyra-table lyra-table--hover lyra-table--compact lyra-table--sticky` | `lyra-table__check` | `lyra-table__sortbtn` | `lyra-table__sortbtn lyra-table__sortbtn--active` | `lyra-table__row--selected` | `lyra-table__primary` | `lyra-table__emptycell` | `lyra-table__footer`.
+Root class alternatives observed in fixtures: `lyra-table-wrap` | `lyra-table-scroll` | `lyra-table` | `lyra-table lyra-table--hover` | `lyra-table lyra-table--compact` | `lyra-table lyra-table--sticky` | `lyra-table lyra-table--hover lyra-table--compact lyra-table--sticky` | `lyra-table__check` | `lyra-table__sortbtn` | `lyra-table__sortbtn lyra-table__sortbtn--active` | `lyra-table__row--selected` | `lyra-table__primary` | `lyra-table__emptycell` | `lyra-table__footer` | `lyra-visually-hidden`.
 
 Props:
 - `columns` — required; no fixture examples (fixtures do not constrain this prop).
@@ -288,12 +291,15 @@ Props:
 - `empty` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `hover` — default: `false`; fixture examples (not constraints): `true`.
 - `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `caption` — default: `null`; fixture examples (not constraints): `"Projects"`.
+- `captionHidden` — default: `false`; fixture examples (not constraints): `true`.
+- `scrollLabel` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### date-picker
 
 Tags: `<x-lyra::date-picker>...</x-lyra::date-picker>` or `<lyra:date-picker>...</lyra:date-picker>`.
 
-Root class alternatives observed in fixtures: `` | `lyra-field`.
+Root class alternatives observed in fixtures: `lyra-datepicker-root` | `lyra-datepicker-root lyra-field`.
 
 Props:
 - `label` — default: `null`; fixture examples (not constraints): `"0"`, `"Date"`.
@@ -307,6 +313,7 @@ Props:
 - `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
 - `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
 - `name` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `returnFocusTo` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### date-range-picker
 
@@ -341,6 +348,7 @@ Props:
 - `closeOnEsc` — default: `true`; no fixture examples (fixtures do not constrain this prop).
 - `closeOnOverlayClick` — default: `true`; no fixture examples (fixtures do not constrain this prop).
 - `labelId` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `returnFocusTo` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### drawer
 
@@ -354,6 +362,7 @@ Props:
 - `closeLabel` — default: `"Close"`; no fixture examples (fixtures do not constrain this prop).
 - `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
 - `labelId` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `returnFocusTo` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### dropdown
 
@@ -365,6 +374,8 @@ Props:
 - `items` — required; no fixture examples (fixtures do not constrain this prop).
 - `align` — default: `"start"`; no fixture examples (fixtures do not constrain this prop).
 - `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `triggerVariant` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `triggerSize` — default: `"md"`; no fixture examples (fixtures do not constrain this prop).
 
 ### empty-state
 
@@ -405,15 +416,20 @@ Tags: `<x-lyra::file-upload>...</x-lyra::file-upload>` or `<lyra:file-upload>...
 Root class combination observed in fixtures: `lyra-upload`.
 
 Props:
+- `id` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `name` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `label` — default: `"Drag files here or click to select"`; no fixture examples (fixtures do not constrain this prop).
 - `hint` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `accept` — default: `null`; fixture examples (not constraints): `".pdf"`.
 - `maxSizeMB` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `multiple` — default: `true`; no fixture examples (fixtures do not constrain this prop).
-- `uploadDuration` — default: `1800`; no fixture examples (fixtures do not constrain this prop).
-- `defaultItems` — default: unknown; no fixture examples (fixtures do not constrain this prop).
-- `doneLabel` — default: `"Upload complete"`; no fixture examples (fixtures do not constrain this prop).
-- `removeLabel` — default: `"Remove"`; no fixture examples (fixtures do not constrain this prop).
+- `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `required` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `items` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `messages` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `statusLabels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `cancelLabel` — default: `"Cancel"`; no fixture examples (fixtures do not constrain this prop).
+- `retryLabel` — default: `"Retry"`; no fixture examples (fixtures do not constrain this prop).
 
 ### footer
 
@@ -497,6 +513,25 @@ Root class alternatives observed in fixtures: `lyra-navbar` | `lyra-navbar lyra-
 Props:
 - `sticky` — default: `true`; fixture examples (not constraints): `false`.
 - `navLabel` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+
+### otp-input
+
+Tags: `<x-lyra::otp-input>...</x-lyra::otp-input>` or `<lyra:otp-input>...</lyra:otp-input>`.
+
+Root class alternatives observed in fixtures: `lyra-field` | `lyra-otp` | `lyra-input lyra-otp__digit` | `lyra-input lyra-otp__digit lyra-input--error` | `lyra-label` | `lyra-hint` | `lyra-hint lyra-hint--error`.
+
+Props:
+- `label` — default: `null`; fixture examples (not constraints): `"Verification code"`.
+- `hint` — default: `null`; fixture examples (not constraints): `"Check your phone"`.
+- `error` — default: `null`; fixture examples (not constraints): `"Invalid code"`.
+- `length` — default: `6`; no fixture examples (fixtures do not constrain this prop).
+- `name` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `value` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `defaultValue` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `invalid` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `digitLabel` — default: `"Digit"`; no fixture examples (fixtures do not constrain this prop).
+- `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `required` — default: `false`; no fixture examples (fixtures do not constrain this prop).
 
 ### page-header
 
@@ -657,6 +692,8 @@ Props:
 - `sidebarWidth` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `asideWidth` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `top` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `skipLink` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `mainId` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### sidebar-group
 
@@ -781,9 +818,10 @@ Tags: `<x-lyra::tabs>...</x-lyra::tabs>` or `<lyra:tabs>...</lyra:tabs>`.
 Root class alternatives observed in fixtures: `lyra-tabs` | `lyra-tabs lyra-tabs--pills`.
 
 Props:
-- `items` — required; no fixture examples (fixtures do not constrain this prop).
+- `items` — required; fixture examples (not constraints): `[{"id":"a","label":"A","panel":"A"},{"id":"b","label":"B","disabled":true,"panel":"B"}]`.
 - `active` — required; no fixture examples (fixtures do not constrain this prop).
 - `variant` — default: `"line"`; class-selector values evidenced by defaults and fixtures: `"line"`, `"pills"`.
+- `label` — default: `"Tabs"`; no fixture examples (fixtures do not constrain this prop).
 
 ### tag
 
@@ -889,6 +927,7 @@ Root class alternatives observed in fixtures: `lyra-tooltip` | `lyra-tooltip lyr
 Props:
 - `tip` — required; no fixture examples (fixtures do not constrain this prop).
 - `placement` — default: `"top"`; fixture examples (not constraints): `"bottom"`.
+- `bubbleId` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 
 ### weekly-schedule-editor
 
@@ -918,3 +957,4 @@ Props:
 - `createLabel` — default: `"Create workspace"`; no fixture examples (fixtures do not constrain this prop).
 - `createId` — default: `"create"`; no fixture examples (fixtures do not constrain this prop).
 - `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).

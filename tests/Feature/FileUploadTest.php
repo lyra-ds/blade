@@ -4,53 +4,27 @@ use Illuminate\Support\Facades\Blade;
 use Livewire\Component;
 use Livewire\Livewire;
 
-function renderFileUpload(array $props = []): string
+function renderFileUpload(array $props = [], string $attributes = ''): string
 {
-    $label = $props['label'] ?? 'Drag files here or click to select';
-    $hint = $props['hint'] ?? null;
-    $accept = $props['accept'] ?? null;
-    $maxSizeMB = $props['maxSizeMB'] ?? null;
-    $multiple = $props['multiple'] ?? true;
-    $uploadDuration = $props['uploadDuration'] ?? 1800;
-    $defaultItems = $props['defaultItems'] ?? [];
-    $doneLabel = $props['doneLabel'] ?? 'Upload complete';
-    $removeLabel = $props['removeLabel'] ?? 'Remove';
-    unset(
-        $props['label'],
-        $props['hint'],
-        $props['accept'],
-        $props['maxSizeMB'],
-        $props['multiple'],
-        $props['uploadDuration'],
-        $props['defaultItems'],
-        $props['doneLabel'],
-        $props['removeLabel'],
-    );
+    $bindings = ['label', 'hint', 'accept', 'maxSizeMB', 'multiple', 'items', 'messages', 'statusLabels', 'cancelLabel', 'retryLabel', 'name', 'id', 'disabled', 'required'];
+    $defaults = ['multiple' => true, 'items' => [], 'messages' => [], 'statusLabels' => [], 'disabled' => false, 'required' => false];
+    $data = [];
+    $tag = [];
 
-    $attributes = collect($props)
-        ->map(fn (mixed $value, string $name): string => sprintf(
-            '%s="%s"',
-            $name,
-            htmlspecialchars((string) $value, ENT_QUOTES),
-        ))
+    foreach ($bindings as $key) {
+        if (array_key_exists($key, $props) || array_key_exists($key, $defaults)) {
+            $data[$key] = $props[$key] ?? $defaults[$key];
+            $tag[] = sprintf(':%s="$%s"', strtolower((string) preg_replace('/(?<!^)([A-Z])/', '-$1', $key)), $key);
+        }
+    }
+
+    $extra = collect(array_diff_key($props, array_flip($bindings)))
+        ->map(fn (mixed $value, string $name): string => sprintf('%s="%s"', $name, htmlspecialchars((string) $value, ENT_QUOTES)))
         ->implode(' ');
 
     return Blade::render(
-        sprintf(
-            '<x-lyra::file-upload :label="$label" :hint="$hint" :accept="$accept" :max-size-m-b="$maxSizeMB" :multiple="$multiple" :upload-duration="$uploadDuration" :default-items="$defaultItems" :done-label="$doneLabel" :remove-label="$removeLabel" %s />',
-            $attributes,
-        ),
-        compact(
-            'label',
-            'hint',
-            'accept',
-            'maxSizeMB',
-            'multiple',
-            'uploadDuration',
-            'defaultItems',
-            'doneLabel',
-            'removeLabel',
-        ),
+        sprintf('<x-lyra::file-upload %s %s %s />', implode(' ', $tag), $extra, $attributes),
+        $data,
     );
 }
 
@@ -58,7 +32,7 @@ function fileUploadOpeningTag(string $html, string $target): string
 {
     $pattern = match ($target) {
         'root' => '/<div\b(?=[^>]*\bclass="lyra-upload(?: [^"]*)?")[^>]*>/',
-        'zone' => '/<button\b(?=[^>]*\bclass="lyra-upload__zone")[^>]*>/',
+        'zone' => '/<label\b(?=[^>]*\bclass="lyra-upload__zone")[^>]*>/',
         'input' => '/<input\b(?=[^>]*\btype="file")[^>]*>/',
         'zone_icon' => '/<span\b(?=[^>]*\bclass="lyra-upload__zone-icon")[^>]*>/',
         'zone_label' => '/<span\b(?=[^>]*\bclass="lyra-upload__zone-label")[^>]*>/',
@@ -70,10 +44,11 @@ function fileUploadOpeningTag(string $html, string $target): string
         'item_row' => '/<span\b(?=[^>]*\bclass="lyra-upload__item-row")[^>]*>/',
         'item_name' => '/<span\b(?=[^>]*\bclass="lyra-upload__item-name")[^>]*>/',
         'item_meta' => '/<span\b(?=[^>]*\bclass="lyra-upload__item-meta")[^>]*>/',
-        'bar' => '/<span\b(?=[^>]*\bclass="lyra-upload__bar")[^>]*>/',
-        'bar_fill' => '/<span\b(?=[^>]*\bclass="lyra-upload__bar-fill")[^>]*>/',
-        'check' => '/<span\b(?=[^>]*\bclass="lyra-upload__check")[^>]*>/',
+        'bar' => '/<progress\b(?=[^>]*\bclass="lyra-upload__bar")[^>]*>/',
+        'cancel' => '/<button\b(?=[^>]*\bclass="lyra-upload__cancel")[^>]*>/',
+        'retry' => '/<button\b(?=[^>]*\bclass="lyra-upload__retry")[^>]*>/',
         'remove' => '/<button\b(?=[^>]*\bclass="lyra-upload__remove")[^>]*>/',
+        'live' => '/<span\b(?=[^>]*\bclass="lyra-upload__live[^"]*")[^>]*>/',
     };
     $matched = preg_match($pattern, $html, $matches);
 
@@ -106,7 +81,7 @@ dataset('file upload class emission', function (): array {
         ->all();
 });
 
-it('emits every exact React anatomy class string', function (array $case): void {
+it('emits every exact anatomy class string', function (array $case): void {
     $html = renderFileUpload($case['props']);
 
     expect(fileUploadClass($html, 'root'))->toBe($case['expected_class']);
@@ -117,21 +92,8 @@ it('emits every exact React anatomy class string', function (array $case): void 
 
     $classes = $case['expected_classes'];
     $staticTargets = [
-        'zone',
-        'input',
-        'zone_icon',
-        'zone_label',
-        'zone_hint',
-        'list',
-        'item',
-        'item_icon',
-        'item_body',
-        'item_row',
-        'item_name',
-        'bar',
-        'bar_fill',
-        'check',
-        'remove',
+        'zone', 'input', 'zone_icon', 'zone_label', 'zone_hint', 'list', 'item', 'item_icon',
+        'item_body', 'item_row', 'item_name', 'item_meta', 'bar', 'cancel', 'retry', 'remove', 'live',
     ];
 
     foreach ($staticTargets as $target) {
@@ -142,10 +104,7 @@ it('emits every exact React anatomy class string', function (array $case): void 
 
     expect($classes['zone_drag'])->toBe($classes['zone'].' lyra-upload__zone--drag')
         ->and($classes['item_error'])->toBe($classes['item'].' lyra-upload__item--error')
-        ->and(fileUploadClass($html, 'item_meta'))->toBe($classes['item_meta_uploading'])
-        ->and($classes['item_meta_done'])->toBe($classes['item_meta_uploading'])
-        ->and($classes['item_meta_error'])->toBe($classes['item_meta_uploading'])
-        ->and($iconMatches[1])->toHaveCount(10)
+        ->and($iconMatches[1])->toHaveCount(9)
         ->each->toBe($classes['icon']);
 })->with('file upload class emission');
 
@@ -157,32 +116,62 @@ it('renders namespaced and short syntax identically', function (): void {
         ->and($short)->toContain('class="lyra-upload"');
 });
 
-it('serves a native dropzone button and hidden file input', function (): void {
+it('serves the root with a unique id and idle state', function (): void {
+    $explicit = renderFileUpload(['id' => 'documents']);
+    $first = renderFileUpload();
+    $second = renderFileUpload();
+
+    preg_match('/\bid="(lyra-upload-[0-9a-f]+)"/', fileUploadOpeningTag($first, 'root'), $firstId);
+    preg_match('/\bid="(lyra-upload-[0-9a-f]+)"/', fileUploadOpeningTag($second, 'root'), $secondId);
+
+    expect(fileUploadOpeningTag($explicit, 'root'))->toContain('id="documents"')
+        ->and(fileUploadOpeningTag($explicit, 'root'))->toContain('data-state="idle"')
+        ->and($firstId)->toHaveCount(2)
+        ->and($secondId)->toHaveCount(2)
+        ->and($firstId[1])->not->toBe($secondId[1])
+        ->and(fileUploadOpeningTag($first, 'input'))->toContain('id="'.$firstId[1].'-input"')
+        ->and(fileUploadOpeningTag($first, 'zone'))->toContain('for="'.$firstId[1].'-input"');
+});
+
+it('serves a label dropzone with a sibling native input outside any button', function (): void {
     $html = renderFileUpload([
+        'id' => 'documents',
         'accept' => '.pdf,image/*',
         'multiple' => false,
     ]);
     $zone = fileUploadOpeningTag($html, 'zone');
     $input = fileUploadOpeningTag($html, 'input');
 
-    expect($zone)->toContain('type="button"')
+    expect($zone)->toContain('for="documents-input"')
         ->and($zone)->toContain('x-bind="zone"')
+        ->and($input)->toContain('id="documents-input"')
         ->and($input)->toContain('type="file"')
         ->and($input)->toContain('accept=".pdf,image/*"')
-        ->and($input)->toContain('hidden')
-        ->and($input)->toContain('tabindex="-1"')
+        ->and($input)->not->toContain('hidden')
+        ->and($input)->not->toContain('tabindex')
         ->and($input)->toContain('x-bind="input"')
-        ->and($input)->not->toContain('multiple');
+        ->and($input)->not->toContain('multiple')
+        ->and($html)->toMatch('#</label>\s*<input#')
+        ->and($html)->not->toContain('<button type="button" class="lyra-upload__zone"');
 });
 
 it('serves multiple by default and omits an absent accept attribute', function (): void {
     $input = fileUploadOpeningTag(renderFileUpload(), 'input');
 
     expect($input)->toContain('multiple')
-        ->and($input)->not->toContain('accept=');
+        ->and($input)->not->toContain('accept=')
+        ->and($input)->not->toContain('name=');
 });
 
-it('generates the React helper text from accept and maximum size', function (): void {
+it('serves native form attributes on the input', function (): void {
+    $input = fileUploadOpeningTag(renderFileUpload(['name' => 'attachments[]', 'required' => true, 'disabled' => true]), 'input');
+
+    expect($input)->toContain('name="attachments[]"')
+        ->and($input)->toContain('required')
+        ->and($input)->toContain('disabled');
+});
+
+it('generates the helper text from accept and maximum size', function (): void {
     $html = renderFileUpload([
         'accept' => '.pdf,image/*',
         'maxSizeMB' => 12,
@@ -205,23 +194,49 @@ it('uses explicit helper text and omits an empty generated hint', function (): v
         ->and($empty)->not->toContain('lyra-upload__zone-hint');
 });
 
-it('serves the runtime item template with the exact React item tree', function (): void {
+it('serves an empty polite live region bound to Alpine', function (): void {
+    $live = fileUploadOpeningTag(renderFileUpload(), 'live');
+
+    expect($live)->toContain('class="lyra-upload__live lyra-visually-hidden"')
+        ->and($live)->toContain('aria-live="polite"')
+        ->and($live)->toContain('aria-atomic="true"')
+        ->and($live)->toContain('x-bind="liveRegion"')
+        ->and(renderFileUpload())->toMatch('#x-bind="liveRegion"\s*></span>#');
+});
+
+it('serves the runtime item template with binding objects and actions inside x-if', function (): void {
     $html = renderFileUpload();
 
-    expect($html)->toContain('<template x-if="items.length > 0">')
-        ->and($html)->toContain('<template x-for="item in items" :key="item.id">')
-        ->and(fileUploadOpeningTag($html, 'item'))->toContain("x-bind:class=\"{ 'lyra-upload__item--error': item.status === 'error' }\"")
+    expect($html)->toContain('<template x-for="item in items" :key="item.id">')
+        ->and(fileUploadOpeningTag($html, 'item'))->toContain('x-bind="itemBindings(item)"')
         ->and(fileUploadOpeningTag($html, 'item_icon'))->toContain('aria-hidden="true"')
         ->and(fileUploadOpeningTag($html, 'item_name'))->toContain('x-text="item.name"')
-        ->and(fileUploadOpeningTag($html, 'item_meta'))->toContain('x-text="item.status === \'error\' ? item.error : item.status === \'done\' ? formatBytes(item.size) : `${Math.round(item.progress)}%`"')
-        ->and($html)->toContain('<template x-if="item.status === \'uploading\'">')
-        ->and(fileUploadOpeningTag($html, 'bar_fill'))->toContain('x-bind:style="`width: ${item.progress}%`"')
-        ->and($html)->toContain('<template x-if="item.status === \'done\'">')
-        ->and(fileUploadOpeningTag($html, 'check'))->toContain('role="img"')
-        ->and(fileUploadOpeningTag($html, 'check'))->toContain('aria-label="Upload complete"')
-        ->and(fileUploadOpeningTag($html, 'remove'))->toContain('type="button"')
-        ->and(fileUploadOpeningTag($html, 'remove'))->toContain("x-bind:aria-label=\"'Remove ' + item.name\"")
-        ->and(fileUploadOpeningTag($html, 'remove'))->toContain('x-on:click="remove(item.id)"');
+        ->and(fileUploadOpeningTag($html, 'item_meta'))->toContain('item.error.message')
+        ->and($html)->toContain('<template x-if="item.status === \'uploading\' || item.status === \'canceling\'">')
+        ->and(fileUploadOpeningTag($html, 'bar'))->toContain('x-bind="progressBindings(item)"')
+        ->and(fileUploadOpeningTag($html, 'bar'))->toContain('x-effect="item.progress.kind === \'determinate\' ? $el.setAttribute(\'value\', item.progress.value) : $el.removeAttribute(\'value\')"')
+        ->and($html)->toMatch('#<template x-if="item.status === \'uploading\'">\s*<button[^>]*lyra-upload__cancel#')
+        ->and(fileUploadOpeningTag($html, 'cancel'))->toContain("x-bind=\"actionBindings('cancel', item)\"")
+        ->and($html)->toMatch('#<template x-if="item.status === \'canceled\' \|\| \(item.status === \'error\' && item.error.retryable\)">\s*<button[^>]*lyra-upload__retry#')
+        ->and(fileUploadOpeningTag($html, 'retry'))->toContain("x-bind=\"actionBindings('retry', item)\"")
+        ->and($html)->toMatch('#<template x-if="item.status === \'selected\' \|\| [^"]*">\s*<button[^>]*lyra-upload__remove#')
+        ->and(fileUploadOpeningTag($html, 'remove'))->toContain("x-bind=\"actionBindings('remove', item)\"");
+});
+
+it('translates status text, action labels, and alpine messages', function (): void {
+    $html = renderFileUpload([
+        'statusLabels' => ['success' => 'Concluído'],
+        'cancelLabel' => 'Cancelar',
+        'retryLabel' => 'Tentar de novo',
+        'messages' => ['remove' => 'Remover {name}', 'success' => '{name} enviado.'],
+    ]);
+    $root = html_entity_decode(fileUploadOpeningTag($html, 'root'), ENT_QUOTES);
+
+    expect($html)->toContain('Concluído')
+        ->and($html)->toContain('Uploading')
+        ->and($html)->toContain('>Cancelar</button>')
+        ->and($html)->toContain('>Tentar de novo</button>')
+        ->and($root)->toContain('messages: {"remove":"Remover {name}","success":"{name} enviado."}');
 });
 
 it('serves every extension icon branch and the status icons at React sizes', function (): void {
@@ -230,36 +245,51 @@ it('serves every extension icon branch and the status icons at React sizes', fun
     expect($html)->toContain('<template x-if="item.status === \'error\'">');
 
     foreach (['image', 'file-text', 'file-spreadsheet', 'file-archive', 'film', 'file'] as $name) {
-        expect($html)->toContain("iconFor(item.name) === '{$name}'");
+        expect($html)->toContain("=== '{$name}'");
     }
 
-    expect(substr_count($html, 'width="17"'))->toBeGreaterThanOrEqual(8)
-        ->and($html)->toContain('width="15"')
-        ->and(substr_count($html, '<template x-if='))->toBeGreaterThanOrEqual(10);
+    expect(substr_count($html, 'width="17"'))->toBeGreaterThanOrEqual(7)
+        ->and($html)->toContain('width="15"');
 });
 
-it('wires only authoritative Alpine options, binding objects, and modelable state', function (): void {
-    $defaultItems = [[
+it('wires only the controlled Alpine options and modelable items', function (): void {
+    $items = [[
         'id' => 'seed-1',
         'name' => 'brief.pdf',
         'size' => 2048,
-        'progress' => 100,
-        'status' => 'done',
+        'type' => 'application/pdf',
+        'status' => 'success',
+        'attemptId' => 'seed-attempt',
     ]];
     $html = renderFileUpload([
+        'id' => 'documents',
+        'name' => 'attachments[]',
+        'accept' => '.pdf',
         'maxSizeMB' => 8,
         'multiple' => false,
-        'uploadDuration' => 900,
-        'defaultItems' => $defaultItems,
+        'items' => $items,
     ]);
     $root = html_entity_decode(fileUploadOpeningTag($html, 'root'), ENT_QUOTES);
 
-    expect($root)->toContain('x-data="lyraFileUpload({ maxSizeMB: 8, multiple: false, uploadDuration: 900, defaultItems: [{"id":"seed-1","name":"brief.pdf","size":2048,"progress":100,"status":"done"}] })"')
+    expect($root)->toContain('x-data="lyraFileUpload({ name: "attachments[]", accept: ".pdf", maxSizeMB: 8, multiple: false, items: [{"id":"seed-1","name":"brief.pdf","size":2048,"type":"application/pdf","status":"success","attemptId":"seed-attempt"}] })"')
         ->and($root)->toContain('x-modelable="items"')
-        ->and($root)->not->toContain('x-bind="root"')
-        ->and(fileUploadOpeningTag($html, 'zone'))->toContain('x-bind="zone"')
-        ->and(fileUploadOpeningTag($html, 'input'))->toContain('x-bind="input"')
-        ->and($html)->not->toContain('x-bind="removeButton"');
+        ->and($root)->not->toContain('x-bind="root"');
+
+    foreach (['uploadDuration', 'defaultItems', 'doneLabel', "status === 'done'", 'lyra-upload__bar-fill', 'lyra-upload__check'] as $obsolete) {
+        expect($html)->not->toContain($obsolete);
+    }
+});
+
+it('forwards x-model and lifecycle listeners through the root attributes', function (): void {
+    $html = renderFileUpload(['id' => 'documents'], 'x-model="uploadItems" x-on:lyra:file-upload:select="start($event.detail)" x-on:lyra:file-upload:retry="retry($event.detail)" x-on:lyra:file-upload:cancel="cancel($event.detail)" x-on:lyra:file-upload:remove="remove($event.detail)"');
+    $root = fileUploadOpeningTag($html, 'root');
+
+    expect($root)->toContain('x-model="uploadItems"')
+        ->and($root)->toContain('x-on:lyra:file-upload:select="start($event.detail)"')
+        ->and($root)->toContain('x-on:lyra:file-upload:retry="retry($event.detail)"')
+        ->and($root)->toContain('x-on:lyra:file-upload:cancel="cancel($event.detail)"')
+        ->and($root)->toContain('x-on:lyra:file-upload:remove="remove($event.detail)"')
+        ->and(fileUploadOpeningTag($html, 'input'))->not->toContain('x-model');
 });
 
 it('supports Livewire model binding through items', function (): void {
@@ -268,14 +298,16 @@ it('supports Livewire model binding through items', function (): void {
         public array $uploads = [[
             'id' => 'seed-1',
             'name' => 'brief.pdf',
-            'progress' => 100,
-            'status' => 'done',
+            'size' => 10,
+            'type' => 'application/pdf',
+            'status' => 'success',
+            'attemptId' => 'a1',
         ]];
 
         public function render(): string
         {
             return <<<'BLADE'
-                <lyra:file-upload :default-items="$uploads" wire:model.live="uploads" />
+                <lyra:file-upload id="docs" :items="$uploads" wire:model.live="uploads" />
             BLADE;
         }
     };
@@ -285,7 +317,7 @@ it('supports Livewire model binding through items', function (): void {
 
     expect($root)->toContain('x-modelable="items"')
         ->and($root)->toContain('wire:model.live="uploads"')
-        ->and($root)->toContain('defaultItems: [{"id":"seed-1","name":"brief.pdf","progress":100,"status":"done"}]')
+        ->and($root)->toContain('items: [{"id":"seed-1","name":"brief.pdf","size":10,"type":"application/pdf","status":"success","attemptId":"a1"}]')
         ->and(fileUploadOpeningTag($html, 'input'))->not->toContain('wire:model');
 });
 

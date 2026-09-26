@@ -77,15 +77,44 @@ it('renders links, separators, and the current item in React order', function ()
         ->and($html)->not->toContain('<li');
 });
 
-it('falls back to a hash for a non-current item without an href', function (): void {
+it('renders a non-final item without an href as plain text, never href="#"', function (): void {
     $html = renderBreadcrumb([
         'items' => [
-            ['label' => 'Home', 'href' => null],
-            ['label' => 'Current'],
+            ['label' => 'A'],
+            ['label' => 'B', 'href' => '/b'],
+            ['label' => 'C'],
         ],
     ]);
 
-    expect($html)->toContain('<a href="#">Home</a>');
+    expect($html)->not->toContain('href="#"')
+        ->and($html)->toContain('<span>A</span>')
+        ->and($html)->toContain('>B</a>')
+        ->and($html)->toContain('href="/b"')
+        ->and(substr_count($html, '<a'))->toBe(1);
+});
+
+it('passes target and rel through on linked items', function (): void {
+    $html = renderBreadcrumb([
+        'items' => [
+            ['label' => 'Ext', 'href' => 'https://example.com', 'target' => '_blank', 'rel' => 'noopener noreferrer'],
+            ['label' => 'Here'],
+        ],
+    ]);
+
+    expect($html)->toContain('target="_blank"')
+        ->and($html)->toContain('rel="noopener noreferrer"');
+});
+
+it('keeps the final item as the current span even when it has an href', function (): void {
+    $html = renderBreadcrumb([
+        'items' => [
+            ['label' => 'A', 'href' => '/a'],
+            ['label' => 'Z', 'href' => '/z'],
+        ],
+    ]);
+
+    expect($html)->toContain('<span class="lyra-breadcrumb__current" aria-current="page">Z</span>')
+        ->and($html)->not->toContain('href="/z"');
 });
 
 it('uses the default aria label and allows consumers to override it', function (): void {

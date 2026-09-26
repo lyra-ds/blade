@@ -5,11 +5,14 @@
     'createLabel' => 'Create workspace',
     'createId' => 'create',
     'defaultOpen' => false,
+    'labels' => [],
 ])
 
 {{--
-    Selection dispatches lyra:change with the served data-id. The create action deliberately reuses
-    that event and the option binding; consumers distinguish it with create-id (default: "create").
+    Buttons dispatch lyra:change with the served data-id; workspaces with an href render native links
+    that navigate instead. The create action deliberately reuses that event and the option binding
+    (and so joins arrow-key cycling); consumers distinguish it with create-id (default: "create").
+    labels: listLabel, placeholder and members (['one' => ..., 'other' => ...], ":count" replaced).
 --}}
 @php
     $workspaces = array_values($workspaces);
@@ -24,8 +27,18 @@
 
     $selected ??= $workspaces[0] ?? null;
     $rootId = $attributes->get('id') ?? 'lyra-wssw-'.uniqid();
-    $listboxId = $rootId.'-listbox';
-    $labelId = $listboxId.'-label';
+    $popoverId = $rootId.'-popover';
+    $labelId = $popoverId.'-label';
+    $listLabel = $labels['listLabel'] ?? 'Workspaces';
+    $placeholder = $labels['placeholder'] ?? 'Select workspace';
+    $memberLabels = $labels['members'] ?? [];
+    $formatMembers = function (int|string $count) use ($memberLabels): string {
+        $template = (int) $count === 1
+            ? ($memberLabels['one'] ?? ':count member')
+            : ($memberLabels['other'] ?? ':count members');
+
+        return str_replace(':count', (string) $count, $template);
+    };
     $defaultOpenLiteral = $defaultOpen ? 'true' : 'false';
 @endphp
 
@@ -38,14 +51,13 @@
     <button
         type="button"
         class="lyra-wssw__trigger"
-        aria-haspopup="listbox"
         aria-expanded="{{ $defaultOpen ? 'true' : 'false' }}"
-        aria-controls="{{ $listboxId }}"
+        aria-controls="{{ $popoverId }}"
         x-bind="trigger"
     >
         <x-lyra::avatar :name="$selected['name'] ?? '?'" size="sm" shape="square" />
         <span class="lyra-wssw__id">
-            <span class="lyra-wssw__name">{{ $selected['name'] ?? 'Select workspace' }}</span>
+            <span class="lyra-wssw__name">{{ $selected['name'] ?? $placeholder }}</span>
             @if (isset($selected['plan']) && $selected['plan'] !== '')
                 <span class="lyra-wssw__plan">{{ $selected['plan'] }}</span>
             @endif
@@ -53,16 +65,16 @@
         <x-lyra::icon name="chevrons-up-down" :size="15" color="var(--text-faint)" />
     </button>
     <div
-        id="{{ $listboxId }}"
+        id="{{ $popoverId }}"
         class="lyra-wssw__pop"
-        role="listbox"
+        role="group"
         x-bind="popover"
         aria-labelledby="{{ $labelId }}"
         @if (! $defaultOpen)
             x-cloak
         @endif
     >
-        <span id="{{ $labelId }}" class="lyra-wssw__pop-label">Workspaces</span>
+        <span id="{{ $labelId }}" class="lyra-wssw__pop-label">{{ $listLabel }}</span>
         @foreach ($workspaces as $workspace)
             @php
                 $isSelected = $workspace['id'] === ($selected['id'] ?? null);
@@ -75,16 +87,22 @@
                 }
 
                 if ($hasMembers) {
-                    $metadata[] = $workspace['members'].' members';
+                    $metadata[] = $formatMembers($workspace['members']);
                 }
             @endphp
-            <button
-                type="button"
-                role="option"
-                aria-selected="{{ $isSelected ? 'true' : 'false' }}"
+            @php($itemTag = isset($workspace['href']) && $workspace['href'] !== '' ? 'a' : 'button')
+            <{{ $itemTag }}
+                @if ($itemTag === 'a')
+                    href="{{ $workspace['href'] }}"
+                @else
+                    type="button"
+                @endif
                 class="lyra-wssw__item"
                 x-bind="option"
                 data-id="{{ $workspace['id'] }}"
+                @if ($isSelected)
+                    aria-current="true"
+                @endif
             >
                 <x-lyra::avatar :name="$workspace['name']" size="sm" shape="square" />
                 <span class="lyra-wssw__id">
@@ -96,14 +114,12 @@
                 @if ($isSelected)
                     <x-lyra::icon name="check" :size="15" color="var(--accent)" />
                 @endif
-            </button>
+            </{{ $itemTag }}>
         @endforeach
         @if ($create)
             <hr class="lyra-wssw__sep" role="presentation">
             <button
                 type="button"
-                role="option"
-                aria-selected="false"
                 class="lyra-wssw__item lyra-wssw__create"
                 x-bind="option"
                 data-id="{{ $createId }}"

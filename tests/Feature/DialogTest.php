@@ -273,3 +273,30 @@ it('seeds an open Livewire dialog and places wire model on the modelable overlay
         ->and($panelTag)->not->toContain('wire:model')
         ->and($panelTag)->toContain('data-track="dialog"');
 });
+
+it('compiles return-focus-to into an escaped resolver option', function (): void {
+    $html = renderDialog(['return-focus-to' => '#after']);
+    $overlay = dialogOpeningTag($html, 'overlay');
+
+    expect($overlay)->toContain('returnFocusTo: () =&gt; document.querySelector(&quot;#after&quot;)')
+        ->and($overlay)->not->toContain('return-focus-to=')
+        ->and(dialogOpeningTag(renderDialog(['return-focus-to' => '  ']), 'overlay'))->not->toContain('returnFocusTo');
+});
+
+it('reapplies the translated close label after Alpine binds the close control', function (): void {
+    $tag = dialogOpeningTag(renderDialog(['closeLabel' => 'Fechar']), 'close');
+
+    expect($tag)->toContain('aria-label="Fechar"')
+        ->and($tag)->toContain(':aria-label="&quot;Fechar&quot;"')
+        ->and(strpos($tag, 'x-bind="close"'))->toBeLessThan(strpos($tag, ':aria-label='));
+});
+
+it('keeps a hostile return-focus-to value inert inside the dialog options', function (): void {
+    $html = Blade::render('<x-lyra::dialog title="T" :return-focus-to="$target">Body</x-lyra::dialog>', [
+        'target' => "a'b\"</script>\\",
+    ]);
+
+    expect($html)->not->toContain('</script>')
+        ->and($html)->not->toContain("a'b")
+        ->and($html)->toContain('\\u0027');
+});

@@ -1,5 +1,6 @@
 [
     {"props": {}, "expected_class": "lyra-tabs"},
     {"props": {"variant": "pills"}, "expected_class": "lyra-tabs lyra-tabs--pills"},
-    {"props": {"class": "x"}, "expected_class": "lyra-tabs x"}
+    {"props": {"class": "x"}, "expected_class": "lyra-tabs x"},
+    {"props": {"items": [{"id": "a", "label": "A", "panel": "A"}, {"id": "b", "label": "B", "disabled": true, "panel": "B"}]}, "expected_class": "lyra-tabs"}
 ]

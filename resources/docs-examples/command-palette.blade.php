@@ -2,6 +2,7 @@
     placeholder="Type a command or search…"
     empty-message="No results found."
     hotkey="k"
+    return-focus-to="#open-cmdk"
     :groups="[
         ['label' => 'Navigation', 'items' => [
             ['id' => 'go-projects', 'label' => 'Go to projects'],

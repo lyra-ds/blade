@@ -5,7 +5,7 @@
         "expected_classes": {
             "zone": "lyra-upload__zone",
             "zone_drag": "lyra-upload__zone lyra-upload__zone--drag",
-            "input": "",
+            "input": "lyra-upload__input",
             "zone_icon": "lyra-upload__zone-icon",
             "icon": "lyra-icon",
             "zone_label": "lyra-upload__zone-label",
@@ -17,13 +17,12 @@
             "item_body": "lyra-upload__item-body",
             "item_row": "lyra-upload__item-row",
             "item_name": "lyra-upload__item-name",
-            "item_meta_uploading": "lyra-upload__item-meta",
-            "item_meta_done": "lyra-upload__item-meta",
-            "item_meta_error": "lyra-upload__item-meta",
+            "item_meta": "lyra-upload__item-meta",
             "bar": "lyra-upload__bar",
-            "bar_fill": "lyra-upload__bar-fill",
-            "check": "lyra-upload__check",
-            "remove": "lyra-upload__remove"
+            "cancel": "lyra-upload__cancel",
+            "retry": "lyra-upload__retry",
+            "remove": "lyra-upload__remove",
+            "live": "lyra-upload__live lyra-visually-hidden"
         }
     },
     {

@@ -175,3 +175,25 @@ it('renders an escaped assistive bubble and no server ids', function (): void {
         ->and($target)->not->toContain('aria-describedby=')
         ->and($bubble)->not->toContain(' id=');
 });
+
+it('renders the bubble id and no wrapper so the focusable child owns aria-describedby', function (): void {
+    $html = renderTooltip(
+        props: ['bubble-id' => 'tip-share'],
+        slot: new HtmlString('<button type="button" aria-describedby="tip-share">Share</button>'),
+    );
+
+    expect($html)->toContain('<span id="tip-share" role="tooltip" hidden>Helpful context</span>')
+        ->and($html)->toContain('<button type="button" aria-describedby="tip-share">Share</button>')
+        ->and($html)->not->toContain('x-bind="target"')
+        ->and($html)->not->toContain('x-bind="bubble"')
+        ->and($html)->not->toContain('tabindex=')
+        ->and(tooltipOpeningTag($html, 'root'))->toContain('x-bind="root"')
+        ->and(tooltipOpeningTag($html, 'root'))->not->toContain('bubble-id')
+        ->and(tooltipOpeningTag($html, 'root'))->not->toContain(' id=');
+});
+
+it('escapes the bubble id attribute', function (): void {
+    $html = Blade::render('<x-lyra::tooltip tip="Tip" :bubble-id="$id">Target</x-lyra::tooltip>', ['id' => 'a"b']);
+
+    expect($html)->toContain('<span id="a&quot;b" role="tooltip" hidden>');
+});

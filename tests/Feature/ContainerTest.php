@@ -88,6 +88,45 @@ it('accepts a numeric string as pixels', function (): void {
     expect($openingTag)->toContain('style="--container-max: 480px"');
 });
 
+it('accepts decimal, padded numeric and numeric max values', function (mixed $max, string $expected): void {
+    $openingTag = containerOpeningTag(
+        Blade::render('<x-lyra::container :max="$max">C</x-lyra::container>', ['max' => $max]),
+    );
+
+    expect($openingTag)->toContain(sprintf('style="--container-max: %s"', $expected));
+})->with([
+    ['12.5', '12.5px'],
+    ['480.5', '480.5px'],
+    [480, '480px'],
+    [480.5, '480.5px'],
+    [' 5', '5px'],
+    ['5 ', '5px'],
+    [' 12.5 ', '12.5px'],
+    ["5\n", '5px'],
+    [-5, '-5px'],
+    [12.5, '12.5px'],
+    [0, '0px'],
+    ['0', '0px'],
+]);
+
+it('emits no style for non-finite, signed, exponent or malformed max values', function (mixed $max): void {
+    $html = Blade::render('<x-lyra::container :max="$max">C</x-lyra::container>', ['max' => $max]);
+
+    expect(trim($html))->toBe('<div class="lyra-container">C</div>');
+})->with([
+    'NAN' => [NAN],
+    'INF' => [INF],
+    '-INF' => [-INF],
+    '-5' => ['-5'],
+    '1e3' => ['1e3'],
+    '1e400' => ['1e400'],
+    'padded md' => [' md '],
+    'md with newline' => ["md\n"],
+    '+5' => ['+5'],
+    '.5' => ['.5'],
+    'empty' => [''],
+]);
+
 it('ignores unrecognised max values instead of emitting invalid CSS', function (): void {
     $html = renderContainer(['max' => 'huge']);
 

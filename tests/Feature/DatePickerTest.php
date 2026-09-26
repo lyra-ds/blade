@@ -256,12 +256,12 @@ it('treats zero strings as present label, hint, and error content', function ():
     $hint = renderDatePicker(['hint' => '0']);
     $error = renderDatePicker(['error' => '0']);
 
-    expect(datePickerRootClass($label))->toBe('lyra-field')
+    expect(datePickerRootClass($label))->toBe('lyra-datepicker-root lyra-field')
         ->and($label)->toContain('<label class="lyra-label"')
         ->and($label)->toContain('>0</label>')
-        ->and(datePickerRootClass($hint))->toBe('lyra-field')
+        ->and(datePickerRootClass($hint))->toBe('lyra-datepicker-root lyra-field')
         ->and($hint)->toContain('<span class="lyra-hint">0</span>')
-        ->and(datePickerRootClass($error))->toBe('lyra-field')
+        ->and(datePickerRootClass($error))->toBe('lyra-datepicker-root lyra-field')
         ->and($error)->toContain('<span class="lyra-hint lyra-hint--error">0</span>');
 });
 
@@ -289,7 +289,7 @@ it('adds error styling to every trigger and suppresses the hint', function (): v
         expect($trigger)->toContain('class="lyra-input lyra-datepicker__btn lyra-input--error"');
     }
 
-    expect(datePickerRootClass($html))->toBe('lyra-field')
+    expect(datePickerRootClass($html))->toBe('lyra-datepicker-root lyra-field')
         ->and($html)->toContain('<span class="lyra-hint lyra-hint--error">Date is required</span>')
         ->and($html)->not->toContain('Choose your arrival date');
 });
@@ -298,10 +298,10 @@ it('renders only the hint when there is no error and omits messages otherwise', 
     $hint = renderDatePicker(['hint' => 'Choose your arrival date']);
     $plain = renderDatePicker();
 
-    expect(datePickerRootClass($hint))->toBe('lyra-field')
+    expect(datePickerRootClass($hint))->toBe('lyra-datepicker-root lyra-field')
         ->and($hint)->toContain('<span class="lyra-hint">Choose your arrival date</span>')
         ->and($hint)->not->toContain('lyra-hint--error')
-        ->and(datePickerRootClass($plain))->toBe('')
+        ->and(datePickerRootClass($plain))->toBe('lyra-datepicker-root')
         ->and($plain)->not->toContain('class="lyra-hint');
 });
 
@@ -415,7 +415,7 @@ it('splits model attributes onto the modelable root and passes native attributes
     ]);
     $root = datePickerOpeningTag($html, 'root');
 
-    expect(datePickerRootClass($html))->toBe('wide elevated')
+    expect(datePickerRootClass($html))->toBe('lyra-datepicker-root wide elevated')
         ->and($root)->toContain('wire:model.live="date"')
         ->and($root)->toContain('x-model.fill="selectedDate"')
         ->and($root)->toContain('data-track="date-picker"')
@@ -453,4 +453,36 @@ it('renders namespaced and short syntax identically', function (): void {
 
     expect($short)->toBe($namespaced)
         ->and($short)->toContain('lyraDatePicker(');
+});
+
+it('marks the root with lyra-datepicker-root and merges classes', function (): void {
+    $plain = datePickerRootClass(renderDatePicker());
+    $labelled = datePickerRootClass(renderDatePicker(['label' => 'Due']));
+    $custom = datePickerRootClass(renderDatePicker(['label' => 'Due', 'class' => 'mine']));
+
+    expect(explode(' ', $plain))->toContain('lyra-datepicker-root')
+        ->and(explode(' ', $labelled))->toContain('lyra-datepicker-root', 'lyra-field')
+        ->and(explode(' ', $custom))->toContain('lyra-datepicker-root', 'lyra-field', 'mine');
+});
+
+it('wires the mobile sheet to return focus to its own trigger with a unique title id', function (): void {
+    $a = renderDatePicker(['id' => 'a']);
+    $b = renderDatePicker(['id' => 'b']);
+
+    expect($a)->toContain('.lyra-datepicker-root')
+        ->and($a)->toContain('returnFocusTo: () =&gt;')
+        ->and($a)->toContain('a-sheet-title')
+        ->and($b)->toContain('b-sheet-title')
+        ->and($b)->not->toContain('a-sheet-title');
+});
+
+it('forwards return-focus-to to the mobile sheet and keeps the local trigger as default', function (): void {
+    $custom = renderDatePicker(['id' => 'a', 'return-focus-to' => '#after']);
+    $default = renderDatePicker(['id' => 'a']);
+    $root = strtok($custom, '>');
+
+    expect($custom)->toContain('returnFocusTo: () =&gt; document.querySelector(&quot;#after&quot;)')
+        ->and($custom)->not->toContain('.lyra-datepicker-root')
+        ->and($root)->not->toContain('return-focus-to')
+        ->and($default)->toContain('.lyra-datepicker-root');
 });

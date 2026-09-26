@@ -274,3 +274,21 @@ it('preserves consumer attributes with stateful values before consumer overrides
         ->and($root)->toMatch('/style="--appsidebar-width: 260px; width: var\(--appsidebar-width\);?\s*color: red;?"/')
         ->and(strpos($root, 'x-data="lyraAppSidebar('))->toBeLessThan(strpos($root, 'x-data="consumerState"'));
 });
+
+it('forwards href, target and rel of group items as native links', function (): void {
+    $html = renderAppSidebar([
+        'groups' => [
+            ['heading' => 'Main', 'items' => [
+                ['id' => 'a', 'label' => 'A', 'href' => '/a', 'active' => true],
+                ['id' => 'x', 'label' => 'X', 'href' => 'https://example.com', 'target' => '_blank', 'rel' => 'noopener noreferrer'],
+                ['id' => 'b', 'label' => 'B'],
+            ]],
+        ],
+    ]);
+
+    expect($html)->toMatch('/<a\s+class="lyra-sbgroup__item lyra-sbgroup__item--active"\s+href="\/a"\s+data-id="a"[^>]*aria-current="page"[^>]*title="A"/')
+        ->and($html)->toContain('target="_blank"')
+        ->and($html)->toContain('rel="noopener noreferrer"')
+        ->and(substr_count($html, 'class="lyra-sbgroup__item"') + substr_count($html, 'class="lyra-sbgroup__item lyra-sbgroup__item--active"'))->toBe(3)
+        ->and($html)->toMatch('/<button\s+type="button"\s+class="lyra-sbgroup__item"[^>]*data-id="b"/');
+});

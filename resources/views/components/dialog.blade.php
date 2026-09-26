@@ -6,7 +6,10 @@
     'closeOnEsc' => true,
     'closeOnOverlayClick' => true,
     'labelId' => null,
+    'returnFocusTo' => null,
 ])
+
+{{-- Public contract (frozen at 1.0): return-focus-to takes a CSS selector (e.g. "#open-dialog") resolved with document.querySelector when the overlay closes; empty falls back to the previously focused element. --}}
 
 {{-- closable maps React's onClose-provided condition to rendering the plugin-owned close control. --}}
 @php
@@ -22,11 +25,14 @@
         $escapedLabelId = htmlspecialchars($escapedLabelId, ENT_COMPAT | ENT_SUBSTITUTE, 'UTF-8');
         $labelIdOption = ", labelId: '{$escapedLabelId}'";
     }
+    $returnFocusResolver = \LyraDs\Blade\FocusResolver::selector($returnFocusTo);
+    $returnFocusOption = $returnFocusResolver === null ? '' : ', returnFocusTo: '.$returnFocusResolver;
+    $closeLabelBinding = json_encode((string) $closeLabel, JSON_THROW_ON_ERROR | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_SLASHES);
 @endphp
 
 <div
     class="lyra-dialog-overlay"
-    x-data="lyraDialog({ defaultOpen: {!! $defaultOpenLiteral !!}, closeOnEsc: {!! $closeOnEscLiteral !!}, closeOnOverlayClick: {!! $closeOnOverlayClickLiteral !!}{!! $labelIdOption !!} })"
+    x-data="lyraDialog({ defaultOpen: {!! $defaultOpenLiteral !!}, closeOnEsc: {!! $closeOnEscLiteral !!}, closeOnOverlayClick: {!! $closeOnOverlayClickLiteral !!}{!! $labelIdOption !!}{{ $returnFocusOption }} })"
     x-modelable="open"
     x-bind="overlay"
     @if (! $defaultOpen)
@@ -58,6 +64,7 @@
                     class="lyra-dialog__close"
                     aria-label="{{ $closeLabel }}"
                     x-bind="close"
+                    :aria-label="{{ $closeLabelBinding }}"
                 >
                     <svg
                         width="14"

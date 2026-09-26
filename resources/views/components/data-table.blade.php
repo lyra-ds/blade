@@ -12,6 +12,9 @@
     'empty' => null,
     'hover' => false,
     'labels' => [],
+    'caption' => null,
+    'captionHidden' => false,
+    'scrollLabel' => null,
 ])
 
 {{--
@@ -19,9 +22,13 @@
     component exposes no PHP callback props. selected is modelable by default; consumers may pass
     x-modelable="sorting" when sorting is the state wired to x-model or wire:model.
 
-    React's onRowClick has no served equivalent or row-level hook. Consumers put their own
-    interactive Htmlable/Stringable content, such as a link, inside a cell; hover only composes
-    the table's appearance.
+    Rows have no click hook. Consumers put their own interactive Htmlable/Stringable content, such
+    as a link, inside a cell; hover only composes the table's appearance.
+
+    aria-label and aria-labelledby name the table itself; every other attribute lands on the
+    wrapper. The focusable scroll region takes scrollLabel, else the caption id, else the table's
+    own name, else "Data table". A column with rowHeader: true serves its body cells as
+    th[scope=row].
 
     A sortable column may name sortValueKey to translate React's sortValue(row) closure into
     server data. It defaults to the column key. Rich cell values remain renderable so specialized
@@ -121,6 +128,7 @@
                 : $column['key'];
 
             $resolvedColumns[] = [
+                'rowHeader' => ($column['rowHeader'] ?? false) === true,
                 'key' => $column['key'],
                 'keyLiteral' => json_encode($column['key'], $jsonFlags),
                 'label' => $column['label'],
@@ -187,6 +195,7 @@
         'selectAll' => 'Select all',
         'selectRow' => 'Select row',
         'empty' => 'No records.',
+        'loading' => 'Loading data…',
     ];
 
     if (is_array($labels)) {
@@ -265,19 +274,39 @@
     }
 
     $columnSpan = max(1, count($resolvedColumns) + ($resolvedSelectable ? 1 : 0));
+    $resolvedScrollLabel = is_string($scrollLabel) && $scrollLabel !== '' ? $scrollLabel : null;
     $bindingOptions = [
         'sorting' => $resolvedSorting,
         'selected' => $resolvedSelected,
         'clientSort' => $resolvedClientSort,
-    ];
+    ] + ($resolvedScrollLabel === null ? [] : ['scrollLabel' => $resolvedScrollLabel]);
+
     $optionsLiteral = json_encode($bindingOptions, $jsonFlags);
     $requestedModelable = $attributes->get('x-modelable');
     $resolvedModelable = is_string($requestedModelable)
         && in_array($requestedModelable, ['selected', 'sorting'], true)
             ? $requestedModelable
             : 'selected';
+    $hasCaption = $caption !== null && $caption !== '' && $caption !== false;
+    $tableLabel = is_string($attributes->get('aria-label')) && $attributes->get('aria-label') !== ''
+        ? $attributes->get('aria-label')
+        : null;
+    $tableLabelledBy = is_string($attributes->get('aria-labelledby')) && $attributes->get('aria-labelledby') !== ''
+        ? $attributes->get('aria-labelledby')
+        : null;
+    $captionId = 'lyra-data-table-caption-'.uniqid();
+    $regionLabelledBy = match (true) {
+        $resolvedScrollLabel !== null => null,
+        $hasCaption => $captionId,
+        default => $tableLabelledBy,
+    };
+    $regionLabel = match (true) {
+        $resolvedScrollLabel !== null => $resolvedScrollLabel,
+        $hasCaption || $tableLabelledBy !== null => null,
+        default => $tableLabel ?? 'Data table',
+    };
     $rootAttributes = $attributes
-        ->except(['x-data', 'x-modelable'])
+        ->except(['x-data', 'x-modelable', 'aria-label', 'aria-labelledby'])
         ->class('lyra-table-wrap');
 @endphp
 
@@ -288,20 +317,48 @@
 >
     <div
         class="lyra-table-scroll"
+        x-bind="scrollRegion"
+        role="region"
+        tabindex="0"
+        @if ($regionLabel !== null)
+            aria-label="{{ $regionLabel }}"
+        @endif
+        @if ($regionLabelledBy !== null)
+            aria-labelledby="{{ $regionLabelledBy }}"
+        @endif
         @if ($resolvedMaxHeight !== null)
             style="max-height: {{ $resolvedMaxHeight }}"
         @endif
     >
-        <table @class([
-            'lyra-table',
-            'lyra-table--hover' => $resolvedHover,
-            'lyra-table--compact' => $resolvedDensity === 'compact',
-            'lyra-table--sticky' => $resolvedStickyHeader,
-        ])>
+        <table
+            @if ($tableLabel !== null)
+                aria-label="{{ $tableLabel }}"
+            @endif
+            @if ($tableLabelledBy !== null)
+                aria-labelledby="{{ $tableLabelledBy }}"
+            @endif
+            @if ($isLoading)
+                aria-busy="true"
+            @endif
+            @class([
+                'lyra-table',
+                'lyra-table--hover' => $resolvedHover,
+                'lyra-table--compact' => $resolvedDensity === 'compact',
+                'lyra-table--sticky' => $resolvedStickyHeader,
+            ])
+        >
+            @if ($hasCaption)
+                <caption
+                    id="{{ $captionId }}"
+                    @if ($captionHidden)
+                        class="lyra-visually-hidden"
+                    @endif
+                >{{ $caption }}</caption>
+            @endif
             <thead>
                 <tr>
                     @if ($resolvedSelectable)
-                        <th class="lyra-table__check">
+                        <th scope="col" class="lyra-table__check">
                             <input
                                 type="checkbox"
                                 class="lyra-checkbox"
@@ -322,6 +379,7 @@
                         @endphp
 
                         <th
+                            scope="col"
                             @if ($column['style'] !== null)
                                 style="{{ $column['style'] }}"
                             @endif
@@ -495,7 +553,11 @@
                                     $sortValue = $resolveSortValue($row, $column['sortValueKey']);
                                 @endphp
 
-                                <td
+                                <{{ $column['rowHeader'] ? 'th' : 'td' }}
+                                    @if ($column['rowHeader'])
+                                        scope="row"
+                                        x-bind="rowHeader"
+                                    @endif
                                     @if ($loop->first)
                                         class="lyra-table__primary"
                                     @endif
@@ -505,13 +567,16 @@
                                     @if ($column['sortable'] && $sortValue !== null)
                                         data-sort-value="{{ $sortValue }}"
                                     @endif
-                                >{{ $renderedValue }}</td>
+                                >{{ $renderedValue }}</{{ $column['rowHeader'] ? 'th' : 'td' }}>
                             @endforeach
                         </tr>
                     @endforeach
                 @endif
             </tbody>
         </table>
+        @if ($isLoading)
+            <span role="status" class="lyra-visually-hidden">{{ $resolvedLabels['loading'] }}</span>
+        @endif
     </div>
 
     @if (isset($footer) && trim((string) $footer) !== '')
