@@ -416,15 +416,20 @@ Tags: `<x-lyra::file-upload>...</x-lyra::file-upload>` or `<lyra:file-upload>...
 Root class combination observed in fixtures: `lyra-upload`.
 
 Props:
+- `id` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `name` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `label` — default: `"Drag files here or click to select"`; no fixture examples (fixtures do not constrain this prop).
 - `hint` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `accept` — default: `null`; fixture examples (not constraints): `".pdf"`.
 - `maxSizeMB` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `multiple` — default: `true`; no fixture examples (fixtures do not constrain this prop).
-- `uploadDuration` — default: `1800`; no fixture examples (fixtures do not constrain this prop).
-- `defaultItems` — default: unknown; no fixture examples (fixtures do not constrain this prop).
-- `doneLabel` — default: `"Upload complete"`; no fixture examples (fixtures do not constrain this prop).
-- `removeLabel` — default: `"Remove"`; no fixture examples (fixtures do not constrain this prop).
+- `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `required` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `items` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `messages` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `statusLabels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `cancelLabel` — default: `"Cancel"`; no fixture examples (fixtures do not constrain this prop).
+- `retryLabel` — default: `"Retry"`; no fixture examples (fixtures do not constrain this prop).
 
 ### footer
 
