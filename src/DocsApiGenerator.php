@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LyraDs\Blade;
 
+use Carbon\Carbon;
 use RuntimeException;
 
 /**
@@ -52,7 +53,7 @@ final class DocsApiGenerator
             $usage = rtrim((string) file_get_contents($examplePath), "\n");
             $fixture = $this->readFixture($fixturesDirectory."/{$slug}.json");
 
-            $html = $this->stabilizeIds(trim($render($usage)));
+            $html = $this->stabilizeIds(trim($this->renderExample($render, $usage)));
             $binding = $this->bindingName($html);
 
             $components[] = [
@@ -77,6 +78,21 @@ final class DocsApiGenerator
             ['version' => $version, 'components' => $components],
             JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR,
         )."\n";
+    }
+
+    /** @param  callable(string): string  $render */
+    private function renderExample(callable $render, string $usage): string
+    {
+        // The weekly schedule example uses today's date as a date-picker minimum.
+        // Pin only documentation rendering so the committed artifact does not expire overnight.
+        $previousClock = Carbon::getTestNow();
+        Carbon::setTestNow('2026-09-25 12:00:00 UTC');
+
+        try {
+            return $render($usage);
+        } finally {
+            Carbon::setTestNow($previousClock);
+        }
     }
 
     /**
