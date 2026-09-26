@@ -9,6 +9,7 @@
     'invalid' => false,
     'digitLabel' => 'Digit',
     'disabled' => false,
+    'required' => false,
 ])
 
 @php
@@ -26,6 +27,11 @@
     $groupId = $attributes->get('id') ?? 'lyra-otp-'.uniqid();
     $labelId = $groupId.'-label';
     $messageId = $groupId.'-message';
+    $externalLabelledBy = trim((string) $attributes->get('aria-labelledby'));
+    $labelledBy = trim(implode(' ', array_filter([
+        $label ? $labelId : null,
+        $externalLabelledBy,
+    ])));
     $consumerDescribedBy = $attributes->get('aria-describedby');
     $describedBy = trim(implode(' ', array_filter([
         $consumerDescribedBy,
@@ -53,8 +59,8 @@
         {{ $groupAttributes }}
         id="{{ $groupId }}"
         role="group"
-        @if ($label)
-            aria-labelledby="{{ $labelId }}"
+        @if ($labelledBy !== '')
+            aria-labelledby="{{ $labelledBy }}"
         @elseif ($attributes->has('aria-label'))
             aria-label="{{ $attributes->get('aria-label') }}"
         @endif
@@ -79,6 +85,9 @@
                 @endif
                 @if ($disabled)
                     disabled
+                @endif
+                @if ($required)
+                    required
                 @endif
                 x-bind="digit"
             >

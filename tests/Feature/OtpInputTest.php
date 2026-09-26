@@ -95,3 +95,21 @@ it('prefers flashed old input over the supplied value', function (): void {
     expect(otpTag($html, 'hidden'))->toContain('value="9876"')
         ->and(html_entity_decode(otpTag($html, 'field'), ENT_QUOTES))->toContain('"defaultValue":"9876"');
 });
+
+it('marks every digit required instead of the group', function (): void {
+    $html = Blade::render('<x-lyra::otp-input name="code" required />');
+    preg_match_all('/<input\b(?=[^>]*\blyra-otp__digit)[^>]*>/', $html, $digits);
+
+    expect($digits[0])->toHaveCount(1)
+        ->and($digits[0][0])->toMatch('/\srequired(\s|>|=)/')
+        ->and(otpTag($html, 'group'))->not->toMatch('/\srequired(\s|>|=)/')
+        ->and(otpTag(renderOtpInput(['name' => 'code']), 'digit'))->not->toMatch('/\srequired(\s|>|=)/');
+});
+
+it('keeps an external aria-labelledby and combines it with the internal label', function (): void {
+    $external = Blade::render('<x-lyra::otp-input id="otp" aria-labelledby="outside" />');
+    $combined = Blade::render('<x-lyra::otp-input id="otp" label="Code" aria-labelledby="outside" />');
+
+    expect(otpTag($external, 'group'))->toContain('aria-labelledby="outside"')
+        ->and(otpTag($combined, 'group'))->toContain('aria-labelledby="otp-label outside"');
+});

@@ -1452,7 +1452,7 @@
         {
             "slug": "otp-input",
             "usage": "<lyra:otp-input\n    name=\"verification_code\"\n    label=\"Verification code\"\n    hint=\"Enter the six-digit code we sent you.\"\n    :length=\"6\"\n/>",
-            "html": "<div class=\"lyra-field\" x-data=\"lyraOtpInput({&quot;length&quot;:6,&quot;defaultValue&quot;:&quot;&quot;,&quot;invalid&quot;:false,&quot;digitLabel&quot;:&quot;Digit&quot;})\" x-modelable=\"code\" >\n        <span id=\"lyra-otp-id1-label\" class=\"lyra-label\">Verification code</span>\n        <div\n        class=\"lyra-otp\"\n        id=\"lyra-otp-id1\"\n        role=\"group\"\n                    aria-labelledby=\"lyra-otp-id1-label\"\n                            aria-describedby=\"lyra-otp-id1-message\"\n            >\n        <template x-for=\"index in positions\" :key=\"index\">\n            <input\n                type=\"text\"\n                class=\"lyra-input lyra-otp__digit\"\n                :data-index=\"index\"\n                inputmode=\"numeric\"\n                pattern=\"[0-9]*\"\n                maxlength=\"6\"\n                :autocomplete=\"index === 0 ? 'one-time-code' : 'off'\"\n                                                                x-bind=\"digit\"\n            >\n        </template>\n    </div>\n        <input type=\"hidden\" name=\"verification_code\" value=\"\" x-bind:value=\"code\" >\n            <span id=\"lyra-otp-id1-message\" class=\"lyra-hint\">Enter the six-digit code we sent you.</span>\n    </div>",
+            "html": "<div class=\"lyra-field\" x-data=\"lyraOtpInput({&quot;length&quot;:6,&quot;defaultValue&quot;:&quot;&quot;,&quot;invalid&quot;:false,&quot;digitLabel&quot;:&quot;Digit&quot;})\" x-modelable=\"code\" >\n        <span id=\"lyra-otp-id1-label\" class=\"lyra-label\">Verification code</span>\n        <div\n        class=\"lyra-otp\"\n        id=\"lyra-otp-id1\"\n        role=\"group\"\n                    aria-labelledby=\"lyra-otp-id1-label\"\n                            aria-describedby=\"lyra-otp-id1-message\"\n            >\n        <template x-for=\"index in positions\" :key=\"index\">\n            <input\n                type=\"text\"\n                class=\"lyra-input lyra-otp__digit\"\n                :data-index=\"index\"\n                inputmode=\"numeric\"\n                pattern=\"[0-9]*\"\n                maxlength=\"6\"\n                :autocomplete=\"index === 0 ? 'one-time-code' : 'off'\"\n                                                                                x-bind=\"digit\"\n            >\n        </template>\n    </div>\n        <input type=\"hidden\" name=\"verification_code\" value=\"\" x-bind:value=\"code\" >\n            <span id=\"lyra-otp-id1-message\" class=\"lyra-hint\">Enter the six-digit code we sent you.</span>\n    </div>",
             "binding": "lyraOtpInput",
             "props": [
                 {
@@ -1517,6 +1517,12 @@
                 },
                 {
                     "name": "disabled",
+                    "default": "false",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "required",
                     "default": "false",
                     "required": false,
                     "values": []

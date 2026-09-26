@@ -515,6 +515,7 @@ Props:
 - `invalid` — default: `false`; no fixture examples (fixtures do not constrain this prop).
 - `digitLabel` — default: `"Digit"`; no fixture examples (fixtures do not constrain this prop).
 - `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `required` — default: `false`; no fixture examples (fixtures do not constrain this prop).
 
 ### page-header
 
