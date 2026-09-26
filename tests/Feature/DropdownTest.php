@@ -299,3 +299,17 @@ it('renders an open wire-modelled dropdown through Livewire', function (): void 
     expect($rootOpeningTag)->toContain('wire:model="open"')
         ->and($html)->toContain('aria-expanded="true"');
 });
+
+it('renders disabled items as aria-disabled with click blocked and no href', function () {
+    $html = renderDropdown(['items' => [
+        ['label' => 'Off', 'id' => 'off', 'disabled' => true],
+        ['label' => 'Link off', 'id' => 'link', 'href' => '/x', 'disabled' => true],
+        ['label' => 'On', 'id' => 'on'],
+    ]]);
+
+    expect(substr_count($html, 'aria-disabled="true"'))->toBe(2)
+        ->and($html)->not->toContain('href="/x"')->toContain('tabindex="-1"')
+        ->and($html)->toContain('x-on:click.capture="$event.preventDefault(); $event.stopImmediatePropagation()"')
+        ->and(preg_match('/<button[^>]*data-id="on"[^>]*>/s', $html, $m))->toBe(1)
+        ->and($m[0])->not->toContain('aria-disabled');
+});

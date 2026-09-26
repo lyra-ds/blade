@@ -9,6 +9,7 @@
 {{-- trigger: pass non-interactive content (text or icon), never a button or link. --}}
 {{-- trigger-variant/trigger-size: style the one trigger element like a Button (lyra-btn classes on the span[role=button]), so there is a single tab stop; never nest a button component in the slot. --}}
 {{-- items: each item may carry `id` (rendered as data-id) and `href` (renders a link menuitem). Selecting an item dispatches lyra:select with { id } on the root (bubbles), and the plugin closes the menu. --}}
+{{-- disabled: item renders aria-disabled="true" (stays focusable so Alpine 1.1.0 arrow-key roving never stalls), click/Enter/Space are swallowed before lyra:select or navigation, and a disabled link drops its href (tabindex=-1 keeps it programmatically focusable). --}}
 {{-- root: do not pass x-data on the root; wrap the component instead. --}}
 @php
     $resolvedAlign = $align === 'end' ? 'end' : 'start';
@@ -52,6 +53,10 @@
                 $itemContent = $itemIcon.e($item['label']);
                 $itemId = $item['id'] ?? null;
                 $itemHref = $item['href'] ?? null;
+                $itemDisabled = (bool) ($item['disabled'] ?? false);
+                $itemDisabledAttrs = $itemDisabled
+                    ? 'aria-disabled="true" style="opacity:.4;cursor:not-allowed" x-on:click.capture="$event.preventDefault(); $event.stopImmediatePropagation()"'
+                    : '';
                 $itemClasses = [
                     'lyra-menu__item',
                     'lyra-menu__item--danger' => $item['danger'] ?? false,
@@ -59,10 +64,11 @@
             @endphp
             @if ($itemHref !== null && $itemHref !== '')
             <a
-                href="{{ $itemHref }}"
+                @if ($itemDisabled) tabindex="-1" @else href="{{ $itemHref }}" @endif
                 role="menuitem"
                 @class($itemClasses)
                 @if ($itemId !== null && $itemId !== '') data-id="{{ $itemId }}" @endif
+                {!! $itemDisabledAttrs !!}
                 x-bind="item"
                 x-on:click="$dispatch('lyra:select', { id: $el.dataset.id ?? '' })"
             >{!! $itemContent !!}</a>
@@ -72,6 +78,7 @@
                 role="menuitem"
                 @class($itemClasses)
                 @if ($itemId !== null && $itemId !== '') data-id="{{ $itemId }}" @endif
+                {!! $itemDisabledAttrs !!}
                 x-bind="item"
                 x-on:click="$dispatch('lyra:select', { id: $el.dataset.id ?? '' })"
             >{!! $itemContent !!}</button>
