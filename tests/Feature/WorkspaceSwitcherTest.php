@@ -67,7 +67,7 @@ function workspaceSwitcherClass(string $html): string
 function workspaceSwitcherOptionTags(string $html): array
 {
     $matched = preg_match_all(
-        '/<button\b(?=[^>]*\bclass="lyra-wssw__item(?: [^"]*)?")[^>]*>/',
+        '/<(?:button|a)\b(?=[^>]*\bclass="lyra-wssw__item(?: [^"]*)?")[^>]*>/',
         $html,
         $matches,
     );
@@ -83,7 +83,7 @@ function workspaceSwitcherOptionTags(string $html): array
 function workspaceSwitcherOptionBlocks(string $html): array
 {
     $matched = preg_match_all(
-        '/<button\b(?=[^>]*\bclass="lyra-wssw__item(?: [^"]*)?")[^>]*>.*?<\/button>/s',
+        '/<(button|a)\b(?=[^>]*\bclass="lyra-wssw__item(?: [^"]*)?")[^>]*>.*?<\/\1>/s',
         $html,
         $matches,
     );
@@ -144,9 +144,9 @@ it('serves generated and consumer ids with the modelable Alpine root contract', 
 
     expect($matched)->toBe(1)
         ->and($matches[1])->toStartWith('lyra-wssw-')
-        ->and($generatedTrigger)->toContain('aria-controls="'.$matches[1].'-listbox"')
-        ->and($generatedPopover)->toContain('id="'.$matches[1].'-listbox"')
-        ->and($generatedPopover)->toContain('aria-labelledby="'.$matches[1].'-listbox-label"')
+        ->and($generatedTrigger)->toContain('aria-controls="'.$matches[1].'-popover"')
+        ->and($generatedPopover)->toContain('id="'.$matches[1].'-popover"')
+        ->and($generatedPopover)->toContain('aria-labelledby="'.$matches[1].'-popover-label"')
         ->and($generated)->toContain('x-data="lyraWorkspaceSwitcher({ defaultOpen: false })"')
         ->and($generated)->toContain('x-modelable="open"')
         ->and($provided)->toContain('id="workspace-menu"')
@@ -172,9 +172,9 @@ it('renders the empty trigger and complete served trigger contract', function ()
 
     expect($trigger)->toContain('type="button"')
         ->and($trigger)->toContain('class="lyra-wssw__trigger"')
-        ->and($trigger)->toContain('aria-haspopup="listbox"')
+        ->and($trigger)->not->toContain('aria-haspopup')
         ->and($trigger)->toContain('aria-expanded="false"')
-        ->and($trigger)->toContain('aria-controls="workspace-menu-listbox"')
+        ->and($trigger)->toContain('aria-controls="workspace-menu-popover"')
         ->and($trigger)->toContain('x-bind="trigger"')
         ->and($html)->toContain('title="?"')
         ->and($html)->toContain('lyra-avatar lyra-avatar--sm lyra-avatar--square')
@@ -212,14 +212,14 @@ it('falls selection back to the first workspace', function (?string $current): v
     $options = workspaceSwitcherOptionTags($html);
 
     expect($html)->toContain('<span class="lyra-wssw__name">Design</span>')
-        ->and($options[0])->toContain('aria-selected="true"')
-        ->and($options[1])->toContain('aria-selected="false"');
+        ->and($options[0])->toContain('aria-current="true"')
+        ->and($options[1])->not->toContain('aria-current');
 })->with([
     'absent current' => null,
     'unmatched current' => 'missing',
 ]);
 
-it('serves the labelled listbox and cloaks only the closed initial state', function (): void {
+it('serves the labelled group popover and cloaks only the closed initial state', function (): void {
     $closed = renderWorkspaceSwitcher(['id' => 'workspace-menu']);
     $open = renderWorkspaceSwitcher([
         'id' => 'workspace-menu',
@@ -231,14 +231,14 @@ it('serves the labelled listbox and cloaks only the closed initial state', funct
     $openTrigger = workspaceSwitcherOpeningTag($open, 'trigger');
     $openPopover = workspaceSwitcherOpeningTag($open, 'popover');
 
-    expect($closedPopover)->toContain('id="workspace-menu-listbox"')
+    expect($closedPopover)->toContain('id="workspace-menu-popover"')
         ->and($closedPopover)->toContain('class="lyra-wssw__pop"')
-        ->and($closedPopover)->toContain('role="listbox"')
+        ->and($closedPopover)->toContain('role="group"')
         ->and($closedPopover)->toContain('x-bind="popover"')
-        ->and($closedPopover)->toContain('aria-labelledby="workspace-menu-listbox-label"')
+        ->and($closedPopover)->toContain('aria-labelledby="workspace-menu-popover-label"')
         ->and($closedPopover)->toContain('x-cloak')
         ->and($closedPopover)->not->toContain('lyra-wssw__pop--up')
-        ->and($closed)->toMatch('/<div\b[^>]*class="lyra-wssw__pop"[^>]*>\s*<span id="workspace-menu-listbox-label" class="lyra-wssw__pop-label">Workspaces<\/span>/s')
+        ->and($closed)->toMatch('/<div\b[^>]*class="lyra-wssw__pop"[^>]*>\s*<span id="workspace-menu-popover-label" class="lyra-wssw__pop-label">Workspaces<\/span>/s')
         ->and($closedRoot)->toContain('x-data="lyraWorkspaceSwitcher({ defaultOpen: false })"')
         ->and($openRoot)->toContain('x-data="lyraWorkspaceSwitcher({ defaultOpen: true })"')
         ->and($openTrigger)->toContain('aria-expanded="true"')
@@ -259,12 +259,11 @@ it('renders every workspace option with binding selectors and selected-only chec
 
     expect($tags)->toHaveCount(2)
         ->and($tags[0])->toContain('type="button"')
-        ->and($tags[0])->toContain('role="option"')
-        ->and($tags[0])->toContain('aria-selected="false"')
+        ->and($tags[0])->not->toContain('aria-current')
         ->and($tags[0])->toContain('class="lyra-wssw__item"')
         ->and($tags[0])->toContain('x-bind="option"')
         ->and($tags[0])->toContain('data-id="design"')
-        ->and($tags[1])->toContain('aria-selected="true"')
+        ->and($tags[1])->toContain('aria-current="true"')
         ->and($tags[1])->toContain('data-id="engineering"')
         ->and($blocks[0])->toContain('title="Design"')
         ->and($blocks[0])->toContain('<span class="lyra-wssw__name">Design</span>')
@@ -313,8 +312,6 @@ it('renders the create action as a bound option with defaults and overrides', fu
     expect($default)->toMatch('/<hr class="lyra-wssw__sep" role="presentation">\s*<button/s')
         ->and($defaultTags)->toHaveCount(1)
         ->and($defaultTags[0])->toContain('type="button"')
-        ->and($defaultTags[0])->toContain('role="option"')
-        ->and($defaultTags[0])->toContain('aria-selected="false"')
         ->and($defaultTags[0])->toContain('class="lyra-wssw__item lyra-wssw__create"')
         ->and($defaultTags[0])->toContain('x-bind="option"')
         ->and($defaultTags[0])->toContain('data-id="create"')
@@ -366,3 +363,73 @@ it('renders an open wire-modelled workspace switcher through Livewire', function
         ->and($root)->toContain('defaultOpen: true')
         ->and($popover)->not->toContain('x-cloak');
 });
+
+it('never emits listbox semantics', function (): void {
+    $html = renderWorkspaceSwitcher([
+        'workspaces' => [['id' => 'a', 'name' => 'A'], ['id' => 'b', 'name' => 'B', 'href' => '/b']],
+        'create' => true,
+        'defaultOpen' => true,
+    ]);
+
+    expect($html)->not->toContain('listbox')
+        ->and($html)->not->toContain('role="option"')
+        ->and($html)->not->toContain('aria-selected')
+        ->and($html)->not->toContain('aria-haspopup');
+});
+
+it('renders links for workspaces with href and buttons otherwise', function (): void {
+    $html = renderWorkspaceSwitcher([
+        'workspaces' => [
+            ['id' => 'a', 'name' => 'Alpha', 'href' => '/alpha?x=1&y=2'],
+            ['id' => 'b', 'name' => 'Beta'],
+        ],
+        'current' => 'a',
+    ]);
+    $tags = workspaceSwitcherOptionTags($html);
+    $blocks = workspaceSwitcherOptionBlocks($html);
+
+    expect($tags[0])->toStartWith('<a')
+        ->and($tags[0])->toContain('href="/alpha?x=1&amp;y=2"')
+        ->and($tags[0])->not->toContain('type=')
+        ->and($tags[0])->toContain('data-id="a"')
+        ->and($tags[0])->toContain('x-bind="option"')
+        ->and($tags[0])->toContain('aria-current="true"')
+        ->and($blocks[0])->toEndWith('</a>')
+        ->and($tags[1])->toStartWith('<button')
+        ->and($tags[1])->toContain('type="button"')
+        ->and($tags[1])->not->toContain('href')
+        ->and($tags[1])->toContain('x-bind="option"');
+});
+
+it('renders translated labels with singular and plural member counts', function (): void {
+    $html = renderWorkspaceSwitcherWithLabels([
+        'listLabel' => 'Espaços de trabalho',
+        'placeholder' => 'Escolha um espaço',
+        'members' => ['one' => ':count membro', 'other' => ':count membros'],
+    ], [
+        ['id' => 'a', 'name' => 'A', 'members' => 1],
+        ['id' => 'b', 'name' => 'B', 'plan' => 'Pro', 'members' => 3],
+    ]);
+    $empty = renderWorkspaceSwitcherWithLabels(['placeholder' => 'Escolha um espaço'], []);
+
+    expect($html)->toContain('>Espaços de trabalho</span>')
+        ->and($html)->toContain('<span class="lyra-wssw__meta">1 membro</span>')
+        ->and($html)->toContain('<span class="lyra-wssw__meta">Pro · 3 membros</span>')
+        ->and($html)->not->toContain('Workspaces')
+        ->and($empty)->toContain('<span class="lyra-wssw__name">Escolha um espaço</span>');
+});
+
+it('keeps English defaults with singular members', function (): void {
+    $html = renderWorkspaceSwitcher(['workspaces' => [['id' => 'a', 'name' => 'A', 'members' => 1]]]);
+
+    expect($html)->toContain('1 member<')
+        ->and($html)->toContain('>Workspaces</span>');
+});
+
+function renderWorkspaceSwitcherWithLabels(array $labels, array $workspaces): string
+{
+    return Blade::render(
+        '<x-lyra::workspace-switcher :workspaces="$workspaces" :labels="$labels" />',
+        compact('workspaces', 'labels'),
+    );
+}
