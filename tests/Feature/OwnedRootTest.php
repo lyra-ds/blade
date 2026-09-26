@@ -5,15 +5,20 @@ use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\ViewException;
 use LyraDs\Blade\OwnedRoot;
 
-dataset('owned roots', [
-    'accordion', 'app-sidebar', 'bottom-sheet', 'cookie-banner', 'dialog', 'drawer',
-    'dropdown', 'file-manager', 'file-upload', 'popover', 'segmented-control',
-    'sidebar-group', 'table-of-contents', 'tooltip', 'workspace-switcher',
-    'toast-stack', 'calendar', 'date-picker', 'date-range-picker', 'time-picker',
-    'time-input', 'tabs', 'combobox', 'command-palette', 'data-table',
-    'recurrence-selector', 'slot-picker', 'weekly-schedule-editor',
-    'time-zone-picker',
-]);
+function dataset_owned_roots(): array
+{
+    return [
+        'accordion', 'app-sidebar', 'bottom-sheet', 'cookie-banner', 'dialog', 'drawer',
+        'dropdown', 'file-manager', 'file-upload', 'popover', 'segmented-control',
+        'sidebar-group', 'table-of-contents', 'tooltip', 'workspace-switcher',
+        'toast-stack', 'calendar', 'date-picker', 'date-range-picker', 'time-picker',
+        'time-input', 'tabs', 'combobox', 'command-palette', 'data-table',
+        'recurrence-selector', 'slot-picker', 'weekly-schedule-editor',
+        'time-zone-picker', 'otp-input',
+    ];
+}
+
+dataset('owned roots', dataset_owned_roots());
 
 function ownedRootExample(string $slug): string
 {
@@ -87,3 +92,30 @@ it('renders documentation examples without duplicate x-data on any opening tag',
         expect(preg_match_all('/\bx-data\s*=/', $tag))->toBeLessThanOrEqual(1);
     }
 })->with('owned roots');
+
+it('guards every component that emits an Alpine x-data', function (): void {
+    $components = glob(dirname(__DIR__, 2).'/resources/views/components/*.blade.php');
+    expect($components)->not->toBeEmpty();
+
+    foreach ($components as $file) {
+        $source = file_get_contents($file);
+
+        if (preg_match('/x-data\s*=/', $source) === 1) {
+            expect(str_contains($source, 'OwnedRoot::guard'))->toBeTrue(basename($file).' emits x-data without OwnedRoot::guard');
+        }
+    }
+});
+
+it('covers every guarded component in the owned roots dataset', function (): void {
+    $covered = collect(dataset_owned_roots());
+
+    foreach (glob(dirname(__DIR__, 2).'/resources/views/components/*.blade.php') as $file) {
+        if (str_contains(file_get_contents($file), 'OwnedRoot::guard')) {
+            $slug = basename($file, '.blade.php');
+            // code-block only owns x-data when it renders a copy control.
+            if ($slug !== 'code-block') {
+                expect($covered->contains($slug))->toBeTrue("{$slug} missing from the owned roots dataset");
+            }
+        }
+    }
+});
