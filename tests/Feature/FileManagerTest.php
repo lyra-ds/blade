@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Js;
 
 function fileManagerFiles(): array
 {
@@ -209,6 +210,19 @@ it('serves React breadcrumb buttons or consumer navigation markup', function ():
         ->and($custom)->toContain('<form action="/lyra"><button>Lyra</button></form>')
         ->and($custom)->not->toContain('class="lyra-fm__crumb"')
         ->and($custom)->not->toContain('>Ignored</button>');
+});
+
+it('dispatches the React open and navigate payloads from the owned Alpine scope', function (): void {
+    $file = ['id' => 'a\'b', 'name' => 'Design <draft>', 'type' => 'folder', 'items' => 2];
+    $html = renderFileManager(['files' => [$file], 'path' => ['Workspace', 'Design']]);
+    $openExpression = '$dispatch(\'lyra:open\', '.(string) Js::from($file).')';
+
+    expect(fileManagerOpeningTag($html, 'name'))->toContain($openExpression)
+        ->and(fileManagerOpeningTag($html, 'card_body'))->toContain($openExpression)
+        ->and(substr_count($html, 'lyra:open'))->toBe(2)
+        ->and(fileManagerOpeningTag($html, 'crumb'))->toContain("lyra:navigate', 0")
+        ->and($html)->toContain("lyra:navigate', 1")
+        ->and($html)->toContain('disabled');
 });
 
 it('composes one end-aligned dropdown per item in each tree', function (): void {
