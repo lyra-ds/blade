@@ -130,16 +130,34 @@ it('does not render an icon for an absent or empty icon slot', function (): void
         ->and(renderToast(['tone' => 'danger'], icon: '   '))->not->toContain('lyra-toast__icon');
 });
 
-it('renders a labelled close button that dispatches a bubbling event', function (): void {
+it('renders a labelled close button that dispatches a bubbling event with a null id', function (): void {
     $html = Blade::render('<x-lyra::toast :dismissible="true" close-label="Dismiss notice">Saved</x-lyra::toast>');
 
     expect($html)->toContain('class="lyra-toast__close"')
         ->toContain('type="button"')
         ->toContain('aria-label="Dismiss notice"')
-        ->toContain('x-on:click="$dispatch(\'lyra:close\', {})"')
-        ->not->toContain('x-data');
+        ->toContain('x-on:click="$dispatch(\'lyra:close\', { id: null })"')
+        ->toContain('x-data');
     expect(Blade::render('<x-lyra::toast :dismissible="true">Saved</x-lyra::toast>'))
         ->toContain('aria-label="Close notification"');
+});
+
+it('carries the root id in the close payload', function (): void {
+    $html = Blade::render('<x-lyra::toast id="notice" :dismissible="true">Saved</x-lyra::toast>');
+
+    expect($html)->toContain('x-on:click="$dispatch(\'lyra:close\', { id: \'notice\' })"')
+        ->and($html)->toContain('id="notice"');
+});
+
+it('does not add x-data when not dismissible', function (): void {
+    expect(Blade::render('<x-lyra::toast>Saved</x-lyra::toast>'))->not->toContain('x-data');
+});
+
+it('preserves a consumer-supplied x-data scope instead of adding an empty one', function (): void {
+    $html = Blade::render('<x-lyra::toast x-data="{ open: true }" :dismissible="true">Saved</x-lyra::toast>');
+
+    expect($html)->toContain('x-data="{ open: true }"')
+        ->and(substr_count($html, 'x-data'))->toBe(1);
 });
 
 it('renders toast stack attributes and nested toast content', function (): void {
