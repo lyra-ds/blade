@@ -74,3 +74,16 @@ it('passes root attributes through and appends the user class last', function ()
         ->and($html)->toContain('Go')
         ->and($html)->not->toContain('lyra-tag__remove');
 });
+
+it('renders a labelled remove button that dispatches a bubbling event', function (): void {
+    $html = Blade::render('<x-lyra::tag :removable="true" remove-label="Remove filter">Active</x-lyra::tag>');
+
+    expect($html)->toContain('class="lyra-tag__remove"')
+        ->toContain('class="lyra-icon"')
+        ->toContain('type="button"')
+        ->toContain('aria-label="Remove filter"')
+        ->toContain('x-on:click="$dispatch(\'lyra:remove\', {})"')
+        ->not->toContain('x-data');
+    expect(Blade::render('<x-lyra::tag :removable="true">Active</x-lyra::tag>'))
+        ->toContain('aria-label="Remove"');
+});

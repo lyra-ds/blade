@@ -1,1 +1,1 @@
-<lyra:tag>design-system</lyra:tag>
+<lyra:tag :removable="true" remove-label="Remove filter">design-system</lyra:tag>
