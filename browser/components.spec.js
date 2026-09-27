@@ -26,6 +26,37 @@ test('file-upload: selecting a file creates an item', async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
+test('file-manager: open and navigate match React without disrupting view and menu selection', async ({ page }) => {
+  const errors = await mount(page, component('file-manager'));
+  await page.evaluate(() => {
+    window.__fileManagerEvents = [];
+    for (const name of ['lyra:open', 'lyra:navigate', 'lyra:view', 'lyra:select']) {
+      document.querySelector('.lyra-fm').addEventListener(name, event => {
+        window.__fileManagerEvents.push({ name, detail: event.detail });
+      });
+    }
+  });
+
+  await page.locator('.lyra-fm__name').first().click();
+  await page.locator('.lyra-fm__crumb').first().focus();
+  await page.keyboard.press('Enter');
+  await page.getByRole('button', { name: 'Grid view' }).click();
+  await page.locator('.lyra-fm__card-body').nth(1).click();
+  await page.locator('.lyra-fm__card-actions .lyra-dropdown__trigger').first().click();
+  await page.getByRole('menuitem', { name: 'Rename' }).click();
+
+  const events = await page.evaluate(() => window.__fileManagerEvents);
+  expect(events).toEqual([
+    { name: 'lyra:open', detail: { id: 'brand-assets', name: 'Brand assets', type: 'folder', items: 12, updated: '2026-03-14' } },
+    { name: 'lyra:navigate', detail: 0 },
+    { name: 'lyra:view', detail: { view: 'grid' } },
+    { name: 'lyra:open', detail: { id: 'homepage', name: 'homepage.fig', type: 'file', size: 4823000, updated: '2026-03-16', shared: true } },
+    { name: 'lyra:select', detail: { id: 'rename' } },
+  ]);
+  await expect(page.locator('.lyra-fm__crumb').last()).toBeDisabled();
+  expect(errors).toEqual([]);
+});
+
 test('dropdown: selection emits a nonempty detail.id', async ({ page }) => {
   const errors = await mount(page, component('dropdown'));
   await page.evaluate(() => {

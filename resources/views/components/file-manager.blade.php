@@ -14,6 +14,8 @@
     markup. Consumers must order folders before documents in the files prop; this component
     deliberately preserves server order. Use the breadcrumb slot when navigation needs links or
     forms. The actions prop mirrors React's actions(file) callback and returns dropdown items.
+    Name/card buttons emit lyra:open with the full file, and breadcrumbs emit lyra:navigate
+    with the selected segment index, matching the React callbacks.
 --}}
 {{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
@@ -210,6 +212,7 @@
                     <button
                         type="button"
                         class="lyra-fm__crumb"
+                        x-on:click="$dispatch('lyra:navigate', {{ $index }})"
                         @if ($index === array_key_last($path))
                             disabled
                         @endif
@@ -246,7 +249,7 @@
                     hidden
                 @endif
             >
-                <button type="button" class="lyra-fm__name">
+                <button type="button" class="lyra-fm__name" x-on:click="$dispatch('lyra:open', {{ \Illuminate\Support\Js::from($file) }})">
                     <span
                         @class([
                             'lyra-fm__icon',
@@ -285,6 +288,7 @@
         @endif
     >
         @foreach ($managedFiles as $managedFile)
+            @php($file = $managedFile['file'])
             <div
                 class="lyra-fm__card"
                 data-name="{{ $managedFile['name'] }}"
@@ -301,7 +305,7 @@
                         </x-slot:trigger>
                     </x-lyra::dropdown>
                 </span>
-                <button type="button" class="lyra-fm__card-body">
+                <button type="button" class="lyra-fm__card-body" x-on:click="$dispatch('lyra:open', {{ \Illuminate\Support\Js::from($file) }})">
                     <span
                         @class([
                             'lyra-fm__icon',
