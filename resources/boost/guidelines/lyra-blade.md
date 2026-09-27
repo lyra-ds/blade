@@ -35,6 +35,8 @@ Props:
 - `open` — default: `true`; no fixture examples (fixtures do not constrain this prop).
 - `count` — default: `null`; no fixture examples (fixtures do not constrain this prop).
 - `label` — default: `"selected"`; no fixture examples (fixtures do not constrain this prop).
+- `clearable` — default: `false`; fixture examples (not constraints): `true`.
+- `clearLabel` — default: `"Clear selection"`; no fixture examples (fixtures do not constrain this prop).
 
 ### alert
 
@@ -829,7 +831,9 @@ Tags: `<x-lyra::tag>...</x-lyra::tag>` or `<lyra:tag>...</lyra:tag>`.
 
 Root class combination observed in fixtures: `lyra-tag`.
 
-Props: none (slots and pass-through attributes only).
+Props:
+- `removable` — default: `false`; fixture examples (not constraints): `true`.
+- `removeLabel` — default: `"Remove"`; no fixture examples (fixtures do not constrain this prop).
 
 ### textarea
 
@@ -917,6 +921,8 @@ Root class combination observed in fixtures: `lyra-toast`.
 
 Props:
 - `tone` — default: `"info"`; no fixture examples (fixtures do not constrain this prop).
+- `dismissible` — default: `false`; fixture examples (not constraints): `true`.
+- `closeLabel` — default: `"Close notification"`; no fixture examples (fixtures do not constrain this prop).
 
 ### tooltip
 

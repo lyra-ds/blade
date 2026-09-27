@@ -73,7 +73,7 @@ it('renders without a count and always includes the actions span', function (): 
 
     expect($html)->not->toContain('lyra-actionbar__count')
         ->and($html)->toContain('Bulk')
-        ->and($html)->toContain('<span class="lyra-actionbar__actions"></span>');
+        ->and($html)->toMatch('/<span class="lyra-actionbar__actions">\s*<\/span>/');
 });
 
 it('renders the count structure with the default and custom labels', function (): void {
@@ -106,6 +106,23 @@ it('renders default content between the count and actions', function (): void {
 it('omits the interactive clear button', function (): void {
     expect(renderActionBar(['count' => 2], slot: 'Bulk', actions: 'Apply'))
         ->not->toContain('lyra-actionbar__clear');
+});
+
+it('renders a labelled clear button after actions and dispatches a bubbling event', function (): void {
+    $html = Blade::render(<<<'BLADE'
+        <x-lyra::action-bar :count="2" :clearable="true" clear-label="Clear files">
+            <x-slot:actions><button type="button">Move</button></x-slot:actions>
+        </x-lyra::action-bar>
+        BLADE);
+
+    expect($html)->toContain('class="lyra-actionbar__clear"')
+        ->toContain('type="button"')
+        ->toContain('aria-label="Clear files"')
+        ->toContain('x-on:click="$dispatch(\'lyra:clear\', {})"')
+        ->not->toContain('x-data');
+    expect(strpos($html, 'Move'))->toBeLessThan(strpos($html, 'lyra-actionbar__clear'));
+    expect(Blade::render('<x-lyra::action-bar :clearable="true" />'))
+        ->toContain('aria-label="Clear selection"');
 });
 
 it('defaults to toolbar role while allowing a user role override and passing attributes through', function (): void {
