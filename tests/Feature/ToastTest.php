@@ -130,6 +130,18 @@ it('does not render an icon for an absent or empty icon slot', function (): void
         ->and(renderToast(['tone' => 'danger'], icon: '   '))->not->toContain('lyra-toast__icon');
 });
 
+it('renders a labelled close button that dispatches a bubbling event', function (): void {
+    $html = Blade::render('<x-lyra::toast :dismissible="true" close-label="Dismiss notice">Saved</x-lyra::toast>');
+
+    expect($html)->toContain('class="lyra-toast__close"')
+        ->toContain('type="button"')
+        ->toContain('aria-label="Dismiss notice"')
+        ->toContain('x-on:click="$dispatch(\'lyra:close\', {})"')
+        ->not->toContain('x-data');
+    expect(Blade::render('<x-lyra::toast :dismissible="true">Saved</x-lyra::toast>'))
+        ->toContain('aria-label="Close notification"');
+});
+
 it('renders toast stack attributes and nested toast content', function (): void {
     $html = Blade::render(<<<'BLADE'
         <x-lyra::toast-stack class="x" id="notifications" data-track="stack">
