@@ -1,10 +1,14 @@
-{{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
+{{--
+    Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper.
+
+    ToastStackComponent exposes lyraToastStackContext as a public property, not
+    a $attributes entry, so it never reaches the HTML output here. Nested
+    <x-lyra::toast> children read it with @aware (see ToastStackComponent for
+    why that timing works, and why no static guard is needed).
+--}}
 @php
     $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'toast-stack', []);
-    // Slot toasts render before the stack view, so they cannot see it; the region announces them instead.
-    $staticToasts = new Illuminate\Support\HtmlString(
-        (string) preg_replace('/(<div\b)\s+role="status"(?=[^>]*\bclass="lyra-toast\b)/', '$1', (string) $slot)
-    );
+    $staticToasts = $slot;
 @endphp
 
 {{--

@@ -74,3 +74,34 @@ it('passes root attributes through and appends the user class last', function ()
         ->and($html)->toContain('Go')
         ->and($html)->not->toContain('lyra-tag__remove');
 });
+
+it('renders a labelled remove button that dispatches a bubbling event with a null id', function (): void {
+    $html = Blade::render('<x-lyra::tag :removable="true" remove-label="Remove filter">Active</x-lyra::tag>');
+
+    expect($html)->toContain('class="lyra-tag__remove"')
+        ->toContain('class="lyra-icon"')
+        ->toContain('type="button"')
+        ->toContain('aria-label="Remove filter"')
+        ->toContain('x-on:click="$dispatch(\'lyra:remove\', { id: null })"')
+        ->toContain('x-data');
+    expect(Blade::render('<x-lyra::tag :removable="true">Active</x-lyra::tag>'))
+        ->toContain('aria-label="Remove"');
+});
+
+it('carries the root id in the remove payload', function (): void {
+    $html = Blade::render('<x-lyra::tag id="design-system" :removable="true">Active</x-lyra::tag>');
+
+    expect($html)->toContain('x-on:click="$dispatch(\'lyra:remove\', { id: \'design-system\' })"')
+        ->and($html)->toContain('id="design-system"');
+});
+
+it('does not add x-data when not removable', function (): void {
+    expect(Blade::render('<x-lyra::tag>Active</x-lyra::tag>'))->not->toContain('x-data');
+});
+
+it('preserves a consumer-supplied x-data scope instead of adding an empty one', function (): void {
+    $html = Blade::render('<x-lyra::tag x-data="{ open: true }" :removable="true">Active</x-lyra::tag>');
+
+    expect($html)->toContain('x-data="{ open: true }"')
+        ->and(substr_count($html, 'x-data'))->toBe(1);
+});

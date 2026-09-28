@@ -1,4 +1,5 @@
 [
     {"props": {}, "expected_class": "lyra-tag"},
-    {"props": {"class": "extra"}, "expected_class": "lyra-tag extra"}
+    {"props": {"class": "extra"}, "expected_class": "lyra-tag extra"},
+    {"props": {"removable": true, "class": "removable"}, "expected_class": "lyra-tag removable"}
 ]
