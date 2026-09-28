@@ -11,7 +11,7 @@ function dataset_owned_roots(): array
         'accordion', 'app-sidebar', 'bottom-sheet', 'cookie-banner', 'dialog', 'drawer',
         'dropdown', 'file-manager', 'file-upload', 'popover', 'segmented-control',
         'sidebar-group', 'table-of-contents', 'tooltip', 'workspace-switcher',
-        'toast-stack', 'calendar', 'date-picker', 'date-range-picker', 'time-picker',
+        'toast-stack', 'calendar', 'calendar-view', 'date-picker', 'date-range-picker', 'time-picker',
         'time-input', 'tabs', 'combobox', 'command-palette', 'data-table',
         'recurrence-selector', 'slot-picker', 'weekly-schedule-editor',
         'time-zone-picker', 'otp-input',
