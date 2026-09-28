@@ -18,6 +18,13 @@ final class BladeServiceProvider extends ServiceProvider
 
         Blade::component(ToastStackComponent::class, 'lyra::toast-stack');
 
+        // Octane keeps the worker process (and this static state) alive across
+        // requests; a leaked ToastStackScope depth from one request must never
+        // reach the next.
+        $this->app->terminating(static function (): void {
+            ToastStackScope::reset();
+        });
+
         $themeScript = new ThemeScript;
 
         Blade::directive('lyraThemeScript', $themeScript->compile(...));
