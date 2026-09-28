@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Blade;
-use LyraDs\Blade\ToastStackScope;
 
 function renderStandaloneToast(): string
 {
@@ -89,22 +88,22 @@ it('preserves statically served toast children unchanged', function (): void {
     expect($html)->toMatch('/data-lyra-toast-region="polite".*static-toast.*data-lyra-toast-region="assertive"/s');
 });
 
-it('restores the scope after an exception thrown while rendering the stack slot', function (): void {
-    expect(ToastStackScope::active())->toBeFalse();
-
+it('serves a standalone status toast after an exception thrown while rendering the stack slot', function (): void {
     try {
         renderDynamicToastStack(slot: '@php(throw new RuntimeException("boom"))');
     } catch (Throwable $exception) {
         expect($exception->getMessage())->toContain('boom');
     }
 
-    expect(ToastStackScope::active())->toBeFalse();
+    // Simulates an error page: the exception above is caught (as a real app
+    // would around an optional block), then a standalone toast renders on
+    // the same page/request — as Illuminate\View\View::render()'s own
+    // catch+flushState() leaves Blade's component-data stack, not any guard
+    // of ours, to clean up after.
     expect(renderStandaloneToast())->toContain('role="status"');
 });
 
-it('restores the previous depth, not zero, when a nested stack slot throws', function (): void {
-    expect(ToastStackScope::active())->toBeFalse();
-
+it('serves a standalone status toast after a nested stack slot throws', function (): void {
     try {
         renderDynamicToastStack(slot: <<<'BLADE'
             <x-lyra::toast-stack>
@@ -115,12 +114,31 @@ it('restores the previous depth, not zero, when a nested stack slot throws', fun
         expect($exception->getMessage())->toContain('nested boom');
     }
 
-    // Both the inner and outer scope must have unwound, not just one level.
-    expect(ToastStackScope::active())->toBeFalse();
+    // Both the inner and outer component-data frames must have unwound.
     expect(renderStandaloneToast())->toContain('role="status"');
 });
 
-it('keeps the scope clean across successive renders after a failure', function (): void {
+it('serves a standalone status toast after a stack slot throws with a closure and a cycle retained', function (): void {
+    $cycle = new stdClass;
+    $cycle->self = $cycle;
+
+    $retained = static function (): void {
+        throw new RuntimeException('boom with retained closure', previous: null);
+    };
+
+    try {
+        renderDynamicToastStack(slot: '<x-lyra::toast>Held</x-lyra::toast>');
+        $retained();
+    } catch (Throwable $exception) {
+        expect($exception->getMessage())->toContain('boom with retained closure');
+    }
+
+    unset($cycle, $retained);
+
+    expect(renderStandaloneToast())->toContain('role="status"');
+});
+
+it('keeps the marker clean across successive renders after a failure', function (): void {
     try {
         renderDynamicToastStack(slot: '@php(throw new RuntimeException("boom"))');
     } catch (Throwable) {
@@ -128,7 +146,6 @@ it('keeps the scope clean across successive renders after a failure', function (
     }
 
     for ($i = 0; $i < 3; $i++) {
-        expect(ToastStackScope::active())->toBeFalse();
         expect(renderStandaloneToast())->toContain('role="status"');
     }
 });
@@ -137,4 +154,11 @@ it('serves a standalone status toast rendered right after a stack on the same pa
     $html = renderDynamicToastStack(slot: '<x-lyra::toast>Hi</x-lyra::toast>').renderStandaloneToast();
 
     expect(substr_count($html, 'role="status"'))->toBe(1);
+});
+
+it('never leaks the lyraToastStackContext marker as an HTML attribute', function (): void {
+    $html = renderDynamicToastStack(slot: '<x-lyra::toast>Hi</x-lyra::toast>');
+
+    expect($html)->not->toContain('lyraToastStackContext')
+        ->and($html)->not->toContain('lyra-toast-stack-context');
 });

@@ -16,14 +16,11 @@ final class BladeServiceProvider extends ServiceProvider
             'lyra',
         );
 
+        // Class-backed (not anonymous) so its lyraToastStackContext public
+        // property lands in Blade's componentData before the slot renders,
+        // making it visible to nested <x-lyra::toast>'s @aware. See
+        // ToastStackComponent for why no static guard/reset is needed.
         Blade::component(ToastStackComponent::class, 'lyra::toast-stack');
-
-        // Octane keeps the worker process (and this static state) alive across
-        // requests; a leaked ToastStackScope depth from one request must never
-        // reach the next.
-        $this->app->terminating(static function (): void {
-            ToastStackScope::reset();
-        });
 
         $themeScript = new ThemeScript;
 

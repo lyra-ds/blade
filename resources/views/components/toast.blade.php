@@ -3,6 +3,7 @@
     'dismissible' => false,
     'closeLabel' => 'Close notification',
 ])
+@aware(['lyraToastStackContext' => false])
 
 {{--
     The close button dispatches a bubbling lyra:close event ({ id }) through an inline Alpine
@@ -13,15 +14,17 @@
     and no scope is added when there is nothing to dispatch.
 
     role="status" is only emitted standalone. A toast rendered inside <x-lyra::toast-stack> reads
-    LyraDs\Blade\ToastStackScope (pushed by ToastStackComponent before this slot renders, popped
-    once it is fully captured) and skips the role, because the stack's own aria-live regions already
-    announce it — no attribute-order-dependent string surgery on the rendered HTML.
+    the lyraToastStackContext marker ToastStackComponent exposes as a public property (consumed
+    above with @aware) and skips the role, because the stack's own aria-live regions already
+    announce it. @aware resolves against Blade's own component-data stack, which
+    Illuminate\View\View::render() unwinds on any exception (catch + flushState() before rethrow) —
+    no static guard, no attribute-order-dependent string surgery on the rendered HTML.
 --}}
 @php
     $hasIcon = isset($icon) && trim((string) $icon) !== '';
     $rootId = $attributes->get('id');
     $rootAttributes = $attributes->class(['lyra-toast']);
-    if (! \LyraDs\Blade\ToastStackScope::active()) {
+    if (! $lyraToastStackContext) {
         $rootAttributes = $rootAttributes->merge(['role' => 'status']);
     }
 @endphp
