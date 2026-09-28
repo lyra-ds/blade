@@ -1,10 +1,10 @@
 {{-- Root Alpine scope is owned by Lyra; put consumer x-data on a parent wrapper. --}}
 @php
     $attributes = \LyraDs\Blade\OwnedRoot::guard($attributes, 'toast-stack', []);
-    // Slot toasts render before the stack view, so they cannot see it; the region announces them instead.
-    $staticToasts = new Illuminate\Support\HtmlString(
-        (string) preg_replace('/(<div\b)\s+role="status"(?=[^>]*\bclass="lyra-toast\b)/', '$1', (string) $slot)
-    );
+    // ToastStackComponent pushes onto LyraDs\Blade\ToastStackScope before this
+    // slot renders, so <x-lyra::toast> children skip their default role="status"
+    // deterministically — no post-render regex on the rendered HTML.
+    $staticToasts = $slot;
 @endphp
 
 {{--

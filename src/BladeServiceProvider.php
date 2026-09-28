@@ -16,6 +16,8 @@ final class BladeServiceProvider extends ServiceProvider
             'lyra',
         );
 
+        Blade::component(ToastStackComponent::class, 'lyra::toast-stack');
+
         $themeScript = new ThemeScript;
 
         Blade::directive('lyraThemeScript', $themeScript->compile(...));
