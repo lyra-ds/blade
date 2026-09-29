@@ -896,6 +896,117 @@
             ]
         },
         {
+            "slug": "create-workspace-dialog",
+            "usage": "{{-- Application persistence is owned by the parent. The binding proposes an operation; the controller acknowledges that same ID. --}}\n<div x-data=\"{\n    dialogOpen: false,\n    requests: {},\n    handleCreate(event) {\n        const { operationId, name, slug } = event.detail;\n        const dialog = Alpine.$data(event.target);\n        const controller = new AbortController();\n        this.requests[operationId] = controller;\n        // Replace this Promise with your API request and pass controller.signal to fetch.\n        Promise.resolve({ name, slug }).then(() => {\n            if (controller.signal.aborted) dialog.cancel(operationId);\n            else if (slug === 'taken') dialog.reject(operationId, {\n                fieldErrors: { slug: 'This URL is already in use.' },\n                message: 'Choose another workspace URL.',\n            });\n            else dialog.accept(operationId);\n            delete this.requests[operationId];\n        }, error => {\n            dialog.reject(operationId, { message: error.message });\n            delete this.requests[operationId];\n        });\n    },\n    handleCancel(event) {\n        const id = event.detail.operationId;\n        this.requests[id]?.abort();\n        Alpine.$data(event.target).cancel(id);\n        delete this.requests[id];\n    },\n}\">\n    <button id=\"workspace-trigger\" type=\"button\" @click=\"dialogOpen = true\">Create workspace</button>\n    <lyra:create-workspace-dialog\n        x-model=\"dialogOpen\"\n        return-focus-to=\"#workspace-trigger\"\n        x-on:lyra:create-workspace=\"handleCreate($event)\"\n        x-on:lyra:create-workspace:cancel=\"handleCancel($event)\"\n    />\n</div>",
+            "html": "<div x-data=\"{\n    dialogOpen: false,\n    requests: {},\n    handleCreate(event) {\n        const { operationId, name, slug } = event.detail;\n        const dialog = Alpine.$data(event.target);\n        const controller = new AbortController();\n        this.requests[operationId] = controller;\n        // Replace this Promise with your API request and pass controller.signal to fetch.\n        Promise.resolve({ name, slug }).then(() => {\n            if (controller.signal.aborted) dialog.cancel(operationId);\n            else if (slug === 'taken') dialog.reject(operationId, {\n                fieldErrors: { slug: 'This URL is already in use.' },\n                message: 'Choose another workspace URL.',\n            });\n            else dialog.accept(operationId);\n            delete this.requests[operationId];\n        }, error => {\n            dialog.reject(operationId, { message: error.message });\n            delete this.requests[operationId];\n        });\n    },\n    handleCancel(event) {\n        const id = event.detail.operationId;\n        this.requests[id]?.abort();\n        Alpine.$data(event.target).cancel(id);\n        delete this.requests[id];\n    },\n}\">\n    <button id=\"workspace-trigger\" type=\"button\" @click=\"dialogOpen = true\">Create workspace</button>\n    <div\n    id=\"lyra-wscreate-id1\"\n    class=\"lyra-dialog-overlay\"\n    x-data=\"lyraCreateWorkspaceDialog({ defaultOpen: false, closeOnEsc: true, closeOnOverlayClick: true, slugPrefix: &#039;lyra.dev\\/&#039;, labelId: &#039;lyra-wscreate-id1-title&#039;, messages: JSON.parse(&#039;{\\u0022nameRequired\\u0022:\\u0022Enter a workspace name.\\u0022,\\u0022slugRequired\\u0022:\\u0022Enter a workspace URL.\\u0022,\\u0022createFailed\\u0022:\\u0022We could not create the workspace. Please try again.\\u0022}&#039;), returnFocusTo: () =&gt; document.querySelector(&quot;#workspace-trigger&quot;) })\"\n    x-modelable=\"open\"\n    x-bind=\"overlay\"\n     x-cloak     x-model=\"dialogOpen\" x-on:lyra:create-workspace=\"handleCreate($event)\" x-on:lyra:create-workspace:cancel=\"handleCancel($event)\"\n>\n    <div\n        role=\"dialog\"\n        aria-modal=\"true\"\n        aria-labelledby=\"lyra-wscreate-id1-title\"\n        tabindex=\"-1\"\n        x-bind=\"panel\"\n        class=\"lyra-dialog\"\n    >\n        <div class=\"lyra-dialog__header\">\n            <h2 id=\"lyra-wscreate-id1-title\" class=\"lyra-dialog__title\" x-bind=\"title\">Create workspace</h2>\n            <button type=\"button\" class=\"lyra-dialog__close\" aria-label=\"Close\" x-bind=\"close\" :aria-label=\"'Close'\">\n                <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M18 6 6 18M6 6l12 12\" /></svg>\n            </button>\n        </div>\n        <div class=\"lyra-dialog__body\">\n            <form id=\"lyra-wscreate-id1-form\" class=\"lyra-wscreate\" aria-label=\"Create workspace\" x-bind=\"form\">\n                <div class=\"lyra-wscreate__preview\">\n                    <span class=\"lyra-avatar lyra-avatar--lg lyra-avatar--square\"><span aria-hidden=\"true\" x-bind=\"avatar\">?</span></span>\n                    <span class=\"lyra-wscreate__preview-hint\">The avatar uses the name initials.</span>\n                </div>\n                <div class=\"lyra-hint lyra-hint--error\" data-lyra-wscreate-error aria-label=\"Workspace creation error\" x-bind=\"errorSummary\" style=\"display: none\"></div>\n                <div class=\"lyra-field\">\n                    <label class=\"lyra-label\" for=\"lyra-wscreate-id1-name\">Workspace name</label>\n                    <input id=\"lyra-wscreate-id1-name\" class=\"lyra-input\" placeholder=\"Acme Inc\" data-lyra-wscreate-name x-bind=\"nameInput\" :aria-describedby=\"fieldErrors.name ? 'lyra-wscreate-id1-name-error' : null\" />\n                    <span id=\"lyra-wscreate-id1-name-error\" class=\"lyra-hint lyra-hint--error\" x-show=\"fieldErrors.name\" x-text=\"fieldErrors.name\" style=\"display: none\"></span>\n                </div>\n                <div class=\"lyra-field\">\n                    <label class=\"lyra-label\" for=\"lyra-wscreate-id1-slug\">URL</label>\n                    <span class=\"lyra-wscreate__slug\">\n                        <span class=\"lyra-wscreate__slug-prefix\" x-bind=\"slugPrefixBinding\">lyra.dev/</span>\n                        <input id=\"lyra-wscreate-id1-slug\" class=\"lyra-wscreate__slug-input\" placeholder=\"acme-inc\" data-lyra-wscreate-slug x-bind=\"slugInput\" :aria-describedby=\"fieldErrors.slug ? 'lyra-wscreate-id1-slug-error' : null\" />\n                    </span>\n                    <span id=\"lyra-wscreate-id1-slug-error\" class=\"lyra-hint lyra-hint--error\" x-show=\"fieldErrors.slug\" x-text=\"fieldErrors.slug\" style=\"display: none\"></span>\n                    <span class=\"lyra-hint\" x-show=\"!fieldErrors.slug\">Lowercase letters, numbers, and hyphens.</span>\n                </div>\n            </form>\n        </div>\n        <div class=\"lyra-dialog__footer\">\n            <button class=\"lyra-btn lyra-btn--ghost lyra-btn--md\" x-bind=\"cancelButton\">Cancel</button>\n            <button class=\"lyra-btn lyra-btn--primary lyra-btn--md\" form=\"lyra-wscreate-id1-form\" x-bind=\"createButton\">\n                <span class=\"lyra-btn__spinner\" aria-hidden=\"true\" x-show=\"pending\" style=\"display: none\"></span>Create workspace\n            </button>\n        </div>\n    </div>\n</div>\n</div>",
+            "binding": "lyraCreateWorkspaceDialog",
+            "rootXData": "owned",
+            "props": [
+                {
+                    "name": "title",
+                    "default": "'Create workspace'",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "slugPrefix",
+                    "default": "'lyra.dev/'",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "defaultOpen",
+                    "default": "false",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "closeOnEsc",
+                    "default": "true",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "closeOnOverlayClick",
+                    "default": "true",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "returnFocusTo",
+                    "default": "null",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "closeLabel",
+                    "default": "'Close'",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "nameLabel",
+                    "default": "'Workspace name'",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "namePlaceholder",
+                    "default": "'Acme Inc'",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "slugLabel",
+                    "default": "'URL'",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "slugPlaceholder",
+                    "default": "'acme-inc'",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "slugHint",
+                    "default": "'Lowercase letters, numbers, and hyphens.'",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "previewHint",
+                    "default": "'The avatar uses the name initials.'",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "errorLabel",
+                    "default": "'Workspace creation error'",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "cancelLabel",
+                    "default": "'Cancel'",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "createLabel",
+                    "default": "'Create workspace'",
+                    "required": false,
+                    "values": []
+                },
+                {
+                    "name": "messages",
+                    "default": "[]",
+                    "required": false,
+                    "values": []
+                }
+            ]
+        },
+        {
             "slug": "data-table",
             "usage": "<lyra:data-table\n    caption=\"Projects\"\n    :columns=\"[\n        ['key' => 'name', 'label' => 'Project', 'sortable' => true, 'rowHeader' => true],\n        ['key' => 'owner', 'label' => 'Owner'],\n        ['key' => 'issues', 'label' => 'Open issues', 'align' => 'end'],\n    ]\"\n    :rows=\"[\n        ['id' => '1', 'name' => 'Website redesign', 'owner' => 'Ana Ribeiro', 'issues' => 12],\n        ['id' => '2', 'name' => 'Mobile app', 'owner' => 'João Martins', 'issues' => 4],\n    ]\"\n    density=\"comfortable\"\n    hover\n/>",
             "html": "<div\n    x-data=\"lyraDataTable({&quot;sorting&quot;:null,&quot;selected&quot;:[],&quot;clientSort&quot;:false})\"\n    x-modelable=\"selected\"\n    class=\"lyra-table-wrap\"\n>\n    <div\n        class=\"lyra-table-scroll\"\n        x-bind=\"scrollRegion\"\n        role=\"region\"\n        tabindex=\"0\"\n                            aria-labelledby=\"lyra-data-table-caption-id1\"\n                    >\n        <table\n                                                class=\"lyra-table lyra-table--hover\"\n        >\n                            <caption\n                    id=\"lyra-data-table-caption-id1\"\n                                    >Projects</caption>\n                        <thead>\n                <tr>\n                    \n                                            \n                        <th\n                            scope=\"col\"\n                                                                                        data-sort-key=\"name\"\n                                x-bind=\"header\"\n                                                                                >\n                                                            <button\n                                    type=\"button\"\n                                    class=\"lyra-table__sortbtn\"\n                                    x-bind=\"sortButton\"\n                                >\n                                    Project\n                                    <svg\n                                        aria-hidden=\"true\"\n                                        width=\"12\"\n                                        height=\"12\"\n                                        viewBox=\"0 0 24 24\"\n                                        fill=\"none\"\n                                        stroke=\"currentColor\"\n                                        stroke-width=\"2.5\"\n                                        stroke-linecap=\"round\"\n                                        stroke-linejoin=\"round\"\n                                        x-show=\"sortDir(&quot;name&quot;) === null\"\n                                                                            >\n                                        <path d=\"m7 15 5 5 5-5\" />\n                                        <path d=\"m7 9 5-5 5 5\" />\n                                    </svg>\n                                    <svg\n                                        aria-hidden=\"true\"\n                                        width=\"12\"\n                                        height=\"12\"\n                                        viewBox=\"0 0 24 24\"\n                                        fill=\"none\"\n                                        stroke=\"currentColor\"\n                                        stroke-width=\"2.5\"\n                                        stroke-linecap=\"round\"\n                                        stroke-linejoin=\"round\"\n                                        x-show=\"sortDir(&quot;name&quot;) === &#039;asc&#039;\"\n                                                                                    x-cloak\n                                                                            >\n                                        <path d=\"m18 15-6-6-6 6\" />\n                                    </svg>\n                                    <svg\n                                        aria-hidden=\"true\"\n                                        width=\"12\"\n                                        height=\"12\"\n                                        viewBox=\"0 0 24 24\"\n                                        fill=\"none\"\n                                        stroke=\"currentColor\"\n                                        stroke-width=\"2.5\"\n                                        stroke-linecap=\"round\"\n                                        stroke-linejoin=\"round\"\n                                        x-show=\"sortDir(&quot;name&quot;) === &#039;desc&#039;\"\n                                                                                    x-cloak\n                                                                            >\n                                        <path d=\"m6 9 6 6 6-6\" />\n                                    </svg>\n                                </button>\n                                                    </th>\n                                            \n                        <th\n                            scope=\"col\"\n                                                                                                            >\n                                                            Owner\n                                                    </th>\n                                            \n                        <th\n                            scope=\"col\"\n                                                                                                            >\n                                                            Open issues\n                                                    </th>\n                                    </tr>\n            </thead>\n            <tbody>\n                                                            \n                        <tr\n                            data-row-id=\"1\"\n                            x-bind=\"row\"\n                                                    >\n                            \n                                                            \n                                <th\n                                                                            scope=\"row\"\n                                        x-bind=\"rowHeader\"\n                                                                                                                class=\"lyra-table__primary\"\n                                                                                                                                                    data-sort-value=\"Website redesign\"\n                                                                    >Website redesign</th>\n                                                            \n                                <td\n                                                                                                                                                                                >Ana Ribeiro</td>\n                                                            \n                                <td\n                                                                                                                                                                                >12</td>\n                                                    </tr>\n                                            \n                        <tr\n                            data-row-id=\"2\"\n                            x-bind=\"row\"\n                                                    >\n                            \n                                                            \n                                <th\n                                                                            scope=\"row\"\n                                        x-bind=\"rowHeader\"\n                                                                                                                class=\"lyra-table__primary\"\n                                                                                                                                                    data-sort-value=\"Mobile app\"\n                                                                    >Mobile app</th>\n                                                            \n                                <td\n                                                                                                                                                                                >João Martins</td>\n                                                            \n                                <td\n                                                                                                                                                                                >4</td>\n                                                    </tr>\n                                                </tbody>\n        </table>\n            </div>\n\n    </div>",

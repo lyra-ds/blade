@@ -293,6 +293,31 @@ Props:
 - `essentialsLabel` — default: `"Only essentials"`; no fixture examples (fixtures do not constrain this prop).
 - `acceptLabel` — default: `"Accept all"`; no fixture examples (fixtures do not constrain this prop).
 
+### create-workspace-dialog
+
+Tags: `<x-lyra::create-workspace-dialog>...</x-lyra::create-workspace-dialog>` or `<lyra:create-workspace-dialog>...</lyra:create-workspace-dialog>`.
+
+Root class combination observed in fixtures: `lyra-dialog`.
+
+Props:
+- `title` — default: `"Create workspace"`; no fixture examples (fixtures do not constrain this prop).
+- `slugPrefix` — default: `"lyra.dev/"`; no fixture examples (fixtures do not constrain this prop).
+- `defaultOpen` — default: `false`; no fixture examples (fixtures do not constrain this prop).
+- `closeOnEsc` — default: `true`; no fixture examples (fixtures do not constrain this prop).
+- `closeOnOverlayClick` — default: `true`; no fixture examples (fixtures do not constrain this prop).
+- `returnFocusTo` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `closeLabel` — default: `"Close"`; no fixture examples (fixtures do not constrain this prop).
+- `nameLabel` — default: `"Workspace name"`; no fixture examples (fixtures do not constrain this prop).
+- `namePlaceholder` — default: `"Acme Inc"`; no fixture examples (fixtures do not constrain this prop).
+- `slugLabel` — default: `"URL"`; no fixture examples (fixtures do not constrain this prop).
+- `slugPlaceholder` — default: `"acme-inc"`; no fixture examples (fixtures do not constrain this prop).
+- `slugHint` — default: `"Lowercase letters, numbers, and hyphens."`; no fixture examples (fixtures do not constrain this prop).
+- `previewHint` — default: `"The avatar uses the name initials."`; no fixture examples (fixtures do not constrain this prop).
+- `errorLabel` — default: `"Workspace creation error"`; no fixture examples (fixtures do not constrain this prop).
+- `cancelLabel` — default: `"Cancel"`; no fixture examples (fixtures do not constrain this prop).
+- `createLabel` — default: `"Create workspace"`; no fixture examples (fixtures do not constrain this prop).
+- `messages` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+
 ### data-table
 
 Tags: `<x-lyra::data-table>...</x-lyra::data-table>` or `<lyra:data-table>...</lyra:data-table>`.

@@ -1,0 +1,4 @@
+[
+    {"props": {}, "expected_class": "lyra-dialog"},
+    {"props": {"class": "custom"}, "expected_class": "lyra-dialog custom"}
+]

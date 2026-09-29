@@ -59,6 +59,85 @@ test('file-manager: open and navigate match React without disrupting view and me
   expect(errors).toEqual([]);
 });
 
+test('create-workspace-dialog: validates, slugifies each keystroke, and accepts a real submit', async ({ page }) => {
+  const errors = await mount(page, component('create-workspace-dialog'));
+  await page.locator('#workspace-trigger').click();
+  const dialog = page.getByRole('dialog', { name: 'Create workspace' });
+  await expect(dialog).toBeVisible();
+  const name = dialog.getByRole('textbox', { name: 'Workspace name' });
+  const slug = dialog.getByRole('textbox', { name: 'URL' });
+  await expect(name).toBeFocused();
+  await dialog.getByRole('button', { name: 'Create workspace' }).click();
+  await expect(name).toBeFocused();
+  await expect(dialog.getByText('Enter a workspace name.')).toBeVisible();
+  await name.fill('Ação Global');
+  await expect(slug).toHaveValue('acao-global');
+  await slug.fill('my!slug');
+  await expect(slug).toHaveValue('my-slug');
+  await slug.press('!');
+  await expect(slug).toHaveValue('my-slug');
+  await name.fill('Another Name');
+  await expect(slug).toHaveValue('my-slug');
+  await dialog.getByRole('button', { name: 'Create workspace' }).click();
+  await expect(dialog).toBeHidden();
+  await expect(page.locator('#workspace-trigger')).toBeFocused();
+  expect(errors).toEqual([]);
+});
+
+test('create-workspace-dialog: rejection focuses summary and Escape cancels pending submit', async ({ page }) => {
+  const errors = await mount(page, component('create-workspace-dialog'));
+  await page.locator('#workspace-trigger').click();
+  const dialog = page.getByRole('dialog');
+  await dialog.getByRole('textbox', { name: 'Workspace name' }).fill('Taken');
+  await dialog.getByRole('button', { name: 'Create workspace' }).click();
+  const summary = dialog.getByRole('alert');
+  await expect(summary).toContainText('Choose another workspace URL.');
+  await expect(summary).toBeFocused();
+  await expect(dialog.getByRole('textbox', { name: 'URL' })).toHaveAttribute('aria-invalid', 'true');
+  await page.evaluate(() => {
+    window.__cancelled = [];
+    const root = document.querySelector('.lyra-dialog-overlay');
+    root.addEventListener('lyra:create-workspace', event => {
+      event.stopImmediatePropagation();
+      window.__pendingId = event.detail.operationId;
+    }, true);
+    root.addEventListener('lyra:create-workspace:cancel', event => {
+      event.stopImmediatePropagation();
+      window.__cancelled.push(event.detail.operationId);
+    }, true);
+  });
+  await dialog.getByRole('textbox', { name: 'URL' }).fill('available');
+  await dialog.getByRole('button', { name: 'Create workspace' }).click();
+  await expect(dialog.locator('form')).toHaveAttribute('data-state', 'submitting');
+  await expect(dialog.locator('form')).toHaveAttribute('aria-busy', 'true');
+  await expect(dialog.getByRole('button', { name: 'Create workspace' })).toHaveClass(/lyra-btn--loading/);
+  await page.keyboard.press('Escape');
+  await expect(dialog.locator('form')).toHaveAttribute('data-state', 'canceling');
+  expect(await page.evaluate(() => window.__cancelled)).toEqual([await page.evaluate(() => window.__pendingId)]);
+  await page.evaluate(() => window.Alpine.$data(document.querySelector('.lyra-dialog-overlay')).cancel(window.__pendingId));
+  await expect(dialog).toBeHidden();
+  expect(errors).toEqual([]);
+});
+
+test('create-workspace-dialog: Portuguese copy and validation work in the published binding', async ({ page }) => {
+  const fixture = component('create-workspace-dialog');
+  const translated = fixture.html
+    .replaceAll('Create workspace', 'Criar workspace')
+    .replaceAll('Workspace name', 'Nome do workspace')
+    .replaceAll('Lowercase letters, numbers, and hyphens.', 'Letras minúsculas, números e hifens.')
+    .replaceAll('Enter a workspace name.', 'Informe o nome do workspace.')
+    .replaceAll('Close', 'Fechar')
+    .replaceAll('Cancel', 'Cancelar');
+  const errors = await mount(page, { ...fixture, html: translated });
+  await page.locator('#workspace-trigger').click();
+  const dialog = page.getByRole('dialog', { name: 'Criar workspace' });
+  await expect(dialog.getByRole('button', { name: 'Fechar' })).toBeVisible();
+  await expect(dialog.getByText('Letras minúsculas, números e hifens.')).toBeVisible();
+  await dialog.getByRole('button', { name: 'Criar workspace' }).click();
+  await expect(dialog.getByText('Informe o nome do workspace.')).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
 test('dropdown: selection emits a nonempty detail.id', async ({ page }) => {
   const errors = await mount(page, component('dropdown'));
   await page.evaluate(() => {

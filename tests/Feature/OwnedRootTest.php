@@ -8,7 +8,7 @@ use LyraDs\Blade\OwnedRoot;
 function dataset_owned_roots(): array
 {
     return [
-        'accordion', 'app-sidebar', 'bottom-sheet', 'cookie-banner', 'dialog', 'drawer',
+        'accordion', 'app-sidebar', 'bottom-sheet', 'cookie-banner', 'create-workspace-dialog', 'dialog', 'drawer',
         'dropdown', 'file-manager', 'file-upload', 'popover', 'segmented-control',
         'sidebar-group', 'table-of-contents', 'tooltip', 'workspace-switcher',
         'toast-stack', 'calendar', 'calendar-view', 'date-picker', 'date-range-picker', 'time-picker',
