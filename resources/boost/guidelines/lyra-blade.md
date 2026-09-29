@@ -145,6 +145,26 @@ Props:
 - `disabled` — default: `false`; no fixture examples (fixtures do not constrain this prop).
 - `full` — default: `false`; fixture examples (not constraints): `true`.
 
+### calendar-view
+
+Tags: `<x-lyra::calendar-view>...</x-lyra::calendar-view>` or `<lyra:calendar-view>...</lyra:calendar-view>`.
+
+Root class combination observed in fixtures: `lyra-calview`.
+
+Props:
+- `view` — default: `null`; fixture examples (not constraints): `"month"`.
+- `defaultView` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `date` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `defaultDate` — default: `null`; no fixture examples (fixtures do not constrain this prop).
+- `events` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `availability` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+- `startHour` — default: `7`; no fixture examples (fixtures do not constrain this prop).
+- `endHour` — default: `21`; no fixture examples (fixtures do not constrain this prop).
+- `weekStartsOn` — default: `1`; no fixture examples (fixtures do not constrain this prop).
+- `slotStep` — default: `30`; no fixture examples (fixtures do not constrain this prop).
+- `locale` — default: `"en-US"`; no fixture examples (fixtures do not constrain this prop).
+- `labels` — default: unknown; no fixture examples (fixtures do not constrain this prop).
+
 ### calendar
 
 Tags: `<x-lyra::calendar>...</x-lyra::calendar>` or `<lyra:calendar>...</lyra:calendar>`.

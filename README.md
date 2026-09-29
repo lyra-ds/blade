@@ -67,7 +67,7 @@ Component props and ordinary HTML attributes can be combined. For example, this 
 | Layout and structure | `card`, `container`, `footer`, `grid`, `page-header`, `separator`, `shell`, `stack` |
 | Navigation | `app-sidebar`, `bottom-nav`, `breadcrumb`, `nav-link`, `navbar`, `pagination`, `sidebar-group`, `stepper`, `table-of-contents`, `tabs`, `workspace-switcher` |
 | Forms and selection | `checkbox`, `checkbox-group`, `combobox`, `fieldset`, `form-row`, `input`, `radio`, `radio-group`, `segmented-control`, `select`, `switch`, `textarea` |
-| Dates and scheduling | `calendar`, `date-picker`, `date-range-picker`, `recurrence-selector`, `slot-picker`, `time-input`, `time-picker`, `time-zone-picker`, `weekly-schedule-editor` |
+| Dates and scheduling | `calendar`, `calendar-view`, `date-picker`, `date-range-picker`, `recurrence-selector`, `slot-picker`, `time-input`, `time-picker`, `time-zone-picker`, `weekly-schedule-editor` |
 | Data and files | `code-block`, `data-table`, `file-manager`, `file-upload`, `table` |
 | Overlays and disclosure | `accordion`, `bottom-sheet`, `command-palette`, `cookie-banner`, `dialog`, `drawer`, `dropdown`, `popover`, `tooltip` |
 
@@ -109,9 +109,8 @@ Nothing in it is written by hand. The props come from each `@props` directive, t
 
 Every component emits exactly the class strings emitted by the corresponding Lyra React component. Data-driven class-emission tests enforce that contract using the fixtures in `tests/Fixtures/class-emission/`, keeping Blade and React on the same styling surface.
 
-Class parity is not the same as full coverage. Two React components have no Blade equivalent, both by decision:
+Class parity is not the same as full coverage. One React component has no Blade equivalent:
 
-- **`CalendarView`** is not ported. Everything it displays is either `Intl`-formatted text or an event chip positioned by pixel geometry derived from time math, and its event popover is placed from measured element rectangles. The served HTML would be an empty frame, which is the opposite of the static-first contract the rest of this package keeps. Compose the equivalent screen from `calendar`, `popover`, `segmented-control`, and `slot-picker` instead.
 - **`CreateWorkspaceDialog`** is a composition, not a primitive: it is `dialog` plus fields this package already ships. Build it in your application rather than importing a fixed arrangement of them.
 
 React's `ThemeProvider` and `ToastProvider` also have no matching tag, because a provider is not a Blade shape. Their behavior is here: the theme lives in `@lyraThemeScript` plus the Alpine `$store.theme`, and the toast queue lives in `toast-stack`.
@@ -120,7 +119,7 @@ React's `ThemeProvider` and `ToastProvider` also have no matching tag, because a
 
 | `lyra-ds/blade` | Laravel 12 | Laravel 13 | PHP 8.3 | PHP 8.4 | `@lyra-ds/styles` | `@lyra-ds/alpine` | `alpinejs` |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `1.0.x` | `^12.41.1` | `^13.24` | Supported | Supported | `^1.1` | `^1.1` | `>=3.13 <4` |
+| `1.0.x` | `^12.41.1` | `^13.24` | Supported | Supported | `^1.1` | `^1.2` | `>=3.13 <4` |
 | `0.10.x` | Supported | Supported | Supported | Supported | `^0.4.2` | `^0.4.0` | `>=3.13 <4` |
 
 These are the versions the respective `lyra-ds/blade` releases were tested against.
@@ -139,11 +138,11 @@ Conventional commits drive the changelog in the bot-maintained release PR. Merge
 
 ## Interactivity
 
-The Alpine-backed components are `accordion`, `app-sidebar`, `bottom-sheet`, `calendar`, `code-block`, `combobox`, `command-palette`, `cookie-banner`, `data-table`, `date-picker`, `date-range-picker`, `dialog`, `drawer`, `dropdown`, `file-manager`, `file-upload`, `popover`, `recurrence-selector`, `segmented-control`, `sidebar-group`, `slot-picker`, `table-of-contents`, `tabs`, `time-input`, `time-picker`, `time-zone-picker`, `toast-stack`, `tooltip`, `weekly-schedule-editor`, and `workspace-switcher`. They get their behavior from the `@lyra-ds/alpine` plugin. Alpine.js `>=3.13 <4` is a consumer-installed peer and is never bundled.
+The Alpine-backed components are `accordion`, `app-sidebar`, `bottom-sheet`, `calendar`, `calendar-view`, `code-block`, `combobox`, `command-palette`, `cookie-banner`, `data-table`, `date-picker`, `date-range-picker`, `dialog`, `drawer`, `dropdown`, `file-manager`, `file-upload`, `popover`, `recurrence-selector`, `segmented-control`, `sidebar-group`, `slot-picker`, `table-of-contents`, `tabs`, `time-input`, `time-picker`, `time-zone-picker`, `toast-stack`, `tooltip`, `weekly-schedule-editor`, and `workspace-switcher`. They get their behavior from the `@lyra-ds/alpine` plugin. Alpine.js `>=3.13 <4` is a consumer-installed peer and is never bundled. `calendar-view` requires `@lyra-ds/alpine` 1.2.0 or later.
 
 Static components continue to work without Alpine. Alpine-backed components are static-first: except for the data-driven regions described below, their structure and initial state are present in the served HTML and remain inert until Alpine starts.
 
-Some repeated content is intentionally runtime-rendered because filtering, locale-aware generation, queue state, or user-added rows belong to the Alpine binding. `calendar`, `combobox`, `command-palette`, `file-upload`, `time-picker`, `toast-stack`, and `weekly-schedule-editor` stamp those grids, options, items, toasts, or rows through `x-for`; those repeated regions do not exist in the served DOM until Alpine boots.
+Some repeated content is intentionally runtime-rendered because filtering, locale-aware generation, queue state, or user-added rows belong to the Alpine binding. `calendar`, `calendar-view`, `combobox`, `command-palette`, `file-upload`, `time-picker`, `toast-stack`, and `weekly-schedule-editor` stamp those grids, options, items, toasts, or rows through `x-for`; those repeated regions do not exist in the served DOM until Alpine boots.
 
 ### FileUpload controlled lifecycle (breaking change)
 

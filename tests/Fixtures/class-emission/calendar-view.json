@@ -1,0 +1,5 @@
+[
+    {"props": {}, "expected_class": "lyra-calview"},
+    {"props": {"view": "month"}, "expected_class": "lyra-calview"},
+    {"props": {"class": "extra custom"}, "expected_class": "lyra-calview extra custom"}
+]
