@@ -2,7 +2,10 @@
 
 This guide covers upgrading `lyra-ds/blade` from `0.10.x` to `1.0.0`.
 
-Release `1.0.0` establishes standard [Semantic Versioning](https://semver.org/) for the Blade adapter, aligning its markup, accessibility semantics, and interactivity contracts with `@lyra-ds/alpine` `^1.1` and `@lyra-ds/styles` `^1.1`.
+Release `1.0.0` establishes standard [Semantic Versioning](https://semver.org/) for the Blade adapter, aligning its markup, accessibility semantics, and interactivity contracts with `@lyra-ds/alpine` `^1.2` and `@lyra-ds/styles` `^1.1`.
+
+> [!NOTE]
+> `@lyra-ds/alpine` `^1.2` is required because `1.0.0` ships `calendar-view`, backed by the `lyraCalendarView` binding published in `@lyra-ds/alpine` `1.2.0`.
 
 ---
 
@@ -15,7 +18,7 @@ Release `1.0.0` establishes standard [Semantic Versioning](https://semver.org/) 
 | **PHP** | `>= 8.3` | Tested against PHP 8.3 and PHP 8.4 |
 | **Laravel (`illuminate/*`)** | `^12.41.1` or `^13.24` | Laravel 11 reached security end-of-life in March 2026 and is not supported |
 | **`@lyra-ds/styles`** | `^1.1` | Required CSS contract for progressive enhancement, live regions, and overlays |
-| **`@lyra-ds/alpine`** | `^1.1` | Required runtime plugin factories (`lyraTabs`, `lyraFileUpload`, `lyraToastStack`, etc.) |
+| **`@lyra-ds/alpine`** | `^1.2` | Required runtime plugin factories (`lyraTabs`, `lyraFileUpload`, `lyraToastStack`, `lyraCalendarView`, etc.) |
 | **`alpinejs`** | `>= 3.13 < 4` | Consumer-installed peer dependency |
 
 ### Synchronized Upgrade Requirement
@@ -29,7 +32,7 @@ Update your `composer.json` and `package.json`:
 
 ```bash
 composer require "lyra-ds/blade:^1.0"
-npm install @lyra-ds/styles@^1.1 @lyra-ds/alpine@^1.1
+npm install @lyra-ds/styles@^1.1 @lyra-ds/alpine@^1.2
 ```
 
 ---
@@ -39,7 +42,7 @@ npm install @lyra-ds/styles@^1.1 @lyra-ds/alpine@^1.1
 Use this checklist to plan and verify your upgrade:
 
 - [ ] Verify your environment runs PHP `>= 8.3` and Laravel `>= 12.41.1` or `>= 13.24`.
-- [ ] Upgrade `@lyra-ds/styles` and `@lyra-ds/alpine` to `^1.1` alongside `lyra-ds/blade` `^1.0.0`.
+- [ ] Upgrade `@lyra-ds/styles` to `^1.1` and `@lyra-ds/alpine` to `^1.2` alongside `lyra-ds/blade` `^1.0.0`.
 - [ ] **Audit `x-data` attributes**: Remove any direct `x-data` on interactive Lyra components and wrap them in parent containers (`<div x-data="...">`).
 - [ ] **Tabs**: Update CSS and test selectors. The root element is now `div[data-lyra-tabs]` with the element ID, while the tablist is `[data-lyra-tabs-enhanced]` (or `.lyra-tabs`) and panels are `section[data-value]` with heading tags.
 - [ ] **FileUpload**: Migrate from simulated upload props (`uploadDuration`, `defaultItems`, `doneLabel`, status `done`) to the controlled lifecycle (`items`, `x-model`, and `lyra:file-upload:*` event listeners).
@@ -565,7 +568,7 @@ A quick reference for new features introduced in `1.0.0`:
 
 ### 2. Tabs showing all panels stacked or tablist missing
 - **Cause**: Version mismatch between `lyra-ds/blade` and `@lyra-ds/alpine`. Blade 1.0 emits progressive-enhancement fallback anchors and `<section>` panels expecting Alpine 1.x `lyraTabs`. Older Alpine 0.x plugins fail structure validation and do not enhance the markup.
-- **Fix**: Upgrade `@lyra-ds/alpine` and `@lyra-ds/styles` to `^1.1`. Ensure Alpine is initialized with `Alpine.plugin(lyraAlpine)`.
+- **Fix**: Upgrade `@lyra-ds/alpine` to `^1.2` and `@lyra-ds/styles` to `^1.1`. Ensure Alpine is initialized with `Alpine.plugin(lyraAlpine)`.
 
 ### 3. `InvalidArgumentException: <lyra:tabs> owns x-data; wrap it in a parent element that owns your state.`
 - **Cause**: You passed an `x-data` attribute directly to an interactive Lyra Blade component.

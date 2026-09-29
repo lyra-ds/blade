@@ -17,7 +17,6 @@ export function registerHydrationTests(shard) {
   for (const [index, item] of components.entries()) {
     if (index % 3 !== shard) continue;
     test(`${item.slug}: emitted HTML hydrates without errors or fallback`, async ({ page }) => {
-      test.fixme(item.slug === 'calendar-view' && !process.env.CALENDAR_VIEW_LOCAL_BUILD, 'requires @lyra-ds/alpine 1.2.0');
       const errors = await mount(page, item);
       await expectHydrated(page, item);
       if (item.slug === 'tabs') await expect(page.getByRole('tablist')).toBeVisible();

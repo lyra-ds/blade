@@ -119,7 +119,7 @@ React's `ThemeProvider` and `ToastProvider` also have no matching tag, because a
 
 | `lyra-ds/blade` | Laravel 12 | Laravel 13 | PHP 8.3 | PHP 8.4 | `@lyra-ds/styles` | `@lyra-ds/alpine` | `alpinejs` |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `1.0.x` | `^12.41.1` | `^13.24` | Supported | Supported | `^1.1` | `^1.1` | `>=3.13 <4` |
+| `1.0.x` | `^12.41.1` | `^13.24` | Supported | Supported | `^1.1` | `^1.2` | `>=3.13 <4` |
 | `0.10.x` | Supported | Supported | Supported | Supported | `^0.4.2` | `^0.4.0` | `>=3.13 <4` |
 
 These are the versions the respective `lyra-ds/blade` releases were tested against.

@@ -1,9 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { component, mount } from './fixture.js';
 
-// Remove this fixme and CALENDAR_VIEW_LOCAL_BUILD override after @lyra-ds/alpine 1.2.0 ships.
-test.fixme(!process.env.CALENDAR_VIEW_LOCAL_BUILD, 'requires @lyra-ds/alpine 1.2.0');
-
 test('calendar-view: localized controls, positioned events, availability, slot and popover', async ({ page }) => {
   const errors = await mount(page, component('calendar-view'));
   await page.evaluate(() => {
