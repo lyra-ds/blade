@@ -5,7 +5,7 @@ This guide covers upgrading `lyra-ds/blade` from `0.10.x` to `1.0.0`.
 Release `1.0.0` establishes standard [Semantic Versioning](https://semver.org/) for the Blade adapter, aligning its markup, accessibility semantics, and interactivity contracts with `@lyra-ds/alpine` `^1.2` and `@lyra-ds/styles` `^1.1`.
 
 > [!NOTE]
-> `@lyra-ds/alpine` `^1.2` is required because `1.0.0` ships `calendar-view`, backed by the `lyraCalendarView` binding published in `@lyra-ds/alpine` `1.2.0`.
+> `@lyra-ds/alpine` `^1.2` is required because `1.0.0` ships `calendar-view` and `create-workspace-dialog`, backed by the `lyraCalendarView` and `lyraCreateWorkspaceDialog` bindings published in `@lyra-ds/alpine` `1.2.0`.
 
 ---
 
@@ -18,7 +18,7 @@ Release `1.0.0` establishes standard [Semantic Versioning](https://semver.org/) 
 | **PHP** | `>= 8.3` | Tested against PHP 8.3 and PHP 8.4 |
 | **Laravel (`illuminate/*`)** | `^12.41.1` or `^13.24` | Laravel 11 reached security end-of-life in March 2026 and is not supported |
 | **`@lyra-ds/styles`** | `^1.1` | Required CSS contract for progressive enhancement, live regions, and overlays |
-| **`@lyra-ds/alpine`** | `^1.2` | Required runtime plugin factories (`lyraTabs`, `lyraFileUpload`, `lyraToastStack`, `lyraCalendarView`, etc.) |
+| **`@lyra-ds/alpine`** | `^1.2` | Required runtime plugin factories (`lyraTabs`, `lyraFileUpload`, `lyraToastStack`, `lyraCalendarView`, `lyraCreateWorkspaceDialog`, etc.) |
 | **`alpinejs`** | `>= 3.13 < 4` | Consumer-installed peer dependency |
 
 ### Synchronized Upgrade Requirement
@@ -529,6 +529,8 @@ A quick reference for new features introduced in `1.0.0`:
       <x-slot:popover><span x-text="popover?.event.title"></span></x-slot:popover>
   </lyra:calendar-view>
   ```
+- **`<lyra:create-workspace-dialog>`**: Uses `@lyra-ds/alpine` ^1.2.0 for a controlled workspace-creation form. It emits `lyra:create-workspace` with `{ operationId, name, slug }`; the application must call `accept(operationId)` or `reject(operationId, { fieldErrors?, message? })` on the Alpine data. Closing while pending emits `lyra:create-workspace:cancel`; acknowledge with `cancel(operationId)`. Use `x-model` or `wire:model` for `open`, and `return-focus-to` with a CSS selector. The dedicated docs example shows a working controller.
+
 - **`<x-lyra::otp-input>`**: New component implementing Alpine v1 `lyraOtpInput`. Features accessible digit labels, numeric entry, clipboard paste, SMS/email autofill (`autocomplete="one-time-code"`), hidden form input, and Laravel validation error integration.
   ```blade
   <lyra:otp-input

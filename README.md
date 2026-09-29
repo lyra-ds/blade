@@ -69,7 +69,7 @@ Component props and ordinary HTML attributes can be combined. For example, this 
 | Forms and selection | `checkbox`, `checkbox-group`, `combobox`, `fieldset`, `form-row`, `input`, `radio`, `radio-group`, `segmented-control`, `select`, `switch`, `textarea` |
 | Dates and scheduling | `calendar`, `calendar-view`, `date-picker`, `date-range-picker`, `recurrence-selector`, `slot-picker`, `time-input`, `time-picker`, `time-zone-picker`, `weekly-schedule-editor` |
 | Data and files | `code-block`, `data-table`, `file-manager`, `file-upload`, `table` |
-| Overlays and disclosure | `accordion`, `bottom-sheet`, `command-palette`, `cookie-banner`, `dialog`, `drawer`, `dropdown`, `popover`, `tooltip` |
+| Overlays and disclosure | `accordion`, `bottom-sheet`, `command-palette`, `cookie-banner`, `create-workspace-dialog`, `dialog`, `drawer`, `dropdown`, `popover`, `tooltip` |
 
 Use each name with either equivalent form—for example, `button` becomes `<lyra:button>` or `<x-lyra::button>`.
 
@@ -138,7 +138,7 @@ Conventional commits drive the changelog in the bot-maintained release PR. Merge
 
 ## Interactivity
 
-The Alpine-backed components are `accordion`, `app-sidebar`, `bottom-sheet`, `calendar`, `calendar-view`, `code-block`, `combobox`, `command-palette`, `cookie-banner`, `data-table`, `date-picker`, `date-range-picker`, `dialog`, `drawer`, `dropdown`, `file-manager`, `file-upload`, `popover`, `recurrence-selector`, `segmented-control`, `sidebar-group`, `slot-picker`, `table-of-contents`, `tabs`, `time-input`, `time-picker`, `time-zone-picker`, `toast-stack`, `tooltip`, `weekly-schedule-editor`, and `workspace-switcher`. They get their behavior from the `@lyra-ds/alpine` plugin. Alpine.js `>=3.13 <4` is a consumer-installed peer and is never bundled. `calendar-view` requires `@lyra-ds/alpine` 1.2.0 or later.
+The Alpine-backed components are `accordion`, `app-sidebar`, `bottom-sheet`, `calendar`, `calendar-view`, `code-block`, `combobox`, `command-palette`, `cookie-banner`, `create-workspace-dialog`, `data-table`, `date-picker`, `date-range-picker`, `dialog`, `drawer`, `dropdown`, `file-manager`, `file-upload`, `popover`, `recurrence-selector`, `segmented-control`, `sidebar-group`, `slot-picker`, `table-of-contents`, `tabs`, `time-input`, `time-picker`, `time-zone-picker`, `toast-stack`, `tooltip`, `weekly-schedule-editor`, and `workspace-switcher`. They get their behavior from the `@lyra-ds/alpine` plugin. Alpine.js `>=3.13 <4` is a consumer-installed peer and is never bundled. `calendar-view` and `create-workspace-dialog` require `@lyra-ds/alpine` 1.2.0 or later.
 
 Static components continue to work without Alpine. Alpine-backed components are static-first: except for the data-driven regions described below, their structure and initial state are present in the served HTML and remain inert until Alpine starts.
 
@@ -213,9 +213,9 @@ Add this required rule to your application's CSS:
 
 The styles package does not ship this rule. Without it, closed menus and dialogs can flash before Alpine boots.
 
-Livewire is a first-class integration. Twenty-four components expose controllable state through `x-modelable`:
+Livewire is a first-class integration. Twenty-five components expose controllable state through `x-modelable`:
 
-- `open`: `bottom-sheet`, `command-palette` (overlay mode), `dialog`, `drawer`, `dropdown`, `popover`, and `workspace-switcher`
+- `open`: `bottom-sheet`, `command-palette` (overlay mode), `create-workspace-dialog`, `dialog`, `drawer`, `dropdown`, `popover`, and `workspace-switcher`
 - `selected`: `calendar`, `date-picker`, `date-range-picker`, `time-input`, and `time-picker`
 - `value`: `combobox`, `recurrence-selector`, and `segmented-control`
 - Component-specific state: `accordion` (`openItems`), `app-sidebar` (`collapsed`), `data-table` (`selected`, or `sorting` via `x-modelable`), `file-manager` (`view`, with `query` modelable on its search field), `file-upload` (`items`), `slot-picker` (`date`, or `timezone` via `x-modelable`), `table-of-contents` (`activeId`), `tabs` (`active`), and `weekly-schedule-editor` (`value`, or `exceptions` via `x-modelable`)
