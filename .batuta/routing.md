@@ -46,5 +46,6 @@ commits in the current CLI workflow; old Compozy commit sessions are historical.
 Repeat the absolute worktree path in the brief body and verify the branch
 before editing; `--cwd` alone was not reliable in historical sessions.
 Repeat conventions in every brief; truncated worker output is never proof.
-Compozy is an installed historical runtime, intentionally unrouted. Only the
-five shipped adapters inventoried above are eligible without a user override.
+Compozy is an installed historical runtime, intentionally unrouted. The shipped adapter set is `agy`, `claude`, `codex`,
+`cursor-agent` and `opencode`; Compozy is outside it. Only confirmed installed
+executor/model rows execute; the missing cursor-agent cannot receive work.
