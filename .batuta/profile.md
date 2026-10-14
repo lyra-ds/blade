@@ -1,19 +1,23 @@
 # Batuta profile — lyra-ds/blade
 
-Stack template: `templates/laravel.md` (Laravel package — Blade components, no app scaffold)
+## Current conducting context — 2026-10-14
+
+The package is implemented and the reviewed 1.0.0 release PR is pending.
+Old greenfield and Compozy runtime assumptions are superseded by this setup.
+Preserve the original decisions below and use current manifests/CI for support.
 
 ## Answers (onboarding 2026-08-04)
 
-- Stack: Composer package `lyra-ds/blade` — PHP >= 8.3, Laravel 11/12 (Blade
-  components), namespace `LyraDs\Blade`. Machine has PHP 8.4.24RC1 + Composer 2.10.
-- Methodology: TDD; conventional commits; trunk-based.
-- Test: `vendor/bin/pest`
-- Lint: `vendor/bin/pint`
-- Build: none (no CSS/JS ships in this package — CSS comes from npm `@lyra-ds/styles`)
+Stack: PHP >=8.3 Composer package lyra-ds/blade; Laravel 12/13; Blade templates with Alpine and CSS peers from npm.
+Methodology: TDD; conventional commits; trunk-based.
+Test: vendor/bin/pest
+Lint: vendor/bin/pint --test
+Build: npm run build:browser (test fixture only; package ships no CSS/JS)
 Execution: sequential
 Worktree: medium+
+Worktree-home: cache
 Install: composer install
-Runtime: compozy
+Template: templates/laravel.md
 
 ## Project constraints (from PRD, closed decisions — don't reopen without the user)
 
@@ -33,7 +37,7 @@ Runtime: compozy
   guidelines geradas seguem documentando ambas — isso é serviço ao consumidor,
   não estilo nosso. A galeria do `blade-demo` migra na varredura da onda B.
 - Atributos servidos vs. atributos do binding (lição do CodeBlock, 2026-08-08):
-  o que o binding Alpine fornece por *conveniência* (ARIA de live region, ids
+  o que o binding Alpine fornece por _conveniência_ (ARIA de live region, ids
   gerados) pode ficar só no binding; o que **muda comportamento sem JS**
   (`type`, `tabindex`, `hidden`, `inert`) o Blade sempre serve, senão a promessa
   estática-primeiro quebra. Auditado no catálogo: onde o React hardcoda
@@ -43,16 +47,46 @@ Runtime: compozy
 
 ## Project map
 
-Greenfield: the directory is empty as of onboarding (2026-08-04). Nothing to
-map yet — this section gets a real sweep once the package skeleton exists.
+Refreshed on 2026-10-14 from the current main checkout. The controller completed
+this bounded sweep after the configured OpenCode scout returned a provider 402 error.
 
-Where things will come from, meanwhile:
+`composer.json` defines the PHP package, Laravel peers and development tooling.
+`src/BladeServiceProvider.php` registers views, aliases and framework integration.
+`src/ShortComponentSyntax.php` implements the public `<lyra:...>` syntax.
+`src/ThemeScript.php` owns the server-rendered theme bootstrap directive.
+`src/FocusResolver.php` supplies overlay focus references.
+`src/OwnedRoot.php` protects Alpine-owned component roots.
+`src/ToastStackComponent.php` owns the toast stack integration.
+`src/IconRegistry.php` owns the curated icon contract.
+`resources/views/components/` contains public Blade component templates.
+`resources/docs-examples/` contains rendered examples for the public API artifact.
+Every new component needs its corresponding curated documentation example.
+`src/BladePropParser.php` parses component props for the API generator.
+`src/DocsApiGenerator.php` derives the component documentation contract.
+`bin/generate-docs-api` regenerates the repository API snapshot.
+`docs/api.json` is generated; the release asset carries the released version.
+`src/BoostGuidelinesGenerator.php` derives integration guidance.
+`bin/generate-boost-guidelines` regenerates the Boost guidelines.
+`resources/boost/guidelines/lyra-blade.md` is generated integration prose.
+`tests/Feature/` contains Pest package, component, API and integration tests.
+`tests/TestCase.php` and `tests/Pest.php` configure Testbench and Pest.
+`tests/Fixtures/class-emission/` preserves the cross-framework class contract.
+`browser/` holds real-browser fixtures and Playwright behavior tests.
+`browser/runtime.js` is bundled by the browser build script.
+`browser/.generated/` is generated browser tooling; do not edit it manually.
+`playwright.config.js` limits discovery to `browser/` and declares three engines.
+`phpunit.xml` limits PHP test discovery to `tests/Feature/`.
+`.github/workflows/ci.yml` defines PHP/Laravel and browser checks.
+`.github/workflows/release.yml` owns release-please and API release assets.
+`docs/prd.md` and README document public scope and compatibility.
+`WORK.md` records current tasks; `.batuta/` owns conducting state.
+The owning CSS and Alpine runtime live in the sibling Lyra monorepo.
+Never bundle a separate CSS/runtime implementation into this PHP package.
 
-- `docs/prd.md` — the PRD driving phase 1 (~22 static
-  components, structure, acceptance criteria).
-- `~/Projects/lyra-ds/lyra` — main repo (corrected 2026-08-05):
-  `packages/styles` (the real `.lyra-*` classes), `packages/react/src/*`
-  (API and class emissions to mirror), lyra-ds.dev/llms.txt (contracts).
-- Planned layout (PRD §4): `composer.json` at root, service provider
-  registering the `lyra` component namespace (`<x-lyra::button>`), Pest tests,
-  Pint, GitHub Actions.
+## Conventions
+
+- Follow AGENTS.md, docs/prd.md and the README compatibility contract.
+- Keep the package static-first; CSS and interactive behavior come from the Lyra npm peers.
+- Every component change preserves class/API parity and includes its documentation example and generated API update.
+- Preserve both public component syntaxes and server-rendered behavioral attributes.
+- Use TDD and Conventional Commits; credit the real executor and verify outside its session.
