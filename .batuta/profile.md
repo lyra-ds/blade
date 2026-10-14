@@ -2,7 +2,8 @@
 
 ## Current conducting context — 2026-10-14
 
-The package is implemented and the reviewed 1.0.0 release PR is pending.
+Blade 1.0.0 is published and the temporary release-as override is removed.
+The maintainer authorized this setup refresh and the pending merges after checks.
 Old greenfield and Compozy runtime assumptions are superseded by this setup.
 Preserve the original decisions below and use current manifests/CI for support.
 
