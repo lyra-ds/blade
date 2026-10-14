@@ -32,3 +32,19 @@ working tree guard. Research with no available next row falls back to the
 conductor. Current exact model IDs were discovered from installed adapters.
 Do not infer credentials from catalogue presence. Never add an unrouted CLI
 or replace an unavailable model without the routing policy or user override.
+
+## Retained delivery rules
+
+Commit types describe published delivery: use `fix:` or `feat:` only for a
+package behavior change; setup, test tooling and release chores use the
+appropriate non-release type so release-please does not announce a false fix.
+Credit the real executor in delegated commits with a Co-Authored-By trailer
+and state who implemented and who independently reviewed or verified.
+Preserve candidate work in an owned commit before risky verification, then
+commit verified delivery before the final report. The conductor owns these
+commits in the current CLI workflow; old Compozy commit sessions are historical.
+Repeat the absolute worktree path in the brief body and verify the branch
+before editing; `--cwd` alone was not reliable in historical sessions.
+Repeat conventions in every brief; truncated worker output is never proof.
+Compozy is an installed historical runtime, intentionally unrouted. Only the
+five shipped adapters inventoried above are eligible without a user override.
