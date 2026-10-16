@@ -9,13 +9,14 @@ The package ships 42 static and 30 interactive anonymous Blade components under 
 ### 1. Install the Blade package
 
 ```bash
-composer require lyra-ds/blade
+composer require lyra-ds/blade:1.0.0
 ```
 
 ### 2. Install the styles and fonts
 
 ```bash
-npm i @lyra-ds/styles @fontsource/plus-jakarta-sans @fontsource/jetbrains-mono
+npm install --save-exact @lyra-ds/styles@1.1.0
+npm install @fontsource/plus-jakarta-sans @fontsource/jetbrains-mono
 ```
 
 Follow the `@lyra-ds/styles` font setup to load Plus Jakarta Sans and JetBrains Mono in your application.
@@ -75,7 +76,7 @@ Use each name with either equivalent form—for example, `button` becomes `<lyra
 
 ### Component notes & limitations
 
-- **Dropdown disabled items ([lyra-ds/lyra#289](https://github.com/lyra-ds/lyra/issues/289)):** Items marked with `'disabled' => true` render with `aria-disabled="true"`. Under `@lyra-ds/alpine` 1.1.0, arrow-key roving tabindex does not skip disabled items (they still receive focus). Activation is inert (click, Enter, and Space are swallowed before dispatching `lyra:select` or navigating), and disabled links drop their `href`. Visual disabled styling is applied inline pending a dedicated rule in `@lyra-ds/styles`.
+- **Dropdown disabled items ([lyra-ds/lyra#289](https://github.com/lyra-ds/lyra/issues/289)):** Items marked with `'disabled' => true` render with `aria-disabled="true"` and remain discoverable with arrow keys, including under `@lyra-ds/alpine` 2.0.0. Click, Enter, and Space cannot dispatch `lyra:select`, navigate, submit, or close the menu; disabled links drop their `href`. Blade retains its activation fallback for older peers (including Alpine plugin 1.1.0) and inline disabled styling for older Styles versions. Alpine plugin 2.0.0 adds upstream activation guards, and Styles 1.2.0 includes disabled-item styling; the legacy Blade fallback remains in place.
 
 ## Documentation API artifact
 
@@ -124,6 +125,22 @@ React's `ThemeProvider` and `ToastProvider` also have no matching tag, because a
 
 These are the versions the respective `lyra-ds/blade` releases were tested against.
 
+The historical matrix above and the required consumer minimum remain unchanged: Styles `^1.1`, Lyra Alpine `^1.2` when interactivity is used, and Alpine.js `>=3.13 <4`. The Quickstart pins the historical concrete tuple to Blade `1.0.0`, Styles `1.1.0`, and Lyra Alpine `1.2.0`.
+
+The following exact tuple is an **opt-in qualified combination** for Blade's unchanged `1.0.0` public API. Qualification covers the listed versions, including Alpine.js `3.17.4`; it does not imply that every version in the declared Alpine.js peer range or every combination of package majors was tested.
+
+| Blade API | Styles | Lyra Alpine | Alpine.js tested | Alpine.js declared peer |
+| --- | --- | --- | --- | --- |
+| `1.0.0` (unchanged) | `1.2.0` | `2.0.0` | `3.17.4` | `>=3.13 <4` (unchanged) |
+
+To opt into that tuple in an application using Blade `1.0.0`:
+
+```bash
+npm install --save-exact @lyra-ds/styles@1.2.0 @lyra-ds/alpine@2.0.0 alpinejs@3.17.4
+```
+
+Alpine remains optional for static components. Review the toast migration below before adopting the new runtime.
+
 Laravel 11 is not supported because it reached security end-of-life in March 2026.
 
 Upgrading from `0.10.x`? See the [Migration Guide](docs/migration-1-0.md).
@@ -159,7 +176,8 @@ Some repeated content is intentionally runtime-rendered because filtering, local
 After installing `@lyra-ds/styles` as described in the Quickstart, install Alpine.js and the Lyra plugin:
 
 ```bash
-npm install alpinejs @lyra-ds/alpine
+npm install --save-exact @lyra-ds/alpine@1.2.0
+npm install 'alpinejs@>=3.13 <4'
 ```
 
 Then register the plugin before starting Alpine in `resources/js/app.js`:
@@ -171,6 +189,23 @@ import lyra from '@lyra-ds/alpine';
 Alpine.plugin(lyra);
 Alpine.start();
 ```
+
+### Opt-in Alpine plugin 2.0.0 toast migration
+
+With Lyra Alpine `2.0.0`, `<lyra:toast-stack>` (equivalently `<x-lyra::toast-stack>`) keeps Blade's existing markup and public API, while the runtime changes the implicit duration policy. Info and success notifications expire after 8000 ms. Danger notifications, including those queued through `error()`, persist until dismissed by default.
+
+An explicit per-toast `duration` takes precedence over an explicit `Alpine.store('lyraToasts').duration`, which takes precedence over the tone default. A duration of `0` means persistent at either level. An explicit global duration applies to every tone, including danger/error; later global assignments affect only newly queued notifications.
+
+To restore the former 4000 ms delay policy for all tones, set the global duration after Alpine starts and **before queuing notifications**:
+
+```js
+const toasts = Alpine.store('lyraToasts');
+toasts.duration = 4000;
+toasts.toast('Saved');
+toasts.error('Review this error', { duration: 0 }); // Per-toast persistence wins.
+```
+
+This restores the former delay policy, not all former interactions. Pointer hover and focus within a toast independently pause its remaining time; the countdown resumes only when both leave. Dismissing a focused toast returns focus to its eligible opener, or to the named Notifications stack if that opener is unavailable, including after the last row disappears. Dismissing an unfocused toast leaves the current focus in place. Stack teardown releases its pause claims; remounting preserves the store queue and existing deadlines. No extra per-row Alpine bindings are needed.
 
 ### Theme
 
