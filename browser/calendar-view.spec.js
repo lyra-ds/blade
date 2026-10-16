@@ -29,7 +29,8 @@ test('calendar-view: localized controls, positioned events, availability, slot a
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toBeHidden();
 
-  await page.locator('.lyra-calview__col').nth(2).click({ position: { x: 20, y: 72 } });
+  // Click inside the slot; its boundary rounds differently across browser engines.
+  await page.locator('.lyra-calview__col').nth(2).click({ position: { x: 20, y: 84 } });
   await page.getByRole('button', { name: 'Mês' }).click();
   await expect(page.locator('.lyra-calview__mcell')).toHaveCount(42);
   await page.getByRole('button', { name: 'Dia' }).click();
