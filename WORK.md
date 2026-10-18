@@ -1,5 +1,21 @@
 # WORK — lyra-ds/blade
 
+## Current status — 2026-10-18
+
+The approved Blade compatibility and Laravel starter adoption cycle is complete.
+See [.batuta/current-state.md](.batuta/current-state.md) for delivered revisions
+and the historical B–F plan disposition. No historical wave or upstream-front
+note carries a current implementation task. Original log entries below remain
+unchanged; archival does not recertify every old acceptance clause.
+
+## Historical working log — retained verbatim
+
+The following original committed log is historical. Its in-progress headings
+and resume notes do not describe current activity. Its complete text is retained;
+pre-sync local additions remain in the separate recovery archive.
+
+# WORK — lyra-ds/blade
+
 ## In progress
 
 _Nada em voo. A Frente B (`lyra-ds/lyra`, tasks 11–12) está **destravada** — avisada no PR #176 do site ([comentário](https://github.com/lyra-ds/lyra/pull/176#issuecomment-5257682269)), com os três desvios do contrato e a ressalva do `version` explicitados lá._
@@ -185,3 +201,8 @@ conversa e vale manter separadas. O README agora nomeia as duas ausências e o p
 ## Optional core peer qualification — 2026-10-16
 
 - [x] Qualify unchanged Blade 1.0.0 with optional Lyra Alpine 2.0.0, Styles 1.2.0 and Alpine.js 3.17.4; preserve historical peer minimum. Commit `c5c323a8035efde038e753042d40d41c4e1a0624`. Codex gpt-6.1-sol (medium), one verification retry, escalated to gpt-6-astra (high), then critical conductor repair of browser coordinate/native-focus test assumptions. Parent: Pint and Pest 1,665 tests/14,679 assertions (unchanged PHP inputs), full browsers 114 each/342 total plus 21 focused cases, and exact lock/source checks pass. Independent Claude Sonnet: 6/6 DONE, no blockers. No package version bump. Trail: `.batuta/runs/2026-10-16-core2-adoption.md`.
+
+
+## Organization record — 2026-10-18
+
+- [x] Reconciled current entry points with delivered work and preserved historical plans. Conductor/critical state organization; Codex gpt-6.1-sol/medium read-only research, first attempt; independent Claude Sonnet review 5/5 after one bounded follow-up. Commit c59f931; parent scope, links, routing stamps and 17 historical-record hashes passed. Ecosystem preservation archived 14 complete worktree folders with dirty work and refs retained. No product or release change. Trail: `.batuta/runs/2026-10-18-workspace-organization.md`.
