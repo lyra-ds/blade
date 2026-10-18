@@ -8,6 +8,18 @@ and the historical B–F plan disposition. No historical wave or upstream-front
 note carries a current implementation task. Original log entries below remain
 unchanged; archival does not recertify every old acceptance clause.
 
+## Historical working log — retained verbatim
+
+The following original committed log is historical. Its in-progress headings
+and resume notes do not describe current activity. Its complete text is retained;
+pre-sync local additions remain in the separate recovery archive.
+
+# WORK — lyra-ds/blade
+
+## In progress
+
+_Nada em voo. A Frente B (`lyra-ds/lyra`, tasks 11–12) está **destravada** — avisada no PR #176 do site ([comentário](https://github.com/lyra-ds/lyra/pull/176#issuecomment-5257682269)), com os três desvios do contrato e a ressalva do `version` explicitados lá._
+
 ## Frente A — artefato `docs/api.json` (2026-08-11)
 
 Plano `docs/superpowers/plans/2026-08-10-docs-api-frente-a.md` executado inteiro, 7 tasks, um commit por task (a 3 em 6 lotes). Suíte 1149 → **1379** (7096 assertions). **Release 0.10.0 publicada com o `api.json` anexado** (PR #13 por rebase; PR de release #14 por squash, ambos com `--admin`); asset conferido por download: `version=0.10.0`, 72 componentes, 30 com binding. O comando que a Frente B usa funciona como escrito: `gh release download --repo lyra-ds/blade --pattern api.json`.
