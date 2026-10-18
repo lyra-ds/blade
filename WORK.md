@@ -1,8 +1,12 @@
 # WORK — lyra-ds/blade
 
-## In progress
+## Current status — 2026-10-18
 
-_Nada em voo. A Frente B (`lyra-ds/lyra`, tasks 11–12) está **destravada** — avisada no PR #176 do site ([comentário](https://github.com/lyra-ds/lyra/pull/176#issuecomment-5257682269)), com os três desvios do contrato e a ressalva do `version` explicitados lá._
+The approved Blade compatibility and Laravel starter adoption cycle is complete.
+See [.batuta/current-state.md](.batuta/current-state.md) for delivered revisions
+and the historical B–F plan disposition. No historical wave or upstream-front
+note carries a current implementation task. Original log entries below remain
+unchanged; archival does not recertify every old acceptance clause.
 
 ## Frente A — artefato `docs/api.json` (2026-08-11)
 

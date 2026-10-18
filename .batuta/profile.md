@@ -1,11 +1,13 @@
 # Batuta profile — lyra-ds/blade
 
-## Current conducting context — 2026-10-14
+## Current conducting context — 2026-10-18
 
-Blade 1.0.0 is published and the temporary release-as override is removed.
-The maintainer authorized this setup refresh and the pending merges after checks.
-Old greenfield and Compozy runtime assumptions are superseded by this setup.
-Preserve the original decisions below and use current manifests/CI for support.
+Blade 1.0.0 is published. Compatibility with Alpine 2.0.0 and Styles 1.2.0
+was delivered by PR #67; both Laravel starter adoptions are also delivered.
+See [current-state.md](current-state.md) for the current summary and the
+historical B–F plan disposition. No old wave or transit note carries an active
+implementation task. Keep the original contracts below; old execution and
+Compozy assumptions remain historical. This organization authorizes no release.
 
 ## Answers (onboarding 2026-08-04)
 
